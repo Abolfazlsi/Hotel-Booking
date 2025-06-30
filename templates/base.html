@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="UTF-8" >
+
+<head>
+    {% include "includes/head_references.html" %}
+</head>
+
+<body>
+    <!-- Header Section Begin -->
+        {% include 'includes/header.html' %}
+    <!-- Header End -->
+
+{% block main %}
+
+{% endblock  %}
+
+    <!-- Footer Section Begin -->
+        {% include 'includes/footer.html' %}
+    <!-- Footer Section End -->
+
+    <!-- Search model Begin -->
+        {% include 'includes/search_model.html' %}
+    <!-- Search model end -->
+
+    <!-- Js Plugins -->
+        {% include 'includes/js_references.js' %}
+
+
+</body>
+
+</html>
