@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+    <div class="registration-container">
+        <div class="row g-0 h-100">
+            <!-- Hotel Image Section -->
+            <div class="col-lg-6">
+                <div class="hotel-image-section h-100">
+                    <div class="hotel-content">
+                        <div class="hotel-logo">
+                            <i class="fas fa-hotel"></i>
+                        </div>
+                        <h1 class="hotel-title">هتــل</h1>
+                        <p class="hotel-subtitle">رزرواسیون هتل‌ها<br>و اماکن اقامتی کشور</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Form Section -->
+            <div class="col-lg-6">
+                <div class="form-section h-100 d-flex flex-column justify-content-center">
+                    <h2 class="form-title">ثبت نام / ورود</h2>
+                    <p class="form-subtitle">لطفاً این فرم را برای عضویت در پورتال اطلاعات تکمیل کنید.</p>
+
+                    <form id="registrationForm" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="text text-danger">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                            <label class="form-label">کد تایید</label>
+                            <div class="input-group">
+                                {{ form.code }}
+                                <span class="input-group-text">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-register">
+                            عضویت
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
