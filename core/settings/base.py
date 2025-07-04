@@ -19,9 +19,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imagekit',
 
     # my apps
     'accounts.apps.AccountsConfig',
+    'hotels.apps.HotelsConfig'
 ]
 
 MIDDLEWARE = [

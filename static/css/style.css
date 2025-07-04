@@ -32,6 +32,11 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+@font-face {
+    font-family: "Shabnam";
+    src: url("../fonts/Shabnam-FD.woff2") format("woff2");
+}
+
 :root {
     --primary-color: #dfa974;
     --primary-hover: #c4956a;
@@ -44,7 +49,7 @@
 
 html, body {
     height: 100%;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
 }
@@ -53,7 +58,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
     color: #111111;
     font-weight: 400;
-    font-family: "Lora", serif;
+    font-family: "Shabnam", serif;
 }
 
 h1 {
@@ -82,7 +87,7 @@ h6 {
 
 p {
     font-size: 16px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     color: #6b6b6b;
     font-weight: 400;
     line-height: 26px;
@@ -410,7 +415,7 @@ ul, ol {
     position: absolute;
     left: 0;
     top: 60px;
-    width: 100px;
+    width: 120px;
     background: #ffffff;
     display: block;
     padding: 10px 15px;
@@ -454,10 +459,6 @@ ul, ol {
 
 .menu-item .logo a {
     display: inline-block;
-}
-
-.menu-item .nav-menu {
-    text-align: right;
 }
 
 .menu-item .nav-menu .mainmenu {
@@ -589,6 +590,7 @@ ul, ol {
 
 .hero-text {
     padding-top: 145px;
+    /*margin-left: 15rem;*/
 }
 
 .hero-text h1 {
@@ -614,6 +616,7 @@ ul, ol {
 .booking-form h3 {
     color: #19191a;
     margin-bottom: 36px;
+    text-align: right;
 }
 
 .booking-form form .check-date {
@@ -626,6 +629,7 @@ ul, ol {
     color: #707079;
     display: block;
     margin-bottom: 10px;
+    text-align: right;
 }
 
 .booking-form form .check-date input {
@@ -637,13 +641,14 @@ ul, ol {
     color: #19191a;
     text-transform: uppercase;
     font-weight: 500;
-    padding-left: 20px;
+    padding-right: 20px;
+    direction: rtl;
 }
 
 .booking-form form .check-date i {
     color: #dfa974;
     position: absolute;
-    right: 18px;
+    left: 18px;
     bottom: 17px;
 }
 
@@ -656,6 +661,7 @@ ul, ol {
     color: #707079;
     display: block;
     margin-bottom: 10px;
+    text-align: right;
 }
 
 .booking-form form .select-option .nice-select {
@@ -664,17 +670,18 @@ ul, ol {
     height: 50px;
     line-height: 50px;
     outline: none;
-    padding-left: 20px;
+    padding-right: 20px;
     width: 100%;
     float: none;
+    direction: rtl;
 }
 
 .booking-form form .select-option .nice-select:after {
     border-bottom: 2px solid #dfa974;
-    border-right: 2px solid #dfa974;
+    border-left: 2px solid #dfa974;
     height: 10px;
     margin-top: 0;
-    right: 20px;
+    left: 20px;
     width: 10px;
     top: 36%;
 }
@@ -689,6 +696,7 @@ ul, ol {
 .booking-form form .select-option .nice-select .list {
     margin-top: 0;
     width: 100%;
+    direction: rtl;
 }
 
 .booking-form form button {
@@ -703,6 +711,13 @@ ul, ol {
     width: 100%;
     height: 46px;
     margin-top: 30px;
+    transition: background-color 100ms ease-in;
+}
+
+.booking-form form button:hover {
+    background-color: #dfa974;
+    color: #fff;
+
 }
 
 .hero-slider {
@@ -866,12 +881,18 @@ ul, ol {
 
 .hp-room-items .hp-room-item .hr-text {
     position: absolute;
-    left: 45px;
-    right: 25px;
-    bottom: -250px;
+    right: 45px;
+    left: 25px;
+    bottom: -200px;
     -webkit-transition: all 0.5s;
     -o-transition: all 0.5s;
     transition: all 0.5s;
+    text-align: right;
+}
+
+.hp-room-items .hp-room-item .hr-text .primary-btn {
+    display: inline-block;
+    text-align: center;
 }
 
 .hp-room-items .hp-room-item .hr-text h3 {
@@ -889,7 +910,7 @@ ul, ol {
 }
 
 .hp-room-items .hp-room-item .hr-text h2 span {
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #ffffff;
@@ -1063,7 +1084,7 @@ ul, ol {
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 3px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     margin-bottom: 20px;
 }
 
@@ -1080,7 +1101,7 @@ ul, ol {
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 3px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     margin-bottom: 20px;
 }
 
@@ -1179,7 +1200,7 @@ ul, ol {
     top: 1px;
     content: "";
     font-size: 18px;
-    font-family: "FontAwesome";
+    font-family: "Shabnam";
     color: #aaaab3;
 }
 
@@ -1384,7 +1405,7 @@ ul, ol {
 }
 
 .room-item .ri-text h3 span {
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #19191a;
@@ -1494,7 +1515,7 @@ ul, ol {
 }
 
 .room-details-item .rd-text h2 span {
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #19191a;
@@ -2317,7 +2338,7 @@ ul, ol {
 }
 
 .hotel-image-section {
-    background: linear-gradient(45deg, rgba(223, 169, 116, 0.8), rgba(223, 169, 116, 0.8));
+    background: linear-gradient(45deg, rgba(223, 169, 116, 0.8), rgba(223, 169, 116, 0.8)), url("../img/hero/hero-2.jpg");
     background-size: cover;
     background-position: center;
     color: #ffffff;
@@ -2354,14 +2375,14 @@ ul, ol {
 .hotel-title {
     font-size: 36px;
     font-weight: 400;
-    font-family: "Lora", serif;
+    font-family: "Shabnam", serif;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hotel-subtitle {
     font-size: 16px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     font-weight: 400;
     opacity: 0.9;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
@@ -2375,7 +2396,7 @@ ul, ol {
 .form-title {
     font-size: 36px;
     font-weight: 400;
-    font-family: "Lora", serif;
+    font-family: "Shabnam", serif;
     color: #19191a;
     margin-bottom: 15px;
     text-align: right;
@@ -2383,7 +2404,7 @@ ul, ol {
 
 .form-subtitle {
     font-size: 16px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     color: #707079;
     margin-bottom: 35px;
     text-align: right;
@@ -2395,7 +2416,7 @@ ul, ol {
 
 .form-label {
     font-size: 14px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     color: #707079;
     font-weight: 500;
     margin-bottom: 10px;
@@ -2421,7 +2442,7 @@ ul, ol {
     border-radius: 2px;
     padding: 12px 15px;
     font-size: 16px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     color: #19191a;
     transition: all 0.3s ease;
     text-align: right;
@@ -2455,7 +2476,7 @@ ul, ol {
 
 .form-check-label {
     font-size: 16px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     color: #707079;
 }
 
@@ -2483,7 +2504,7 @@ ul, ol {
 .login-link {
     text-align: center;
     font-size: 16px;
-    font-family: "Cabin", sans-serif;
+    font-family: "Shabnam", sans-serif;
     color: #707079;
 }
 
@@ -2520,7 +2541,7 @@ ul, ol {
 /* Account Settings Container */
 .account-settings-container {
     background-color: var(--light-bg);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Shabnam', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Account Settings Navigation */
@@ -2773,6 +2794,157 @@ ul, ol {
 
 .hp-room-item {
     margin-right: 0; /* حذف margin-right که در CSS اصلی بود */
+}
+
+.menu-item .nav-menu {
+    text-align: right;
+}
+
+/* تنظیمات hero-section */
+.hero-section {
+    position: relative;
+    padding-top: 60px;
+    padding-bottom: 100px;
+    overflow: hidden;
+}
+
+.hero-slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.hs-item.set-bg {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 100%;
+    min-height: 500px; /* حداقل ارتفاع برای اسلایدر */
+}
+
+.hero-text {
+    position: relative;
+    z-index: 2;
+    text-align: right; /* برای زبان فارسی */
+    color: #ffffff;
+}
+
+.hero-text h1 {
+    font-size: 80px;
+    line-height: 90px;
+    margin-bottom: 16px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    line-height: 28px;
+    margin-bottom: 35px;
+}
+
+.hero-text .primary-btn {
+    display: inline-block;
+    font-size: 13px;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    position: relative;
+}
+
+.hero-text .primary-btn:after {
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background: #dfa974;
+    content: "";
+}
+
+/* تنظیمات برای سایزهای کوچکتر */
+@media only screen and (max-width: 991px) {
+    .hero-section {
+        padding-top: 40px;
+        padding-bottom: 80px;
+    }
+
+    .hs-item.set-bg {
+        min-height: 400px; /* کاهش ارتفاع برای تبلت */
+    }
+
+    .hero-text {
+        padding: 20px;
+        text-align: center; /* وسط‌چین در سایزهای کوچکتر */
+    }
+
+    .col-lg-6.col-md-8.col-sm-10.col-12 {
+        margin: 0 auto; /* وسط‌چین کردن محتوا */
+    }
+
+    .hero-text h1 {
+        font-size: 60px;
+        line-height: 70px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .hero-section {
+        padding-top: 30px;
+        padding-bottom: 60px;
+    }
+
+    .hs-item.set-bg {
+        min-height: 350px; /* کاهش بیشتر ارتفاع برای موبایل */
+    }
+
+    .hero-text {
+        padding: 15px;
+    }
+
+    .hero-text h1 {
+        font-size: 40px;
+        line-height: 50px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .hero-text .primary-btn {
+        font-size: 12px;
+        padding: 10px 20px;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .hs-item.set-bg {
+        min-height: 300px; /* حداقل ارتفاع برای موبایل‌های کوچک */
+    }
+
+    .hero-text h1 {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .hero-text p {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .hero-text .primary-btn {
+        font-size: 11px;
+        padding: 8px 16px;
+    }
 }
 
 /* Responsive Styles for Account Settings */

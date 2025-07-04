@@ -47,8 +47,8 @@ class SignInSignUpView(View):
 
 class OtpVerifyView(View):
     def get(self, request):
-        if not request.session.get("otp_token"):
-            return redirect("accounts:signin-signup")
+    #     if not request.session.get("otp_token"):
+    #         return redirect("accounts:signin-signup")
         form = OtpVerifyForm()
         return render(request, "accounts/otp_verify.html", {"form": form})
 
