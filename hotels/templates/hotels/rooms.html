@@ -1,0 +1,571 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+    <!-- Page Title Section -->
+    <section class="page-title-section" dir="rtl">
+        <div class="container" dir="rtl">
+            <h1 class="page-title">اتاق ها</h1>
+            <p class="page-subtitle">انتخاب بهترین اتاق برای اقامت شما</p>
+        </div>
+    </section>
+
+    <!-- Rooms List Section -->
+    <section class="rooms-list-section" dir="rtl">
+        <div class="container">
+            <div class="row">
+                <!-- Main Content -->
+                <div class="col-lg-8 order-lg-1 order-2">
+                    <!-- Sort Filter Bar -->
+                    <div class="sort-filter-bar">
+                        <div class="sort-label">مرتب سازی بر اساس:</div>
+                        <div class="sort-options">
+                            <div class="sort-option active">پیش فرض</div>
+                            <div class="sort-option">قیمت پایین‌ترین</div>
+                            <div class="sort-option">قیمت بالاترین</div>
+                        </div>
+                    </div>
+
+                    <!-- Room Cards -->
+                    <div class="rooms-container">
+                        <!-- Room Card 1 -->
+                        <div class="room-card fade-in">
+                            <div class="room-card-inner">
+                                <div class="room-image-container">
+                                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                         alt="اتاق ۳ ستاره با ظرفیت ۱" class="room-image">
+                                </div>
+                                <div class="room-content">
+                                    <div class="room-header">
+                                        <h3 class="room-title">اتاق ۳ ستاره با ظرفیت ۱</h3>
+                                        <div class="room-price-container">
+                                            <div class="room-old-price">۴٬۰۰۰٬۰۰۰</div>
+                                            <div class="room-price">۳٬۰۵۰٬۰۰۰ <span
+                                                    class="room-price-currency">تومان</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="room-amenities">
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-wifi"></i>
+                                            اینترنت
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-box"></i>
+                                            صندوقی
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-utensils"></i>
+                                            بوفه
+                                        </div>
+                                    </div>
+                                    <div class="room-description" dir="rtl">
+                                        <h5>توضیحات:</h5>
+                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
+                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
+                                            لازم است.</p>
+                                    </div>
+                                    <div class="room-footer">
+                                        <button class="reserve-btn">رزرو</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Room Card 2 -->
+                        <div class="room-card fade-in-delay">
+                            <div class="room-card-inner">
+                                <div class="room-image-container">
+                                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                         alt="اتاق ۱ ستاره با ظرفیت ۵" class="room-image">
+                                    <div class="room-badge">رزرو شده</div>
+                                </div>
+                                <div class="room-content">
+                                    <div class="room-header">
+                                        <h3 class="room-title">اتاق ۱ ستاره با ظرفیت ۵</h3>
+                                        <div class="room-price-container">
+                                            <div class="room-old-price">۴٬۰۰۰٬۰۰۰</div>
+                                            <div class="room-price">۳٬۰۵۰٬۰۰۰ <span
+                                                    class="room-price-currency">تومان</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="room-amenities">
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-wifi"></i>
+                                            اینترنت
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-box"></i>
+                                            صندوقی
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-utensils"></i>
+                                            بوفه
+                                        </div>
+                                    </div>
+                                    <div class="room-description">
+                                        <h5>توضیحات:</h5>
+                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
+                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه لورم ...</p>
+                                    </div>
+                                    <div class="room-footer">
+                                        <button class="reserve-btn">رزرو</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Room Card 3 -->
+                        <div class="room-card fade-in-delay">
+                            <div class="room-card-inner">
+                                <div class="room-image-container">
+                                    <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                         alt="اتاق ۲ ستاره با ظرفیت ۲" class="room-image">
+                                </div>
+                                <div class="room-content">
+                                    <div class="room-header">
+                                        <h3 class="room-title">اتاق ۲ ستاره با ظرفیت ۲</h3>
+                                        <div class="room-price-container">
+                                            <div class="room-old-price">۴٬۰۰۰٬۰۰۰</div>
+                                            <div class="room-price">۳٬۰۵۰٬۰۰۰ <span
+                                                    class="room-price-currency">تومان</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="room-amenities">
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-wifi"></i>
+                                            اینترنت
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-box"></i>
+                                            صندوقی
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-utensils"></i>
+                                            بوفه
+                                        </div>
+                                    </div>
+                                    <div class="room-description">
+                                        <h5>توضیحات:</h5>
+                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
+                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
+                                            لازم است.</p>
+                                    </div>
+                                    <div class="room-footer">
+                                        <button class="reserve-btn">رزرو</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Room Card 4 -->
+                        <div class="room-card fade-in-delay">
+                            <div class="room-card-inner">
+                                <div class="room-image-container">
+                                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                         alt="اتاق ۴ ستاره با ظرفیت ۳" class="room-image">
+                                </div>
+                                <div class="room-content">
+                                    <div class="room-header">
+                                        <h3 class="room-title">اتاق ۴ ستاره با ظرفیت ۳</h3>
+                                        <div class="room-price-container">
+                                            <div class="room-old-price">۵٬۰۰۰٬۰۰۰</div>
+                                            <div class="room-price">۴٬۰۵۰٬۰۰۰ <span
+                                                    class="room-price-currency">تومان</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="room-amenities">
+                                        <div class="amenity-badge">
+                                            <i class=" fa-wifi"></i>
+                                            اینترنت
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-box"></i>
+                                            صندوقی
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-utensils"></i>
+                                            بوفه
+                                        </div>
+                                    </div>
+                                    <div class="room-description">
+                                        <h5>توضیحات:</h5>
+                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
+                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
+                                            لازم است.</p>
+                                    </div>
+                                    <div class="room-footer">
+                                        <button class="reserve-btn">رزرو</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Room Card 5 -->
+                        <div class="room-card fade-in-delay">
+                            <div class="room-card-inner">
+                                <div class="room-image-container">
+                                    <img src="{% static "img/hero/hero-1.jpg" %}"
+                                         alt="سوئیت لوکس با ظرفیت ۴" class="room-image">
+                                </div>
+                                <div class="room-content">
+                                    <div class="room-header">
+                                        <h3 class="room-title">سوئیت لوکس با ظرفیت ۴</h3>
+                                        <div class="room-price-container">
+                                            <div class="room-old-price">۷٬۰۰۰٬۰۰۰</div>
+                                            <div class="room-price">۶٬۰۵۰٬۰۰۰ <span
+                                                    class="room-price-currency">تومان</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="room-amenities">
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-wifi"></i>
+                                            اینترنت
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-box"></i>
+                                            صندوقی
+                                        </div>
+                                        <div class="amenity-badge">
+                                            <i class="fa fa-utensils"></i>
+                                            بوفه
+                                        </div>
+                                    </div>
+                                    <div class="room-description">
+                                        <h5>توضیحات:</h5>
+                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
+                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
+                                            لازم است.</p>
+                                    </div>
+                                    <div class="room-footer">
+                                        <button class="reserve-btn">رزرو</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Sidebar -->
+                <div class="col-lg-4 order-lg-2 order-1">
+                    <div class="filter-sidebar">
+                        <h3 class="filter-title">فیلترها</h3>
+
+                        <!-- Room Name Search -->
+                        <div class="filter-group">
+                            <h4 class="filter-group-title">جستجو نام اتاق</h4>
+                            <div class="filter-search">
+                                <input type="text" placeholder="جستجو نام اتاق">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+
+                        <!-- Star Rating Filter -->
+                        <div class="filter-group">
+                            <h4 class="filter-group-title">
+                                ستاره ها
+                                <i class="fa fa-chevron-down"></i>
+                            </h4>
+                            <div class="filter-content">
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="star5">
+                                    <label for="star5">۵ ستاره</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="star4">
+                                    <label for="star4">۴ ستاره</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="star3">
+                                    <label for="star3">۳ ستاره</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="star2">
+                                    <label for="star2">۲ ستاره</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="star1">
+                                    <label for="star1">۱ ستاره</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hotel Amenities Filter -->
+                        <div class="filter-group">
+                            <h4 class="filter-group-title">
+                                امکانات هتل
+                                <i class="fa fa-chevron-down"></i>
+                            </h4>
+                            <div class="filter-content">
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="wifi">
+                                    <label for="wifi">اینترنت</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="breakfast">
+                                    <label for="breakfast">صبحانه</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="parking">
+                                    <label for="parking">پارکینگ</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="pool">
+                                    <label for="pool">استخر</label>
+                                </div>
+                                <div class="filter-checkbox">
+                                    <input type="checkbox" id="gym">
+                                    <label for="gym">سالن ورزشی</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Number of People Filter -->
+                        <div class="filter-group">
+                            <h4 class="filter-group-title">تعداد نفرات</h4>
+                            <div class="people-counter">
+                                <button class="counter-btn minus-btn">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <span class="counter-value">۲</span>
+                                <button class="counter-btn plus-btn">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Price Range Filter -->
+                        <div class="filter-group">
+                            <h4 class="filter-group-title">قیمت برای هر شب</h4>
+                            <div class="price-range">
+                                <div class="price-slider">
+                                    <div class="price-progress"></div>
+                                </div>
+                                <div class="price-range-input">
+                                    <input type="range" min="500000" max="10000000" value="2500000" class="min-price">
+                                    <input type="range" min="500000" max="10000000" value="7500000" class="max-price">
+                                </div>
+                                <div class="price-values">
+                                    <div class="price-value min-value">300,000</div>
+                                    <div class="price-value max-value">10,000,000</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Apply Filter Button -->
+                        <button class="apply-filter-btn">اعمال فیلتر</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Sort options functionality
+        document.querySelectorAll(".sort-option").forEach((option) => {
+            option.addEventListener("click", function () {
+                // Remove active class from all options
+                document.querySelectorAll(".sort-option").forEach((opt) => {
+                    opt.classList.remove("active")
+                })
+
+                // Add active class to clicked option
+                this.classList.add("active")
+
+                // Get sort type
+                const sortType = this.textContent
+
+                // Sort rooms based on selected option
+                sortRooms(sortType)
+            })
+        })
+
+        // Function to sort rooms
+        function sortRooms(sortType) {
+            const roomsContainer = document.querySelector(".rooms-container")
+            const roomCards = Array.from(roomsContainer.querySelectorAll(".room-card"))
+
+            roomCards.sort((a, b) => {
+                const priceA = Number.parseInt(a.querySelector(".room-price").textContent.replace(/[^\d]/g, ""))
+                const priceB = Number.parseInt(b.querySelector(".room-price").textContent.replace(/[^\d]/g, ""))
+
+                if (sortType === "قیمت پایین‌ترین") {
+                    return priceA - priceB
+                } else if (sortType === "قیمت بالاترین") {
+                    return priceB - priceA
+                } else {
+                    // Default sorting (by room title)
+                    const titleA = a.querySelector(".room-title").textContent
+                    const titleB = b.querySelector(".room-title").textContent
+                    return titleA.localeCompare(titleB)
+                }
+            })
+
+            // Remove all room cards
+            roomCards.forEach((card) => card.remove())
+
+            // Append sorted room cards
+            roomCards.forEach((card) => roomsContainer.appendChild(card))
+        }
+
+        // Filter group toggle
+        document.querySelectorAll(".filter-group-title").forEach((title) => {
+            title.addEventListener("click", function () {
+                const content = this.nextElementSibling
+
+                if (content.style.display === "none") {
+                    content.style.display = "block"
+                    this.classList.remove("collapsed")
+                } else {
+                    content.style.display = "none"
+                    this.classList.add("collapsed")
+                }
+            })
+        })
+
+        // People counter functionality
+        const counterValue = document.querySelector(".counter-value")
+        const minusBtn = document.querySelector(".minus-btn")
+        const plusBtn = document.querySelector(".plus-btn")
+
+        let peopleCount = 2
+
+        minusBtn.addEventListener("click", () => {
+            if (peopleCount > 1) {
+                peopleCount--
+                counterValue.textContent = convertToPersianNumbers(peopleCount)
+            }
+        })
+
+        plusBtn.addEventListener("click", () => {
+            if (peopleCount < 10) {
+                peopleCount++
+                counterValue.textContent = convertToPersianNumbers(peopleCount)
+            }
+        })
+
+        // Convert numbers to Persian
+        function convertToPersianNumbers(num) {
+            const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+            return num.toString().replace(/\d/g, (x) => persianDigits[x])
+        }
+
+        // Price range slider functionality
+        const rangeInput = document.querySelectorAll(".price-range-input input")
+        const progress = document.querySelector(".price-progress")
+        const minValue = document.querySelector(".min-value")
+        const maxValue = document.querySelector(".max-value")
+
+        const minPrice = Number.parseInt(rangeInput[0].value)
+        const maxPrice = Number.parseInt(rangeInput[1].value)
+
+        rangeInput.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                const minVal = Number.parseInt(rangeInput[0].value)
+                const maxVal = Number.parseInt(rangeInput[1].value)
+
+                if (maxVal - minVal < 500000) {
+                    if (e.target.className === "min-price") {
+                        rangeInput[0].value = maxVal - 500000
+                    } else {
+                        rangeInput[1].value = minVal + 500000
+                    }
+                } else {
+                    progress.style.right = (minVal / rangeInput[0].max) * 100 + "%"
+                    progress.style.left = 100 - (maxVal / rangeInput[1].max) * 100 + "%"
+
+                    minValue.textContent = formatPrice(minVal)
+                    maxValue.textContent = formatPrice(maxVal)
+                }
+            })
+        })
+
+        // Format price to Persian format
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "٬")
+        }
+
+        // Apply filter button
+        document.querySelector(".apply-filter-btn").addEventListener("click", () => {
+            // Get filter values
+            const roomName = document.querySelector(".filter-search input").value
+            const starRatings = Array.from(document.querySelectorAll('[id^="star"]:checked')).map((checkbox) =>
+                checkbox.id.replace("star", ""),
+            )
+            const amenities = Array.from(document.querySelectorAll(".filter-content input:checked")).map(
+                (checkbox) => checkbox.id,
+            )
+            const people = peopleCount
+            const minPrice = Number.parseInt(document.querySelector(".min-price").value)
+            const maxPrice = Number.parseInt(document.querySelector(".max-price").value)
+
+            // Filter rooms based on criteria
+            filterRooms(roomName, starRatings, amenities, people, minPrice, maxPrice)
+        })
+
+        // Function to filter rooms
+        function filterRooms(roomName, starRatings, amenities, people, minPrice, maxPrice) {
+            const roomCards = document.querySelectorAll(".room-card")
+
+            roomCards.forEach((card) => {
+                const title = card.querySelector(".room-title").textContent.toLowerCase()
+                const price = Number.parseInt(card.querySelector(".room-price").textContent.replace(/[^\d]/g, ""))
+
+                // Extract star rating and capacity from title
+                const titleMatch = title.match(/(\d+)\s+ستاره\s+با\s+ظرفیت\s+(\d+)/)
+                const stars = titleMatch ? Number.parseInt(titleMatch[1]) : 0
+                const capacity = titleMatch ? Number.parseInt(titleMatch[2]) : 0
+
+                let showCard = true
+
+                // Filter by room name
+                if (roomName && !title.includes(roomName.toLowerCase())) {
+                    showCard = false
+                }
+
+                // Filter by star rating
+                if (starRatings.length > 0 && !starRatings.includes(stars.toString())) {
+                    showCard = false
+                }
+
+                // Filter by capacity
+                if (people > capacity) {
+                    showCard = false
+                }
+
+                // Filter by price range
+                if (price < minPrice || price > maxPrice) {
+                    showCard = false
+                }
+
+                // Show/hide card
+                if (showCard) {
+                    card.style.display = "block"
+                } else {
+                    card.style.display = "none"
+                }
+            })
+        }
+
+        // Reserve button functionality
+        document.querySelectorAll(".reserve-btn").forEach((btn) => {
+            btn.addEventListener("click", function () {
+                const roomCard = this.closest(".room-card")
+                const roomTitle = roomCard.querySelector(".room-title").textContent
+                const roomPrice = roomCard.querySelector(".room-price").textContent
+
+                alert(`رزرو اتاق: ${roomTitle}\nقیمت: ${roomPrice}`)
+            })
+        })
+
+        // Initialize price range display
+        document.addEventListener("DOMContentLoaded", () => {
+            if (minValue && maxValue && rangeInput.length > 0) {
+                minValue.textContent = formatPrice(Number.parseInt(rangeInput[0].value))
+                maxValue.textContent = formatPrice(Number.parseInt(rangeInput[1].value))
+            }
+        })
+
+    </script>
+
+{% endblock %}
+

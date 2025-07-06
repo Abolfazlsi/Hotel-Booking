@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from hotels.models import Room
 
 
@@ -11,3 +11,10 @@ class HomePage(TemplateView):
         context["top_rooms"] = Room.objects.all()[:3]
         context["rooms_list"] = Room.objects.all()
         return context
+
+
+class RoomsListView(ListView):
+    model = Room
+    template_name = "hotels/rooms.html"
+
+

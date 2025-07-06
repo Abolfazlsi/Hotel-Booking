@@ -1,72 +1,93 @@
-<!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
+<!-- Top Header -->
+<div class="top-header" dir="rtl">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="phone-number">
+                    <i class="fa fa-phone"></i>
+                    <span>۰۲۱-۳۳۲۵۶۷۸</span>
+                    <span class="me-3">منتظر نظرات شما هستیم</span>
+                </div>
+            </div>
+            <div class="col-md-6 text-start">
+                <span class="me-3">رزرواسیون هتل ها</span>
+            </div>
+        </div>
     </div>
+</div>
 
-    <header class="header-section">
-        <div class="top-nav">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <ul class="tn-left">
-                            <li><i class="fa fa-phone"></i> (12) 345 67890</li>
-                            <li><i class="fa fa-envelope"></i> info.colorlib@gmail.com</li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="tn-right">
-                            <div class="top-social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-tripadvisor"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                            </div>
-                            <a href="#" class="bk-btn">Booking Now</a>
-                            <div class="language-option">
-                                {% if request.user.is_authenticated %}
-                                    <span>پروفایل کاربر <i class="fa fa-angle-down"></i></span>
-                                    <div class="flag-dropdown">
-                                        <ul>
-                                            <li><a href="{% url 'accounts:signin-signup' %}">پروفایل</a></li>
-                                            <li><a href="{% url 'accounts:signin-signup' %}">تاریخچه رزرو ها</a></li>
-                                            <li><a href="{% url 'accounts:signin-signup' %}">خروج</a></li>
-                                        </ul>
-                                    </div>
-                                {% else %}
-                                    <span>پروفایل کاربر <i class="fa fa-angle-down"></i></span>
-                                    <div class="flag-dropdown">
-                                        <ul>
-                                            <li><a href="{% url 'accounts:signin-signup' %}">ثبت نام / ورود</a></li>
-                                        </ul>
-                                    </div>
-                                {% endif %}
+<!-- Main Header -->
+<header class="main-header" dir="rtl">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg">
+            <div class="d-flex align-items-center">
+                <a href="{% url "accounts:signin-signup" %}">
+                    <div class="user-account me-3">
+                        <i class="fa fa-user"></i>
 
-                            </div>
-                        </div>
+
                     </div>
+                </a>
+
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == "home" %}active{% endif %}"
+                           href="{% url 'hotels:home' %}">
+                            <i class="fa fa-home me-2"></i>
+                            صفحه اصلی
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == "rooms_list" %}active{% endif %}"
+                           href="{% url 'hotels:rooms_list' %}">
+                            <i class="fa fa-bed me-2"></i>
+                            اتاق ها
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#services">
+                            <i class="fa fa-book me-2"></i>
+                            درباره ما
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#services">
+                            <i class="fa fa-phone me-2"></i>
+                            تماس با ما
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#services">
+                            <i class="fa fa-star"></i>
+                            خدمات
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 1rem;">
+                        <a class="nav-link" href="index.html#reviews">
+                            <i class="fa fa-comments me-2"></i>
+                            نظرات کاربران
+                        </a>
+                    </li>
+
+
+                </ul>
+            </div>
+
+            <div class="logo">
+                <div class="logo-text">هتل</div>
+                <div class="logo-icon">
+                    <i class="fa fa-building"></i>
                 </div>
             </div>
-        </div>
-        <div class="menu-item">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="nav-menu">
-                            <nav class="mainmenu">
-                                <ul>
-                                    <li><a href="./contact.html">تماس با ما</a></li>
-                                    <li><a href="">وبلاگ</a></li>
-                                    <li><a href="./about-us.html">درباره ما</a></li>
-                                    <li><a href="./rooms.html">اتاق ها</a></li>
-                                    <li class="active"><a href="./index.html">صفحه اصلی</a></li>
-                                </ul>
-                            </nav>
-                            <div class="nav-right search-switch">
-                                <i class="icon_search"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+        </nav>
+    </div>
+</header>

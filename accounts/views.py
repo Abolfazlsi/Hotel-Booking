@@ -12,7 +12,6 @@ from decouple import config
 from accounts.send_otp import send_otp
 from django.contrib.auth import login
 
-
 redis_client = redis.Redis.from_url(config('REDIS_URL', default='redis://localhost:6379/0'))
 
 
@@ -47,8 +46,8 @@ class SignInSignUpView(View):
 
 class OtpVerifyView(View):
     def get(self, request):
-    #     if not request.session.get("otp_token"):
-    #         return redirect("accounts:signin-signup")
+        if not request.session.get("otp_token"):
+            return redirect("accounts:signin-signup")
         form = OtpVerifyForm()
         return render(request, "accounts/otp_verify.html", {"form": form})
 
@@ -83,9 +82,3 @@ class OtpVerifyView(View):
             messages.error(request, "کد تایید نامعتبر است")
 
         return render(request, "accounts/otp_verify.html", {"form": form})
-
-
-
-
-
-
