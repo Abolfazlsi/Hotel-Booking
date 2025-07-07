@@ -180,7 +180,7 @@
                                 </tr>
                                 <tr>
                                     <td class="r-o">خدمات:</td>
-                                    <td>{{ room.services }}</td>
+                                    <td>{% for service in room.services.all %} {{ service }}، {% endfor %}</td>
                                 </tr>
                                 </tbody>
                             </table>

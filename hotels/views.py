@@ -18,3 +18,5 @@ class RoomsListView(ListView):
     template_name = "hotels/rooms.html"
 
 
+
+

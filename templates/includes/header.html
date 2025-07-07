@@ -1,4 +1,16 @@
 <!-- Top Header -->
+
+{% if messages %}
+    {% for message in messages %}
+        <script>console.log({{ message.tags }})</script>
+        <div class="modal-container" data-message="{{ message }}" data-type="{{ message.tags }}">
+            <div class="modal-item">
+                <span>{{ message }}</span>
+                <button class="modal-close">&times;</button>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="top-header" dir="rtl">
     <div class="container">
         <div class="row align-items-center">
@@ -21,7 +33,17 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg">
             <div class="d-flex align-items-center">
-                <a href="{% url "accounts:signin-signup" %}">
+                <a href="
+
+
+
+
+
+
+
+
+
+                        {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
                     <div class="user-account me-3">
                         <i class="fa fa-user"></i>
 
@@ -29,6 +51,22 @@
                     </div>
                 </a>
 
+            </div>
+            <div class="profile-content">
+                <ul class="profile-content__ul">
+                    <div class="profile-content__li">
+                        <li>پروفایل</li>
+                    </div>
+                    <div class="profile-content__li">
+                        <li>تاریخچه رزرو</li>
+                    </div>
+                    <span style="opacity: 0.2">__________________</span>
+                    <div class="profile-content__li logout">
+                        <a href="{% url 'accounts:logout' %}" style="color: #000000">
+                            <li>خروج</li>
+                        </a>
+                    </div>
+                </ul>
             </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -91,3 +129,73 @@
         </nav>
     </div>
 </header>
+
+<script>
+    const accountIcon = document.querySelector(".user-account");
+    const profileContent = document.querySelector(".profile-content");
+    let profileContentFlag = false;
+
+    {% if not request.user.is_authenticated %}
+        accountIcon.addEventListener("mouseenter", () => {
+            accountIcon.className = "user-account user-out me-3";
+            accountIcon.innerHTML = "";
+            accountIcon.innerHTML = "<div class='signup-text'><p>ثبت نام / ورود</p></div>";
+        });
+
+        accountIcon.addEventListener("mouseleave", () => {
+            accountIcon.className = "user-account me-3";
+            accountIcon.innerHTML = "";
+            accountIcon.innerHTML = '<i class="fa fa-user"></i>';
+        });
+    {% else %}
+        accountIcon.addEventListener("click", (event) => {
+            event.preventDefault(); // جلوگیری از رفتار پیش‌فرض لینک
+            if (profileContentFlag) {
+                profileContent.classList.remove("user-login");
+                profileContentFlag = false;
+            } else {
+                profileContent.classList.add("user-login");
+                profileContentFlag = true;
+            }
+        });
+
+
+        document.addEventListener("click", (event) => {
+            if (!accountIcon.contains(event.target) && !profileContent.contains(event.target)) {
+                profileContent.classList.remove("user-login");
+                profileContentFlag = false;
+            }
+        });
+    {% endif %}
+    document.addEventListener('DOMContentLoaded', function () {
+        const modals = document.querySelectorAll('.modal-container');
+        modals.forEach(modal => {
+            // اعمال کلاس بر اساس نوع پیام (tags)
+            const messageType = modal.getAttribute('data-type');
+            if (messageType) {
+                modal.classList.add(messageType);
+            }
+
+            // انیمیشن ورود به‌صورت خودکار اجرا می‌شود (از طریق CSS)
+
+            // حذف مدال پس از 3 ثانیه
+            setTimeout(() => {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }, 5000);
+
+            // بستن مدال با کلیک روی دکمه
+            const closeButton = modal.querySelector('.modal-close');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    modal.style.opacity = '0';
+                    setTimeout(() => {
+                        modal.remove();
+                    }, 300);
+                });
+            }
+        });
+    });
+</script>

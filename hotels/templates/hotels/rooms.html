@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom %}
 
 {% block main %}
     <!-- Page Title Section -->
@@ -28,219 +29,48 @@
 
                     <!-- Room Cards -->
                     <div class="rooms-container">
-                        <!-- Room Card 1 -->
-                        <div class="room-card fade-in">
-                            <div class="room-card-inner">
-                                <div class="room-image-container">
-                                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                                         alt="اتاق ۳ ستاره با ظرفیت ۱" class="room-image">
-                                </div>
-                                <div class="room-content">
-                                    <div class="room-header">
-                                        <h3 class="room-title">اتاق ۳ ستاره با ظرفیت ۱</h3>
-                                        <div class="room-price-container">
-                                            <div class="room-old-price">۴٬۰۰۰٬۰۰۰</div>
-                                            <div class="room-price">۳٬۰۵۰٬۰۰۰ <span
-                                                    class="room-price-currency">تومان</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="room-amenities">
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-wifi"></i>
-                                            اینترنت
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-box"></i>
-                                            صندوقی
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-utensils"></i>
-                                            بوفه
-                                        </div>
-                                    </div>
-                                    <div class="room-description" dir="rtl">
-                                        <h5>توضیحات:</h5>
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
-                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
-                                            لازم است.</p>
-                                    </div>
-                                    <div class="room-footer">
-                                        <button class="reserve-btn">رزرو</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Room Card 2 -->
-                        <div class="room-card fade-in-delay">
-                            <div class="room-card-inner">
-                                <div class="room-image-container">
-                                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                                         alt="اتاق ۱ ستاره با ظرفیت ۵" class="room-image">
-                                    <div class="room-badge">رزرو شده</div>
-                                </div>
-                                <div class="room-content">
-                                    <div class="room-header">
-                                        <h3 class="room-title">اتاق ۱ ستاره با ظرفیت ۵</h3>
-                                        <div class="room-price-container">
-                                            <div class="room-old-price">۴٬۰۰۰٬۰۰۰</div>
-                                            <div class="room-price">۳٬۰۵۰٬۰۰۰ <span
-                                                    class="room-price-currency">تومان</span></div>
-                                        </div>
+                        {% for room in room_list %}
+                            <div class="room-card fade-in-delay">
+                                <div class="room-card-inner">
+                                    <div class="room-image-container">
+                                        <img src="{{ room.primary_image.image.url }}"
+                                             alt="{{ room.primary_image.alt_text }}" class="room-image">
+                                        <div class="room-badge">رزرو شده</div>
                                     </div>
-                                    <div class="room-amenities">
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-wifi"></i>
-                                            اینترنت
+                                    <div class="room-content">
+                                        <div class="room-header">
+                                            <h3 class="room-title">{{ room.title }}</h3>
+                                            <div class="room-price-container">
+                                                <div class="room-price">{{ room.price|intcomma }}<span
+                                                        class="room-price-currency">تومان</span></div>
+                                            </div>
                                         </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-box"></i>
-                                            صندوقی
+                                        <div class="room-amenities">
+                                            {% for service in room.services.all %}
+                                                <div class="amenity-badge">
+                                                    {{ service }}
+                                                </div>
+                                            {% endfor %}
                                         </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-utensils"></i>
-                                            بوفه
+                                        <div class="room-description">
+                                            <h5>توضیحات:</h5>
+                                            <p>{{ room.description|truncatewords:25 }}</p>
                                         </div>
-                                    </div>
-                                    <div class="room-description">
-                                        <h5>توضیحات:</h5>
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
-                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه لورم ...</p>
-                                    </div>
-                                    <div class="room-footer">
-                                        <button class="reserve-btn">رزرو</button>
+                                        <div class="room-footer">
+                                            <button class="reserve-btn">رزرو</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endfor %}
 
-                        <!-- Room Card 3 -->
-                        <div class="room-card fade-in-delay">
-                            <div class="room-card-inner">
-                                <div class="room-image-container">
-                                    <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                                         alt="اتاق ۲ ستاره با ظرفیت ۲" class="room-image">
-                                </div>
-                                <div class="room-content">
-                                    <div class="room-header">
-                                        <h3 class="room-title">اتاق ۲ ستاره با ظرفیت ۲</h3>
-                                        <div class="room-price-container">
-                                            <div class="room-old-price">۴٬۰۰۰٬۰۰۰</div>
-                                            <div class="room-price">۳٬۰۵۰٬۰۰۰ <span
-                                                    class="room-price-currency">تومان</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="room-amenities">
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-wifi"></i>
-                                            اینترنت
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-box"></i>
-                                            صندوقی
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-utensils"></i>
-                                            بوفه
-                                        </div>
-                                    </div>
-                                    <div class="room-description">
-                                        <h5>توضیحات:</h5>
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
-                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
-                                            لازم است.</p>
-                                    </div>
-                                    <div class="room-footer">
-                                        <button class="reserve-btn">رزرو</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Room Card 4 -->
-                        <div class="room-card fade-in-delay">
-                            <div class="room-card-inner">
-                                <div class="room-image-container">
-                                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                                         alt="اتاق ۴ ستاره با ظرفیت ۳" class="room-image">
-                                </div>
-                                <div class="room-content">
-                                    <div class="room-header">
-                                        <h3 class="room-title">اتاق ۴ ستاره با ظرفیت ۳</h3>
-                                        <div class="room-price-container">
-                                            <div class="room-old-price">۵٬۰۰۰٬۰۰۰</div>
-                                            <div class="room-price">۴٬۰۵۰٬۰۰۰ <span
-                                                    class="room-price-currency">تومان</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="room-amenities">
-                                        <div class="amenity-badge">
-                                            <i class=" fa-wifi"></i>
-                                            اینترنت
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-box"></i>
-                                            صندوقی
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-utensils"></i>
-                                            بوفه
-                                        </div>
-                                    </div>
-                                    <div class="room-description">
-                                        <h5>توضیحات:</h5>
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
-                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
-                                            لازم است.</p>
-                                    </div>
-                                    <div class="room-footer">
-                                        <button class="reserve-btn">رزرو</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Room Card 5 -->
-                        <div class="room-card fade-in-delay">
-                            <div class="room-card-inner">
-                                <div class="room-image-container">
-                                    <img src="{% static "img/hero/hero-1.jpg" %}"
-                                         alt="سوئیت لوکس با ظرفیت ۴" class="room-image">
-                                </div>
-                                <div class="room-content">
-                                    <div class="room-header">
-                                        <h3 class="room-title">سوئیت لوکس با ظرفیت ۴</h3>
-                                        <div class="room-price-container">
-                                            <div class="room-old-price">۷٬۰۰۰٬۰۰۰</div>
-                                            <div class="room-price">۶٬۰۵۰٬۰۰۰ <span
-                                                    class="room-price-currency">تومان</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="room-amenities">
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-wifi"></i>
-                                            اینترنت
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-box"></i>
-                                            صندوقی
-                                        </div>
-                                        <div class="amenity-badge">
-                                            <i class="fa fa-utensils"></i>
-                                            بوفه
-                                        </div>
-                                    </div>
-                                    <div class="room-description">
-                                        <h5>توضیحات:</h5>
-                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از
-                                            طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
-                                            لازم است.</p>
-                                    </div>
-                                    <div class="room-footer">
-                                        <button class="reserve-btn">رزرو</button>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="room-pagination">
+                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                            <a href="#">2</a>
+                            <a href="#">1</a>
                         </div>
                     </div>
                 </div>
@@ -378,34 +208,7 @@
                 sortRooms(sortType)
             })
         })
-
-        // Function to sort rooms
-        function sortRooms(sortType) {
-            const roomsContainer = document.querySelector(".rooms-container")
-            const roomCards = Array.from(roomsContainer.querySelectorAll(".room-card"))
-
-            roomCards.sort((a, b) => {
-                const priceA = Number.parseInt(a.querySelector(".room-price").textContent.replace(/[^\d]/g, ""))
-                const priceB = Number.parseInt(b.querySelector(".room-price").textContent.replace(/[^\d]/g, ""))
-
-                if (sortType === "قیمت پایین‌ترین") {
-                    return priceA - priceB
-                } else if (sortType === "قیمت بالاترین") {
-                    return priceB - priceA
-                } else {
-                    // Default sorting (by room title)
-                    const titleA = a.querySelector(".room-title").textContent
-                    const titleB = b.querySelector(".room-title").textContent
-                    return titleA.localeCompare(titleB)
-                }
-            })
-
-            // Remove all room cards
-            roomCards.forEach((card) => card.remove())
-
-            // Append sorted room cards
-            roomCards.forEach((card) => roomsContainer.appendChild(card))
-        }
+        
 
         // Filter group toggle
         document.querySelectorAll(".filter-group-title").forEach((title) => {

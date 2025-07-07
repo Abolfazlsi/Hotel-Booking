@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hotels.models import RoomImage, Room
+from hotels.models import RoomImage, Room, Service
 
 
 class RoomImageInline(admin.TabularInline):
@@ -25,3 +25,10 @@ class RoomImageAdmin(admin.ModelAdmin):
     list_display = ['room', 'alt_text', 'is_primary']
     list_filter = ['is_primary']
     search_fields = ['room__title', 'alt_text']
+
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+    list_filter = ["name"]
+    search_fields = ["name"]

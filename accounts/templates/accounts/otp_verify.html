@@ -26,11 +26,6 @@
                     <form id="registrationForm" method="post">
                         {% csrf_token %}
                         <div class="form-group">
-                        {% if messages %}
-                            {% for message in messages %}
-                                <p class="text text-danger">{{ message }}</p>
-                            {% endfor %}
-                        {% endif %}
                             <label class="form-label">کد تایید</label>
                             <div class="input-group">
                                 {{ form.code }}

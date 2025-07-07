@@ -12,5 +12,4 @@
 <script src="{% static "js/jquery.slicknav.js" %}"></script>
 <script src="{% static "js/owl.carousel.min.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
-<script src={% static "js/register-script.js" %}></script>
 

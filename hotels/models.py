@@ -4,12 +4,19 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit
 
 
+class Service(models.Model):
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
 class Room(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField(validators=[MinValueValidator(0)])
     size = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     capacity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
-    services = models.TextField()
+    services = models.ManyToManyField(Service, related_name="rooms")
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

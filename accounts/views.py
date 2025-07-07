@@ -1,4 +1,4 @@
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse
 from django.contrib import messages
@@ -10,7 +10,7 @@ import redis
 from django.conf import settings
 from decouple import config
 from accounts.send_otp import send_otp
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 redis_client = redis.Redis.from_url(config('REDIS_URL', default='redis://localhost:6379/0'))
 
@@ -75,10 +75,22 @@ class OtpVerifyView(View):
                 redis_client.delete(otp_key)
 
                 messages.success(request, "ثبت نام با موفقیت انجام شد")
-                return redirect("/")
+                return redirect("hotels:home")
             else:
                 messages.error(request, "کد تایید نامعتبر است")
         else:
             messages.error(request, "کد تایید نامعتبر است")
 
         return render(request, "accounts/otp_verify.html", {"form": form})
+
+
+def log_out(request):
+    user = request.user
+    if user.is_authenticated:
+        logout(request)
+        messages.error(request, "شما از حساب کاربری خود خارج شدید")
+        return redirect("hotels:home")
+
+
+class UserProfileView(TemplateView):
+    template_name = "accounts/profile.html"

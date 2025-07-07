@@ -1,0 +1,229 @@
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .registration-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+            min-height: 600px;
+        }
+        
+        .hotel-image-section {
+            background: linear-gradient(45deg, rgba(218, 165, 32, 0.8), rgba(184, 134, 11, 0.8)), 
+                        url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/FireShot%20Capture%20041%20-%20%D9%BE%DB%8C%D8%B4%D9%86%D9%85%D8%A7%DB%8C%D8%B4%20%D9%82%D8%A7%D9%84%D8%A8%20%D8%B1%D8%B2%D8%B1%D9%88%20%D9%87%D8%AA%D9%84%D8%8C%20Hotel%20-%20%D8%B1%D8%A7%D8%B3%D8%AA%20%DA%86%DB%8C%D9%86%20-%20%5Brtlr.ir%5D.jpg-2nh5gY8lmgOGFtHmdZFRT71ej3PZC9.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+        }
+        
+        .hotel-image-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(218, 165, 32, 0.7);
+        }
+        
+        .hotel-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hotel-logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .hotel-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hotel-subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .form-section {
+            padding: 60px 50px;
+            background: white;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        
+        .form-subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+            text-align: right;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group-text {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            color: #DAA520;
+            border-left: none;
+        }
+        
+        .form-control {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: right;
+            border-right: none;
+        }
+        
+        .form-control:focus {
+            border-color: #DAA520;
+            box-shadow: 0 0 0 0.2rem rgba(218, 165, 32, 0.25);
+        }
+        
+        .input-group .form-control:first-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        .input-group-text:last-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        
+        .form-check {
+            margin: 30px 0;
+            text-align: right;
+        }
+        
+        .form-check-input {
+            margin-left: 10px;
+            margin-right: 0;
+        }
+        
+        .form-check-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .btn-register {
+            background: linear-gradient(45deg, #DAA520, #B8860B);
+            border: none;
+            color: white;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .btn-register:hover {
+            background: linear-gradient(45deg, #B8860B, #DAA520);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(218, 165, 32, 0.4);
+        }
+        
+        .login-link {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .login-link a {
+            color: #DAA520;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .registration-container {
+                margin: 10px;
+            }
+            
+            .hotel-image-section {
+                min-height: 300px;
+                padding: 30px 20px;
+            }
+            
+            .hotel-title {
+                font-size: 2rem;
+            }
+            
+            .form-section {
+                padding: 40px 30px;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }

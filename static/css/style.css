@@ -264,6 +264,83 @@ ul, ol {
     cursor: pointer;
 }
 
+.modal-container {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #4CAF50, #81C784); /* گرادیانت سبز */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(-20px) translateX(-50%);
+    animation: slideDownFade 0.5s ease-out forwards;
+    font-family: "Shabnam", sans-serif;
+    color: #fff;
+    max-width: 90%;
+    width: 24rem;
+    transition: opacity 0.3s ease-out;
+}
+
+.modal-container.success {
+    background: linear-gradient(135deg, #4CAF50, #81C784);
+}
+
+.modal-container.error {
+    background: linear-gradient(135deg, #F44336, #EF5350);
+}
+
+.modal-container.warning {
+    background: linear-gradient(135deg, #FF9800, #FFB74D);
+}
+
+.modal-container.info {
+    background: linear-gradient(135deg, #2196F3, #42A5F5);
+}
+
+.modal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.modal-item span {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: right;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.modal-close:hover {
+    opacity: 1;
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) translateX(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+}
+
 .search-model {
     display: none;
     position: fixed;
@@ -397,7 +474,7 @@ ul, ol {
     cursor: pointer;
 }
 
-.user-account:hover {
+.user-out:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
     width: 120px;
@@ -406,12 +483,54 @@ ul, ol {
     background-color: var(--primary-color);
 }
 
+
 .signup-text {
     margin-top: 12px;
 }
 
 .signup-text p {
     color: #fff;
+}
+
+.profile-content {
+    background-color: #ffff;
+    border-radius: 1rem;
+    width: 10rem;
+    position: absolute;
+    top: 4rem;
+    right: -1rem;
+    text-align: right;
+    box-shadow: 0 0 30px rgba(39, 35, 67, 0.12);
+    overflow: hidden;
+    max-height: 0;
+    transition: all 0.3s ease-out;
+}
+
+.profile-content.user-login {
+    padding: 1rem;
+    max-height: 200px;
+
+}
+
+.profile-content__ul {
+    list-style: none;
+}
+
+.profile-content__li {
+    margin-top: 7px;
+    height: 2.5rem;
+    padding: 0.6rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+}
+
+.profile-content__li:hover {
+    background-color: var(--primary-color);
+}
+
+.profile-content__li.logout:hover {
+    background-color: #ff5353;
 }
 
 /*---------------------
@@ -1343,11 +1462,6 @@ ul, ol {
     text-align: left;
 }
 
-.room-old-price {
-    text-decoration: line-through;
-    color: #999;
-    font-size: 14px;
-}
 
 .room-price {
     font-size: 1.8rem;
@@ -1363,6 +1477,7 @@ ul, ol {
 
 .room-amenities {
     display: flex;
+    flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 20px;
 }
@@ -1413,6 +1528,30 @@ ul, ol {
     background-color: var(--primary-color);
     color: white;
 }
+
+.room-pagination {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.room-pagination a {
+    font-size: 16px;
+    color: #707079;
+    border: 1px solid #EFD4B9;
+    border-radius: 2px;
+    padding: 7px 13px 5px;
+    margin-right: 7px;
+    display: inline-block;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.room-pagination a:hover {
+    background: #dfa974;
+    color: #ffffff;
+}
+
 
 /* Filter Sidebar */
 .filter-sidebar {
@@ -1575,9 +1714,11 @@ ul, ol {
     pointer-events: none;
     -webkit-appearance: none;
 }
+
 .max-price {
     bottom: 1.5rem;
 }
+
 .price-range-input input::-webkit-slider-thumb {
     height: 20px;
     width: 20px;
