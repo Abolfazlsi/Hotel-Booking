@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse
 from django.contrib import messages
 from django_ratelimit.decorators import ratelimit
-from accounts.forms import SignInSignUpForm, OtpVerifyForm
+from accounts.forms import SignInSignUpForm, OtpVerifyForm, UserProfileForm
 from accounts.models import User
 import secrets
 import redis
@@ -92,5 +92,17 @@ def log_out(request):
         return redirect("hotels:home")
 
 
-class UserProfileView(TemplateView):
-    template_name = "accounts/profile.html"
+class UserProfileView(View):
+    def get(self, request):
+        user = request.user
+        form = UserProfileForm(instance=user)
+        return render(request, "accounts/profile.html", {"form": form})
+
+    def post(self, request):
+        user = request.user
+        form = UserProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "اطلاعات حساب کاربری تغییر یافت.")
+            return redirect("accounts:user_profile")
+        return render(request, "accounts/profile.html", {"form": form})

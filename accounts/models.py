@@ -28,7 +28,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, null=True, blank=True, unique=True)
-    fullname = models.CharField(max_length=100, blank=True, null=True)
+    first_name = models.CharField(max_length=100, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(
         max_length=11,
         unique=True,
@@ -43,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'phone'
 
     def __str__(self):
-        return f"{self.fullname or 'User'} ({self.phone})"
+        return f"{self.first_name or 'User'} ({self.phone})"
 
     @property
     def is_staff(self):

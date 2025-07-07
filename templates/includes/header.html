@@ -34,20 +34,9 @@
         <nav class="navbar navbar-expand-lg">
             <div class="d-flex align-items-center">
                 <a href="
-
-
-
-
-
-
-
-
-
                         {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
                     <div class="user-account me-3">
                         <i class="fa fa-user"></i>
-
-
                     </div>
                 </a>
 
@@ -55,7 +44,9 @@
             <div class="profile-content">
                 <ul class="profile-content__ul">
                     <div class="profile-content__li">
-                        <li>پروفایل</li>
+                        <a href="{% url "accounts:user_profile" %}" style="color: #000000">
+                            <li>پروفایل</li>
+                        </a>
                     </div>
                     <div class="profile-content__li">
                         <li>تاریخچه رزرو</li>

@@ -11,13 +11,13 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="account-tab" data-bs-toggle="tab" data-bs-target="#account"
                                 type="button" role="tab">
-                            Account Settings
+                            اطلاعات حساب کاربری
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
                                 type="button" role="tab">
-                            Order History
+                            تاریخچه رزرو ها
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -33,7 +33,7 @@
                         </button>
                     </li>
                 </ul>
-                <a href="#" class="logout-btn">Logout</a>
+                <a href="{% url "accounts:logout" %}" class="logout-btn">خروج از حساب</a>
             </div>
 
             <!-- Tab Content -->
@@ -45,88 +45,29 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h5 class="card-title">Account Information</h5>
-                                    <form id="accountForm">
+                                    <h5 class="card-title" style="text-align: right">اطلاعات حساب کاربری</h5>
+                                    <form id="accountForm" method="post">
+                                        {% csrf_token %}
                                         <div class="row mb-3">
                                             <div class="col-6">
-                                                <input type="text" class="form-control" placeholder="First Name"
-                                                       value="Kevin">
+                                                {{ form.last_name }}
                                             </div>
                                             <div class="col-6">
-                                                <input type="text" class="form-control" placeholder="Last Name"
-                                                       value="Kevin Gilbert">
+                                                {{ form.first_name }}
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <input type="email" class="form-control" placeholder="Email"
-                                                   value="kevin.gilbert@gmail.com">
+                                            {{ form.email }}
                                         </div>
                                         <div class="mb-4">
-                                            <input type="tel" class="form-control" placeholder="Phone Number"
-                                                   value="+8801497 548244">
+                                            {{ form.phone}}
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Change Password -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">Change Password</h5>
-                                    <form id="passwordForm">
-                                        <div class="mb-3 position-relative">
-                                            <input type="password" class="form-control" id="currentPassword"
-                                                   placeholder="Current password">
-                                            <button type="button" class="password-toggle"
-                                                    onclick="togglePassword('currentPassword')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </div>
-                                        <div class="mb-3 position-relative">
-                                            <input type="password" class="form-control" id="newPassword"
-                                                   placeholder="New password">
-                                            <button type="button" class="password-toggle"
-                                                    onclick="togglePassword('newPassword')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </div>
-                                        <div class="mb-4 position-relative">
-                                            <input type="password" class="form-control" id="confirmPassword"
-                                                   placeholder="Confirm password">
-                                            <button type="button" class="password-toggle"
-                                                    onclick="togglePassword('confirmPassword')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Change Profile Photo -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card h-100">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Change Profile Photo</h5>
-                                    <div class="d-flex flex-column align-items-center">
-                                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face"
-                                             alt="Profile" class="profile-image" id="profileImage">
-                                        <button type="button" class="btn btn-primary d-flex align-items-center gap-2"
-                                                onclick="document.getElementById('fileInput').click()">
-                                            <i class="fas fa-cloud-upload-alt"></i>
-                                            Upload Now
-                                        </button>
-                                        <input type="file" id="fileInput" accept="image/*" style="display: none;"
-                                               onchange="handleFileUpload(event)">
-                                        <p class="upload-info">JPG or PNG, max size of 500KB</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -209,48 +150,6 @@
         </div>
     </div>
     <script>
-        // Sample order data
-
-        // Toggle password visibility
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const icon = input.nextElementSibling.querySelector('i');
-
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        }
-
-        // Handle file upload
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                // Check file size (500KB = 512000 bytes)
-                if (file.size > 512000) {
-                    alert('File size must be less than 500KB');
-                    return;
-                }
-
-                // Check file type
-                if (!file.type.match(/^image\/(jpeg|jpg|png)$/)) {
-                    alert('Only JPG and PNG files are allowed');
-                    return;
-                }
-
-                // Display the image
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('profileImage').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
 
 
         // View order details
@@ -259,24 +158,6 @@
             // Here you would typically navigate to order details or show a modal
         }
 
-        // Form submissions
-        document.getElementById('accountForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            alert('Account information updated successfully!');
-        });
-
-        document.getElementById('passwordForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (newPassword !== confirmPassword) {
-                alert('New password and confirm password do not match!');
-                return;
-            }
-
-            alert('Password updated successfully!');
-        });
 
         // Tab switching functionality
         document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {

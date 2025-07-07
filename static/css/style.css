@@ -3134,6 +3134,7 @@ ul, ol {
     position: relative;
     z-index: 2;
     text-align: right; /* برای زبان فارسی */
+    right: 10rem;
     color: #ffffff;
 }
 

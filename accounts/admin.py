@@ -9,11 +9,11 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ["phone", "fullname", "is_admin", "is_active"]
+    list_display = ["phone", "first_name", "last_name",  "is_admin", "is_active"]
     list_filter = ["is_admin", "is_active"]
     fieldsets = [
         (None, {"fields": ["phone", "password"]}),
-        ("Personal Info", {"fields": ["fullname", "email"]}),
+        ("Personal Info", {"fields": ["first_name", "last_name", "email"]}),
         ("Permissions", {"fields": ["is_admin", "is_active", "is_superuser", "groups", "user_permissions"]}),
     ]
     add_fieldsets = [
@@ -21,11 +21,11 @@ class UserAdmin(BaseUserAdmin):
             None,
             {
                 "classes": ["wide"],
-                "fields": ["phone", "password1", "password2", "fullname", "email", "groups", "user_permissions"],
+                "fields": ["phone", "password1", "password2", "first_name", "last_name", "email", "groups", "user_permissions"],
             },
         ),
     ]
-    search_fields = ["phone", "fullname"]
+    search_fields = ["phone", "first_name", "last_name"]
     ordering = ["phone"]
     filter_horizontal = ["groups", "user_permissions"]
 

@@ -14,7 +14,7 @@ class UserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['phone', 'fullname', 'email', 'is_admin', 'is_superuser', 'groups', 'user_permissions']
+        fields = ['phone', 'first_name', "last_name", 'email', 'is_admin', 'is_superuser', 'groups', 'user_permissions']
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -41,7 +41,7 @@ class UserChangeForm(BaseUserChangeForm):
 
     class Meta:
         model = User
-        fields = ['phone', 'fullname', 'email', 'is_active', 'is_admin', 'groups', 'user_permissions']
+        fields = ['phone', 'first_name', "last_name", 'email', 'is_active', 'is_admin', 'groups', 'user_permissions']
 
 
 class SignInSignUpForm(forms.Form):
@@ -55,3 +55,16 @@ class OtpVerifyForm(forms.Form):
     code = forms.CharField(max_length=4, min_length=4,
                            widget=forms.TextInput(attrs={"class": "form-control",
                                                          "placeholder": "کد تایید ارسال شده به شماره موبایل را وارد کنید"}))
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['phone', 'first_name', 'last_name', 'email']
+
+        widgets = {
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+        }
