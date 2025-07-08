@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit
+from django.utils.text import slugify
+from django.urls import reverse
 
 
 class Service(models.Model):
@@ -18,11 +20,19 @@ class Room(models.Model):
     capacity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     services = models.ManyToManyField(Service, related_name="rooms")
     description = models.TextField()
+    slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ("-created_at",)
+
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.slug = slugify(self.title, allow_unicode=True)
+        super(Room, self).save()
+
+    def get_absolute_url(self):
+        return reverse("hotels:room_detail", args=[self.slug])
 
     def __str__(self):
         return self.title

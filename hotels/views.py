@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from hotels.models import Room
 
 
@@ -18,5 +18,7 @@ class RoomsListView(ListView):
     template_name = "hotels/rooms.html"
 
 
+class RoomDetailView(TemplateView):
+    template_name = "hotels/room_detail.html"
 
 

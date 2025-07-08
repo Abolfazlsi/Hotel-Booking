@@ -17,6 +17,8 @@ class RoomAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['title', 'price', 'size', 'capacity']}),
         ('جزئیات', {'fields': ['services', 'description']}),
+        ('اسلاگ', {'fields': ['slug']}),
+
     ]
 
 

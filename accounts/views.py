@@ -5,6 +5,7 @@ from django.contrib import messages
 from django_ratelimit.decorators import ratelimit
 from accounts.forms import SignInSignUpForm, OtpVerifyForm, UserProfileForm
 from accounts.models import User
+from hotels.models import Room
 import secrets
 import redis
 from django.conf import settings
@@ -18,6 +19,8 @@ redis_client = redis.Redis.from_url(config('REDIS_URL', default='redis://localho
 class SignInSignUpView(View):
     def get(self, request):
         form = SignInSignUpForm()
+        room = Room.objects.get(id=2)
+        print("slug : ", room.slug)
         return render(request, "accounts/singIn_singUp.html", {"form": form})
 
     def post(self, request):
