@@ -20,58 +20,57 @@
                     <!-- Sort Filter Bar -->
                     <div class="sort-filter-bar">
                         <div class="sort-label">مرتب سازی بر اساس:</div>
-                        <div class="sort-options">
-                            <div class="sort-option active">پیش فرض</div>
-                            <div class="sort-option">قیمت پایین‌ترین</div>
-                            <div class="sort-option">قیمت بالاترین</div>
+                        <div class="sort-options" id="sortOptions">
+                            <div class="sort-option active" data-sort="default">پیش فرض</div>
+                            <div class="sort-option" data-sort="lower-price">قیمت پایین‌ترین</div>
+                            <div class="sort-option" data-sort="higher-price">قیمت بالاترین</div>
                         </div>
                     </div>
 
                     <!-- Room Cards -->
-                    <div class="rooms-container">
-
-                        {% for room in room_list %}
-                            <div class="room-card fade-in-delay">
-                                <div class="room-card-inner">
-                                    <div class="room-image-container">
-                                        <img src="{{ room.primary_image.image.url }}"
-                                             alt="{{ room.primary_image.alt_text }}" class="room-image">
-                                        <div class="room-badge">رزرو شده</div>
-                                    </div>
-                                    <div class="room-content">
-                                        <div class="room-header">
-                                            <h3 class="room-title">{{ room.title }}</h3>
-                                            <div class="room-price-container">
-                                                <div class="room-price">{{ room.price|intcomma }}<span
-                                                        class="room-price-currency">تومان</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="room-amenities">
-                                            {% for service in room.services.all %}
-                                                <div class="amenity-badge">
-                                                    {{ service }}
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="room-description">
-                                            <h5>توضیحات:</h5>
-                                            <p>{{ room.description|truncatewords:25 }}</p>
-                                        </div>
-                                        <div class="room-footer">
-                                            <button class="reserve-btn">رزرو</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="room-pagination">
-                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                            <a href="#">2</a>
-                            <a href="#">1</a>
+                    <div class="rooms-container" id="roomsContainer">
+                        <!-- Loader -->
+                        <div class="loader" id="roomsLoader">
+                            <div class="spinner"></div>
+                            <p>در حال بارگذاری...</p>
                         </div>
+                    </div>
+
+                    <div class="col-lg-12" dir="rtl">
+                        {% if page_obj.has_other_pages %}
+                            <div class="room-pagination" id="pagination">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}"><i
+                                            class="fa fa-long-arrow-left"></i></a>
+                                {% endif %}
+
+                                {% if page_obj.number|add:-2 > 1 %}
+                                    <a href="?page=1">1</a>
+                                    {% if page_obj.number|add:-2 > 2 %}
+                                        <span>. . .</span>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+                                        <a href="?page={{ num }}"
+                                           {% if page_obj.number == num %}class="active"{% endif %}>{{ num }}</a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.number|add:2 < page_obj.paginator.num_pages %}
+                                    {% if page_obj.number|add:3 < page_obj.paginator.num_pages %}
+                                        <span>. . .</span>
+                                    {% endif %}
+                                    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                                {% endif %}
+
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}"><i
+                                            class="fa fa-long-arrow-right"></i></a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -79,16 +78,14 @@
                 <div class="col-lg-4 order-lg-2 order-1">
                     <div class="filter-sidebar">
                         <h3 class="filter-title">فیلترها</h3>
-
                         <!-- Room Name Search -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">جستجو نام اتاق</h4>
                             <div class="filter-search">
-                                <input type="text" placeholder="جستجو نام اتاق">
+                                <input type="text" placeholder="جستجو نام اتاق" id="roomNameSearch">
                                 <i class="fa fa-search"></i>
                             </div>
                         </div>
-
                         <!-- Star Rating Filter -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">
@@ -97,28 +94,27 @@
                             </h4>
                             <div class="filter-content">
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="star5">
+                                    <input type="checkbox" id="star5" name="star" value="5">
                                     <label for="star5">۵ ستاره</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="star4">
+                                    <input type="checkbox" id="star4" name="star" value="4">
                                     <label for="star4">۴ ستاره</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="star3">
+                                    <input type="checkbox" id="star3" name="star" value="3">
                                     <label for="star3">۳ ستاره</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="star2">
+                                    <input type="checkbox" id="star2" name="star" value="2">
                                     <label for="star2">۲ ستاره</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="star1">
+                                    <input type="checkbox" id="star1" name="star" value="1">
                                     <label for="star1">۱ ستاره</label>
                                 </div>
                             </div>
                         </div>
-
                         <!-- Hotel Amenities Filter -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">
@@ -127,28 +123,27 @@
                             </h4>
                             <div class="filter-content">
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="wifi">
+                                    <input type="checkbox" id="wifi" name="amenity" value="wifi">
                                     <label for="wifi">اینترنت</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="breakfast">
+                                    <input type="checkbox" id="breakfast" name="amenity" value="breakfast">
                                     <label for="breakfast">صبحانه</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="parking">
+                                    <input type="checkbox" id="parking" name="amenity" value="parking">
                                     <label for="parking">پارکینگ</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="pool">
+                                    <input type="checkbox" id="pool" name="amenity" value="pool">
                                     <label for="pool">استخر</label>
                                 </div>
                                 <div class="filter-checkbox">
-                                    <input type="checkbox" id="gym">
+                                    <input type="checkbox" id="gym" name="amenity" value="gym">
                                     <label for="gym">سالن ورزشی</label>
                                 </div>
                             </div>
                         </div>
-
                         <!-- Number of People Filter -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">تعداد نفرات</h4>
@@ -156,13 +151,12 @@
                                 <button class="counter-btn minus-btn">
                                     <i class="fa fa-minus"></i>
                                 </button>
-                                <span class="counter-value">۲</span>
+                                <span class="counter-value" id="peopleCount">۲</span>
                                 <button class="counter-btn plus-btn">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
                         </div>
-
                         <!-- Price Range Filter -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">قیمت برای هر شب</h4>
@@ -180,7 +174,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Apply Filter Button -->
                         <button class="apply-filter-btn">اعمال فیلتر</button>
                     </div>
@@ -190,185 +183,252 @@
     </section>
 
     <script>
-        // Sort options functionality
-        document.querySelectorAll(".sort-option").forEach((option) => {
-            option.addEventListener("click", function () {
-                // Remove active class from all options
-                document.querySelectorAll(".sort-option").forEach((opt) => {
-                    opt.classList.remove("active")
+        document.addEventListener('DOMContentLoaded', function () {
+            const sortOptions = document.querySelectorAll('#sortOptions .sort-option');
+            const roomsContainer = document.getElementById('roomsContainer');
+            const pagination = document.getElementById('pagination');
+            const roomNameSearch = document.getElementById('roomNameSearch');
+            const peopleCount = document.getElementById('peopleCount');
+            const minPriceInput = document.querySelector('.min-price');
+            const maxPriceInput = document.querySelector('.max-price');
+            const applyFilterBtn = document.querySelector('.apply-filter-btn');
+            const roomsLoader = document.getElementById('roomsLoader'); // لودر
+            let currentSort = 'default';
+            let currentPage = 1;
+
+            function truncateWords(text, wordLimit) {
+                const words = text.split(' ');
+                if (words.length > wordLimit) {
+                    return words.slice(0, wordLimit).join(' ') + '...';
+                }
+                return text;
+            }
+
+            function loadRooms(sort = 'default', page = 1, filters = {}) {
+                // نمایش لودر و کم‌رنگ کردن کانتینر
+                roomsLoader.classList.add('show');
+                roomsContainer.classList.add('loading');
+
+                const params = new URLSearchParams({
+                    sort: sort,
+                    page: page,
+                    ...filters,
+                }).toString();
+
+                // به‌روزرسانی URL (اختیاری)
+                window.history.pushState({sort, page, filters}, '', `?${params}`);
+
+                fetch(`?${params}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
                 })
+                    .then(response => response.json())
+                    .then(data => {
+                        // مخفی کردن لودر و برگرداندن opacity
+                        roomsLoader.classList.remove('show');
+                        roomsContainer.classList.remove('loading');
 
-                // Add active class to clicked option
-                this.classList.add("active")
+                        roomsContainer.innerHTML = `
+                            <div class="loader" id="roomsLoader">
+                                <div class="spinner"></div>
+                                <p>در حال بارگذاری...</p>
+                            </div>
+                            ${data.room_list.map(room => `
+                                <div class="room-card fade-in-delay">
+                                    <div class="room-card-inner">
+                                        <div class="room-image-container">
+                                            <img src="${room.image_url}" alt="${room.alt_text}" class="room-image">
+                                            <div class="room-badge">رزرو شده</div>
+                                        </div>
+                                        <div class="room-content">
+                                            <div class="room-header">
+                                                <h3 class="room-title">${room.title}</h3>
+                                                <div class="room-price-container">
+                                                    <div class="room-price">${room.price.toLocaleString()}</div>
+                                                    <span class="room-price-currency">تومان</span>
+                                                </div>
+                                            </div>
+                                            <div class="room-amenities">
+                                                ${room.services.map(service => `<div class="amenity-badge">${service}</div>`).join('')}
+                                            </div>
+                                            <div class="room-description">
+                                                <h5>توضیحات:</h5>
+                                                <p>${truncateWords(room.description, 25)}</p>
+                                            </div>
+                                            <div class="room-footer">
+                                                <a href="${room.url}">
+                                                    <button class="reserve-btn">رزرو</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        `;
 
-                // Get sort type
-                const sortType = this.textContent
+                        let paginationHtml = '';
+                        if (data.has_previous) {
+                            paginationHtml += `<a href="#" data-page="${data.previous_page_number}"><i class="fa fa-long-arrow-left"></i></a>`;
+                        }
+                        if (data.current_page - 2 > 1) {
+                            paginationHtml += `<a href="#" data-page="1">1</a>`;
+                            if (data.current_page - 2 > 2) paginationHtml += '<span>. . .</span>';
+                        }
+                        for (let num = data.current_page - 2; num <= data.current_page + 2; num++) {
+                            if (num >= 1 && num <= data.total_pages) {
+                                paginationHtml += `<a href="#" data-page="${num}" ${data.current_page === num ? 'class="active"' : ''}>${num}</a>`;
+                            }
+                        }
+                        if (data.current_page + 2 < data.total_pages) {
+                            if (data.current_page + 3 < data.total_pages) paginationHtml += '<span>. . .</span>';
+                            paginationHtml += `<a href="#" data-page="${data.total_pages}">${data.total_pages}</a>`;
+                        }
+                        if (data.has_next) {
+                            paginationHtml += `<a href="#" data-page="${data.next_page_number}"><i class="fa fa-long-arrow-right"></i></a>`;
+                        }
+                        pagination.innerHTML = paginationHtml;
 
-                // Sort rooms based on selected option
-                sortRooms(sortType)
-            })
-        })
-        
+                        // افزودن رویداد کلیک به لینک‌های صفحه‌بندی
+                        document.querySelectorAll('#pagination a').forEach(link => {
+                            link.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                const page = this.getAttribute('data-page');
+                                currentPage = page;
+                                loadRooms(currentSort, page, getFilters());
+                                window.scrollTo({
+                                    top: 0,
+                                    behavior: 'smooth'
+                                });
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // مخفی کردن لودر در صورت خطا
+                        roomsLoader.classList.remove('show');
+                        roomsContainer.classList.remove('loading');
+                    });
+            }
 
-        // Filter group toggle
-        document.querySelectorAll(".filter-group-title").forEach((title) => {
-            title.addEventListener("click", function () {
-                const content = this.nextElementSibling
+            function getFilters() {
+                const starRatings = Array.from(document.querySelectorAll('[name="star"]:checked')).map(cb => cb.value);
+                const amenities = Array.from(document.querySelectorAll('[name="amenity"]:checked')).map(cb => cb.value);
+                return {
+                    room_name: roomNameSearch.value,
+                    stars: starRatings.length ? starRatings.join(',') : '',
+                    amenities: amenities.length ? amenities.join(',') : '',
+                    people: peopleCount.textContent,
+                    min_price: minPriceInput.value,
+                    max_price: maxPriceInput.value,
+                };
+            }
 
-                if (content.style.display === "none") {
-                    content.style.display = "block"
-                    this.classList.remove("collapsed")
-                } else {
-                    content.style.display = "none"
-                    this.classList.add("collapsed")
+            // مدیریت کلیک بر روی گزینه‌های مرتب‌سازی
+            sortOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    sortOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentSort = this.getAttribute('data-sort');
+                    currentPage = 1; // ریست کردن به صفحه اول
+                    loadRooms(currentSort, currentPage, getFilters());
+                });
+            });
+
+            // جستجوی نام اتاق
+            roomNameSearch.addEventListener('input', function () {
+                currentPage = 1;
+                loadRooms(currentSort, currentPage, getFilters());
+            });
+
+            // مدیریت تعداد نفرات
+            const minusBtn = document.querySelector('.minus-btn');
+            const plusBtn = document.querySelector('.plus-btn');
+            let peopleCountValue = 2;
+
+            minusBtn.addEventListener('click', (e) => {
+                e.preventDefault()
+                if (peopleCountValue > 1) {
+                    peopleCountValue--;
+                    peopleCount.textContent = convertToPersianNumbers(peopleCountValue);
+                    currentPage = 1;
+                    loadRooms(currentSort, currentPage, getFilters());
                 }
-            })
-        })
+            });
 
-        // People counter functionality
-        const counterValue = document.querySelector(".counter-value")
-        const minusBtn = document.querySelector(".minus-btn")
-        const plusBtn = document.querySelector(".plus-btn")
+            plusBtn.addEventListener('click', () => {
+                if (peopleCountValue < 10) {
+                    peopleCountValue++;
+                    peopleCount.textContent = convertToPersianNumbers(peopleCountValue);
+                    currentPage = 1;
+                    loadRooms(currentSort, currentPage, getFilters());
+                }
+            });
 
-        let peopleCount = 2
+            // مدیریت رنج قیمت
+            const rangeInput = document.querySelectorAll(".price-range-input input");
+            const progress = document.querySelector(".price-progress");
+            const minValue = document.querySelector(".min-value");
+            const maxValue = document.querySelector(".max-value");
 
-        minusBtn.addEventListener("click", () => {
-            if (peopleCount > 1) {
-                peopleCount--
-                counterValue.textContent = convertToPersianNumbers(peopleCount)
-            }
-        })
+            rangeInput.forEach(input => {
+                input.addEventListener('input', (e) => {
+                    let minVal = parseInt(rangeInput[0].value);
+                    let maxVal = parseInt(rangeInput[1].value);
 
-        plusBtn.addEventListener("click", () => {
-            if (peopleCount < 10) {
-                peopleCount++
-                counterValue.textContent = convertToPersianNumbers(peopleCount)
-            }
-        })
-
-        // Convert numbers to Persian
-        function convertToPersianNumbers(num) {
-            const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
-            return num.toString().replace(/\d/g, (x) => persianDigits[x])
-        }
-
-        // Price range slider functionality
-        const rangeInput = document.querySelectorAll(".price-range-input input")
-        const progress = document.querySelector(".price-progress")
-        const minValue = document.querySelector(".min-value")
-        const maxValue = document.querySelector(".max-value")
-
-        const minPrice = Number.parseInt(rangeInput[0].value)
-        const maxPrice = Number.parseInt(rangeInput[1].value)
-
-        rangeInput.forEach((input) => {
-            input.addEventListener("input", (e) => {
-                const minVal = Number.parseInt(rangeInput[0].value)
-                const maxVal = Number.parseInt(rangeInput[1].value)
-
-                if (maxVal - minVal < 500000) {
-                    if (e.target.className === "min-price") {
-                        rangeInput[0].value = maxVal - 500000
+                    if (maxVal - minVal < 500000) {
+                        if (e.target.className === "min-price") {
+                            rangeInput[0].value = maxVal - 500000;
+                        } else {
+                            rangeInput[1].value = minVal + 500000;
+                        }
                     } else {
-                        rangeInput[1].value = minVal + 500000
+                        progress.style.right = (minVal / rangeInput[0].max) * 100 + "%";
+                        progress.style.left = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+
+                        minValue.textContent = formatPrice(minVal);
+                        maxValue.textContent = formatPrice(maxVal);
+                        currentPage = 1;
+                        loadRooms(currentSort, currentPage, getFilters());
                     }
-                } else {
-                    progress.style.right = (minVal / rangeInput[0].max) * 100 + "%"
-                    progress.style.left = 100 - (maxVal / rangeInput[1].max) * 100 + "%"
+                });
+            });
 
-                    minValue.textContent = formatPrice(minVal)
-                    maxValue.textContent = formatPrice(maxVal)
-                }
-            })
-        })
+            // اعمال فیلترها
+            applyFilterBtn.addEventListener('click', () => {
+                currentPage = 1;
+                loadRooms(currentSort, currentPage, getFilters());
+            });
 
-        // Format price to Persian format
-        function formatPrice(price) {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "٬")
-        }
-
-        // Apply filter button
-        document.querySelector(".apply-filter-btn").addEventListener("click", () => {
-            // Get filter values
-            const roomName = document.querySelector(".filter-search input").value
-            const starRatings = Array.from(document.querySelectorAll('[id^="star"]:checked')).map((checkbox) =>
-                checkbox.id.replace("star", ""),
-            )
-            const amenities = Array.from(document.querySelectorAll(".filter-content input:checked")).map(
-                (checkbox) => checkbox.id,
-            )
-            const people = peopleCount
-            const minPrice = Number.parseInt(document.querySelector(".min-price").value)
-            const maxPrice = Number.parseInt(document.querySelector(".max-price").value)
-
-            // Filter rooms based on criteria
-            filterRooms(roomName, starRatings, amenities, people, minPrice, maxPrice)
-        })
-
-        // Function to filter rooms
-        function filterRooms(roomName, starRatings, amenities, people, minPrice, maxPrice) {
-            const roomCards = document.querySelectorAll(".room-card")
-
-            roomCards.forEach((card) => {
-                const title = card.querySelector(".room-title").textContent.toLowerCase()
-                const price = Number.parseInt(card.querySelector(".room-price").textContent.replace(/[^\d]/g, ""))
-
-                // Extract star rating and capacity from title
-                const titleMatch = title.match(/(\d+)\s+ستاره\s+با\s+ظرفیت\s+(\d+)/)
-                const stars = titleMatch ? Number.parseInt(titleMatch[1]) : 0
-                const capacity = titleMatch ? Number.parseInt(titleMatch[2]) : 0
-
-                let showCard = true
-
-                // Filter by room name
-                if (roomName && !title.includes(roomName.toLowerCase())) {
-                    showCard = false
-                }
-
-                // Filter by star rating
-                if (starRatings.length > 0 && !starRatings.includes(stars.toString())) {
-                    showCard = false
-                }
-
-                // Filter by capacity
-                if (people > capacity) {
-                    showCard = false
-                }
-
-                // Filter by price range
-                if (price < minPrice || price > maxPrice) {
-                    showCard = false
-                }
-
-                // Show/hide card
-                if (showCard) {
-                    card.style.display = "block"
-                } else {
-                    card.style.display = "none"
-                }
-            })
-        }
-
-        // Reserve button functionality
-        document.querySelectorAll(".reserve-btn").forEach((btn) => {
-            btn.addEventListener("click", function () {
-                const roomCard = this.closest(".room-card")
-                const roomTitle = roomCard.querySelector(".room-title").textContent
-                const roomPrice = roomCard.querySelector(".room-price").textContent
-
-                alert(`رزرو اتاق: ${roomTitle}\nقیمت: ${roomPrice}`)
-            })
-        })
-
-        // Initialize price range display
-        document.addEventListener("DOMContentLoaded", () => {
-            if (minValue && maxValue && rangeInput.length > 0) {
-                minValue.textContent = formatPrice(Number.parseInt(rangeInput[0].value))
-                maxValue.textContent = formatPrice(Number.parseInt(rangeInput[1].value))
+            // تابع تبدیل به اعداد فارسی
+            function convertToPersianNumbers(num) {
+                const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+                return num.toString().replace(/\d/g, (x) => persianDigits[x]);
             }
-        })
 
+            // تابع فرمت قیمت
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "٬");
+            }
+
+            // بارگذاری اولیه
+            loadRooms(currentSort, currentPage, getFilters());
+
+            // تابع toggle برای فیلترها
+            document.querySelectorAll(".filter-group-title").forEach(title => {
+                title.addEventListener("click", function () {
+                    const content = this.nextElementSibling;
+                    if (content.style.display === "none") {
+                        content.style.display = "block";
+                        this.classList.remove("collapsed");
+                    } else {
+                        content.style.display = "none";
+                        this.classList.add("collapsed");
+                    }
+                });
+            });
+        });
     </script>
-
 {% endblock %}
-

@@ -47,7 +47,9 @@
                                     <div class="hero-text" dir="rtl">
                                         <h1>{{ room.title }}</h1>
                                         <p>{{ room.description|truncatewords:50 }}</p>
-                                        <a href="#" class="primary-btn">رزرو کنید</a>
+                                        <div>
+                                            <a href="{{ room.get_absolute_url }}" class="primary-btn">رزرو کنید</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +186,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <a href="#" class="primary-btn">جزئیات بیشتر</a>
+                            <a href="{{ room.get_absolute_url }}" class="primary-btn">جزئیات بیشتر</a>
                         </div>
                     </div>
                 {% endfor %}

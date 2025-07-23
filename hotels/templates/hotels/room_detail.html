@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom %}
 
 {% block main %}
     <div class="container-fluid" dir="rtl">
@@ -8,21 +9,15 @@
                 <!-- Room Gallery Section -->
                 <div class="col-lg-6">
                     <div class="room-gallery">
-                        <img src="{% static "img/room/room-1.jpg" %}"
+                        <img src="{{ room.primary_image.image.url }}"
                              alt="اتاق هتل" class="main-image" id="mainImage" data-bs-toggle="modal"
                              data-bs-target="#imageModal">
 
                         <div class="thumbnail-gallery">
-                            <img src="{% static "img/room/room-2.jpg" %}" alt="نمای اتاق 1" class="thumbnail active"
-                                 onclick="changeMainImage(this)">
-                            <img src="{% static "img/room/room-3.jpg" %}" alt="نمای اتاق 2" class="thumbnail"
-                                 onclick="changeMainImage(this)">
-                            <img src="{% static "img/room/room-4.jpg" %}" alt="نمای اتاق 3" class="thumbnail"
-                                 onclick="changeMainImage(this)">
-                            <img src="{% static "img/room/room-5.jpg" %}" alt="نمای اتاق 3"
-                                 class="thumbnail" onclick="changeMainImage(this)">
-                            <img src="{% static "img/room/room-6.jpg" %}" alt="نمای اتاق 3"
-                                 class="thumbnail" onclick="changeMainImage(this)">
+                            {% for image in room.images.all %}
+                                <img src="{{ image.image.url }}" alt="نمای اتاق 1" class="thumbnail"
+                                     onclick="changeMainImage(this)">
+                            {% endfor %}
 
 
                         </div>
@@ -32,73 +27,65 @@
                 <!-- Room Information Section -->
                 <div class="col-lg-6">
                     <div class="room-info">
-                        <h1 class="room-title">اتاق استاندارد دو تخته</h1>
-
+                        <h1 class="room-title">{{ room.title }}</h1>
+                        <div class="room-rating">
+                            <div class="stars-title">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <span class="rating-text">(4.8 از 5 - 124 نظر)</span>
+                        </div>
                         <p class="room-description">
-                            اتاق نیل تنها دریای شهر شیراز در واقع شامل یک تخت‌خواب دو نفره است که به آن Double Room گفته
-                            می‌شود. حالت یکی کن هم به صورت چهار تخت خواب یک نفره با جمع Quad است. این اتاق دارای امکانات
-                            معمول متل سینما و استودیو می‌باشد.
+                            {{ room.description }}
                         </p>
 
-                        <!-- Amenities Section -->
-                        <div class="amenities-section">
-                            <h3 class="section-title__room-detail">تجهیزات:</h3>
-                            <div class="amenities-grid">
-                                <div class="amenity-item">
-                                    <span class="amenity-text">وای‌فای</span>
-                                    <i class="fa fa-wifi amenity-icon"></i>
+                        <div class="quick-info-cards">
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fa fa-users"></i>
                                 </div>
-                                <div class="amenity-item">
-                                    <span class="amenity-text">صبحانه</span>
-                                    <i class="fa fa-coffee amenity-icon"></i>
+                                <div class="info-content">
+                                    <span class="info-label">ظرفیت</span>
+                                    <span class="info-value">{{ room.capacity }} نفر</span>
                                 </div>
-                                <div class="amenity-item">
-                                    <span class="amenity-text">اینترنت</span>
-                                    <i class="fa fa-globe amenity-icon"></i>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="28" fill="currentColor"
+                                         class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
+                                    </svg>
                                 </div>
-                                <div class="amenity-item">
-                                    <span class="amenity-text">تلویزیون</span>
-                                    <i class="fa fa-tv amenity-icon"></i>
-                                </div>
-                                <div class="amenity-item">
-                                    <span class="amenity-text">یخچال</span>
-                                    <i class="fa fa-snowflake amenity-icon"></i>
-                                </div>
-                                <div class="amenity-item">
-                                    <span class="amenity-text">کولر</span>
-                                    <i class="fa fa-wind amenity-icon"></i>
+                                <div class="info-content">
+                                    <span class="info-label">مساحت</span>
+                                    <span class="info-value">{{ room.size }} متر</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Features Section -->
-                        <div class="features-section">
-                            <h3 class="section-title__room-detail">خدمات:</h3>
-                            <ul class="features-list">
-                                <li>
-                                    <span>استودیو خانواده</span>
-                                    <div class="feature-bullet"></div>
-                                </li>
-                                <li>
-                                    <span>بالکن دار</span>
-                                    <div class="feature-bullet"></div>
-                                </li>
-                                <li>
-                                    <span>سونا</span>
-                                    <div class="feature-bullet"></div>
-                                </li>
-                                <li>
-                                    <span>ویو شهر</span>
-                                    <div class="feature-bullet"></div>
-                                </li>
-                            </ul>
+                        <!-- Amenities Section -->
+                        <div class="amenities-section">
+
+                            <h3 class="section-title__room-detail"><i class="fas fa-concierge-bell"></i>امکانات و خدمات:
+                            </h3>
+                            <div class="amenities-grid">
+                                {% for service in room.services.all %}
+                                    <div class="amenity-item">
+                                        <span class="amenity-text">{{ service }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
 
                         <!-- Pricing Section -->
                         <div class="pricing-section">
                             <div class="price-label">قیمت هر شب</div>
-                            <div class="price-amount">۳۰,۵۰۰,۰۰۰</div>
-                            <div class="price-currency">ریال</div>
+                            <div class="price-amount">{{ room.price|intcomma }}</div>
+                            <div class="price-currency">تومان</div>
                         </div>
 
                         <button class="reserve-btn__room-detail" onclick="reserveRoom()">
@@ -109,52 +96,258 @@
             </div>
 
             <!-- Comments Section -->
-            <div class="comments-section">
-                <div class="container">
-                    <h2 class="comments-title">نظرات</h2>
-                    <p class="no-comments">هنوز بررسی‌ای ثبت نشده است.</p>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="info-tabs-modern">
+                        <ul class="nav nav-tabs modern-tabs" id="roomTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button
+                                        class="nav-link active"
+                                        id="description-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#description"
+                                        type="button"
+                                        role="tab"
+                                >
+                                    <i class="fas fa-info-circle"></i>
+                                    توضیحات کامل
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button
+                                        class="nav-link"
+                                        id="policies-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#policies"
+                                        type="button"
+                                        role="tab"
+                                >
+                                    <i class="fas fa-file-contract"></i>
+                                    قوانین
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button
+                                        class="nav-link"
+                                        id="reviews-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#reviews"
+                                        type="button"
+                                        role="tab"
+                                >
+                                    <i class="fas fa-star"></i>
+                                    نظرات (124)
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content modern-tab-content" id="roomTabsContent">
+                            <!-- Description Tab -->
+                            <div
+                                    class="tab-pane fade show active"
+                                    id="description"
+                                    role="tabpanel"
+                            >
+                                <div class="tab-content-wrapper">
+                                    <h4>درباره این اتاق</h4>
+                                    <p>
+                                        {{ room.description }}
+                                    </p>
 
-                    <h3 class="comment-form-title">پاسخ به نظر</h3>
-
-                    <div class="comment-form">
-                        <form id="commentForm">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">نام</label>
-                                        <input type="text" class="form-control__room-detail" placeholder="نام" required>
+                                    <div class="features-grid">
+                                        {% for service in room.services.all %}
+                                            <div class="feature-item">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>{{ service }}</span>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">ایمیل</label>
-                                        <input type="email" class="form-control__room-detail" placeholder="ایمیل"
-                                               required>
+                            </div>
+
+                            <!-- Policies Tab -->
+                            <div class="tab-pane fade" id="policies" role="tabpanel">
+                                <div class="tab-content-wrapper">
+                                    <div class="policies-grid">
+                                        <div class="policy-item">
+                                            <h5><i class="fa fa-clock"></i> ساعات ورود و خروج</h5>
+                                            <p>ورود: از ساعت 14:00<br/>خروج: تا ساعت 12:00</p>
+                                        </div>
+                                        <div class="policy-item">
+                                            <h5><i class="fa fa-ban"></i> قوانین لغو</h5>
+                                            <p>
+                                                لغو رایگان تا 24 ساعت قبل از ورود. پس از آن 50% هزینه
+                                                کسر می‌شود.
+                                            </p>
+                                        </div>
+                                        <div class="policy-item">
+                                            <h5><i class="fa fa-paw"></i> حیوانات خانگی</h5>
+                                            <p>حیوانات خانگی با هماهنگی قبلی پذیرفته می‌شوند.</p>
+                                        </div>
+                                        <div class="policy-item">
+                                            <h5><i class="fa fa-smoking-ban"></i> سیگار</h5>
+                                            <p>کشیدن سیگار در اتاق‌ها ممنوع است.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="form-label">دیدگاه شما</label>
-                                <textarea class="form-control__room-detail comment-textarea" placeholder="دیدگاه شما"
-                                          required></textarea>
-                            </div>
+                            <!-- Reviews Tab -->
+                            <div class="tab-pane fade" id="reviews" role="tabpanel">
+                                <div class="tab-content-wrapper">
+                                    <div class="reviews-summary">
+                                        <div class="rating-overview">
+                                            <div class="rating-score">4.8</div>
+                                            <div class="rating-details">
+                                                <div class="stars-large">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <div class="rating-count">بر اساس 124 نظر</div>
+                                            </div>
+                                        </div>
+                                        <div class="rating-breakdown">
+                                            <div class="rating-bar">
+                                                <span>5 ستاره</span>
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 85%"></div>
+                                                </div>
+                                                <span>85%</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <span>4 ستاره</span>
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 12%"></div>
+                                                </div>
+                                                <span>12%</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <span>3 ستاره</span>
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 2%"></div>
+                                                </div>
+                                                <span>2%</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <span>2 ستاره</span>
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 1%"></div>
+                                                </div>
+                                                <span>1%</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <span>1 ستاره</span>
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 0%"></div>
+                                                </div>
+                                                <span>0%</span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            <div class="rating-section">
-                                <label class="rating-label">امتیاز شما:</label>
-                                <div class="star-rating" id="starRating">
-                                    <i class="fa fa-star star" data-rating="1"></i>
-                                    <i class="fa fa-star star" data-rating="2"></i>
-                                    <i class="fa fa-star star" data-rating="3"></i>
-                                    <i class="fa fa-star star" data-rating="4"></i>
-                                    <i class="fa fa-star star" data-rating="5"></i>
+                                    <!-- Sample Reviews -->
+                                    <div class="reviews-list">
+                                        <div class="review-item">
+                                            <div class="reviewer-info">
+                                                <div class="reviewer-details">
+                                                    <h6>احمد محمدی</h6>
+                                                    <div class="review-stars">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                    <span class="review-date">2 روز پیش</span>
+                                                </div>
+                                            </div>
+                                            <p class="review-text">
+                                                اتاق فوق‌العاده بود! نمای زیبا، امکانات کامل و خدمات
+                                                عالی. حتماً دوباره می‌آیم.
+                                            </p>
+                                        </div>
+
+                                        <div class="review-item">
+                                            <div class="reviewer-info">
+                                                <div class="reviewer-avatar">
+                                                    <img
+                                                            src="/placeholder.svg?height=50&width=50"
+                                                            alt="نظر دهنده"
+                                                    />
+                                                </div>
+                                                <div class="reviewer-details">
+                                                    <h6>مریم احمدی</h6>
+                                                    <div class="review-stars">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                    </div>
+                                                    <span class="review-date">1 هفته پیش</span>
+                                                </div>
+                                            </div>
+                                            <p class="review-text">
+                                                اتاق تمیز و مرتب بود. تراس خیلی قشنگ بود ولی صدای
+                                                ترافیک کمی مزاحم بود.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Add Review Form -->
+                                    <div class="add-review-section">
+                                        <h5>نظر خود را بنویسید</h5>
+                                        <form class="review-form">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>نام</label>
+                                                        <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                required
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>ایمیل</label>
+                                                        <input
+                                                                type="email"
+                                                                class="form-control"
+                                                                required
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>امتیاز شما</label>
+                                                <div class="rating-input">
+                                                    <i class="far fa-star star" data-rating="1"></i>
+                                                    <i class="far fa-star star" data-rating="2"></i>
+                                                    <i class="far fa-star star" data-rating="3"></i>
+                                                    <i class="far fa-star star" data-rating="4"></i>
+                                                    <i class="far fa-star star" data-rating="5"></i>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>نظر شما</label>
+                                                <textarea
+                                                        class="form-control"
+                                                        rows="4"
+                                                        required
+                                                ></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">
+                                                ارسال نظر
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-
-                            <button type="submit" class="submit-comment-btn">
-                                ارسال دیدگاه
-                            </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -202,39 +395,36 @@
                                        required>
                             </div>
                         </div>
+                        {% for i in "x"|ljust:room.capacity %}
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="booking-label">جنسیت</label>
+                                    <select class="form-control__room-detail booking-input" name="gender">
+                                        <option value="مرد">مرد</option>
+                                        <option value="زن">زن</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="booking-label">نام کامل شخص {{ forloop.counter }}:</label>
+                                    <input type="text" class="form-control__room-detail booking-input"
+                                           placeholder="نام کامل" required>
+                                </div>
+                            </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="booking-label">نام کامل:</label>
-                                <input type="text" class="form-control__room-detail booking-input"
-                                       placeholder="نام کامل" required>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="booking-label">کد ملی:</label>
+                                    <input type="text" class="form-control__room-detail booking-input"
+                                           placeholder="کد ملی"
+                                           maxlength="10" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="booking-label">شماره تلفن:</label>
+                                    <input type="tel" class="form-control__room-detail booking-input"
+                                           placeholder="شماره تلفن" required>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="booking-label">تعداد مهمان:</label>
-                                <select class="form-control__room-detail booking-input" required>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="booking-label">کد ملی:</label>
-                                <input type="text" class="form-control__room-detail booking-input" placeholder="کد ملی"
-                                       maxlength="10" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="booking-label">شماره تلفن:</label>
-                                <input type="tel" class="form-control__room-detail booking-input"
-                                       placeholder="شماره تلفن" required>
-                            </div>
-                        </div>
-
+                        {% endfor %}
                         <div class="text-start">
                             <button type="submit" class="btn payment-btn">
                                 پرداخت
@@ -514,12 +704,7 @@
 
         // Close mobile menu when clicking outside
         document.addEventListener('click', function (e) {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const toggleBtn = document.querySelector('.mobile-menu-toggle');
 
-            if (!mobileMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
-                mobileMenu.classList.remove('active');
-            }
         });
     </script>
 

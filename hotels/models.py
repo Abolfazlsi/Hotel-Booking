@@ -47,11 +47,9 @@ class RoomImage(models.Model):
     image = ProcessedImageField(
         upload_to='rooms/images',
         processors=[ResizeToFit(800, 600)],
-        options={'quality': 85},
     )
     alt_text = models.CharField(
         max_length=100,
-        help_text='عکس اناق مورد نظر'
     )
     is_primary = models.BooleanField(
         default=False,

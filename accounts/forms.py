@@ -63,8 +63,8 @@ class UserProfileForm(forms.ModelForm):
         fields = ['phone', 'first_name', 'last_name', 'email']
 
         widgets = {
-            "phone": forms.TextInput(attrs={"class": "form-control"}),
-            "first_name": forms.TextInput(attrs={"class": "form-control"}),
-            "last_name": forms.TextInput(attrs={"class": "form-control"}),
-            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control", "placeholder": "شماره همراه"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control", "placeholder": "نام"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control", "placeholder": "نام خانوادگی"}),
+            "email": forms.EmailInput(attrs={"class": "form-control", "placeholder": "ادرس ایمیل"}),
         }
