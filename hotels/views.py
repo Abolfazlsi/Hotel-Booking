@@ -19,7 +19,7 @@ class HomePage(TemplateView):
 class RoomsListView(ListView):
     model = Room
     template_name = "hotels/rooms.html"
-    paginate_by = 2
+    paginate_by = 5
     context_object_name = 'room_list'  # نام متغیر برای دسترسی به لیست اتاق‌ها در قالب
 
     def get(self, request, *args, **kwargs):
@@ -42,15 +42,15 @@ class RoomsListView(ListView):
         except EmptyPage:
             room_list = paginator.page(paginator.num_pages)
 
-        # بررسی اینکه درخواست از نوع AJAX است یا خیر
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            # آماده‌سازی داده‌ها برای JSON
             room_data = []
             for room in room_list:
                 room_data.append({
                     'title': room.title,
                     'price': room.price,
                     'description': truncatewords(room.description, 25),
+                    "existing": "exist" if room.existing else "reserved",
+                    "existing_text": "موجود" if room.existing else "رزرو شده",
                     'image_url': room.primary_image.image.url if room.primary_image else '',
                     'alt_text': room.primary_image.alt_text if room.primary_image else '',
                     'services': [service.name for service in room.services.all()],

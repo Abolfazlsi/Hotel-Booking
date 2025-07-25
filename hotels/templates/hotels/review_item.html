@@ -1,0 +1,14 @@
+<div class="review-item">
+    <div class="reviewer-info">
+        <div class="reviewer-details">
+            <h6>{{ review.user.first_name }} {{ review.user.last_name }}</h6>
+            <div class="review-stars">
+                {% for i in "12345"|make_list %}
+                    <i class="fa fa-star{% if forloop.counter > review.rating %}-o{% endif %}"></i>
+                {% endfor %}
+            </div>
+            <span class="review-date">{{ review.time_since_creation }}</span>
+        </div>
+    </div>
+    <p class="review-text">{{ review.comment }}</p>
+</div>

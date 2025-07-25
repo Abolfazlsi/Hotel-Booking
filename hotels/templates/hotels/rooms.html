@@ -6,7 +6,7 @@
     <!-- Page Title Section -->
     <section class="page-title-section" dir="rtl">
         <div class="container" dir="rtl">
-            <h1 class="page-title">اتاق ها</h1>
+            <h1 class="page-title">اتاق‌ها</h1>
             <p class="page-subtitle">انتخاب بهترین اتاق برای اقامت شما</p>
         </div>
     </section>
@@ -19,20 +19,50 @@
                 <div class="col-lg-8 order-lg-1 order-2">
                     <!-- Sort Filter Bar -->
                     <div class="sort-filter-bar">
-                        <div class="sort-label">مرتب سازی بر اساس:</div>
+                        <div class="sort-label">مرتب‌سازی بر اساس:</div>
                         <div class="sort-options" id="sortOptions">
-                            <div class="sort-option active" data-sort="default">پیش فرض</div>
-                            <div class="sort-option" data-sort="lower-price">قیمت پایین‌ترین</div>
-                            <div class="sort-option" data-sort="higher-price">قیمت بالاترین</div>
+                            <div class="sort-option active" data-sort="default">پیش‌فرض</div>
+                            <div class="sort-option" data-sort="lower-price">قیمت صعودی</div>
+                            <div class="sort-option" data-sort="higher-price">قیمت نزولی</div>
                         </div>
                     </div>
 
                     <!-- Room Cards -->
                     <div class="rooms-container" id="roomsContainer">
-                        <!-- Loader -->
-                        <div class="loader" id="roomsLoader">
-                            <div class="spinner"></div>
-                            <p>در حال بارگذاری...</p>
+                        <!-- Skeleton Loader -->
+                        <div class="skeleton-loader" id="roomsLoader">
+                            <div class="skeleton-card">
+                                <div class="skeleton-card-inner">
+                                    <div class="skeleton-image"></div>
+                                    <div class="skeleton-content">
+                                        <div class="skeleton-title"></div>
+                                        <div class="skeleton-price"></div>
+                                        <div class="skeleton-amenities">
+                                            <div class="skeleton-amenity"></div>
+                                            <div class="skeleton-amenity"></div>
+                                            <div class="skeleton-amenity"></div>
+                                        </div>
+                                        <div class="skeleton-description"></div>
+                                        <div class="skeleton-button"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skeleton-card">
+                                <div class="skeleton-card-inner">
+                                    <div class="skeleton-image"></div>
+                                    <div class="skeleton-content">
+                                        <div class="skeleton-title"></div>
+                                        <div class="skeleton-price"></div>
+                                        <div class="skeleton-amenities">
+                                            <div class="skeleton-amenity"></div>
+                                            <div class="skeleton-amenity"></div>
+                                            <div class="skeleton-amenity"></div>
+                                        </div>
+                                        <div class="skeleton-description"></div>
+                                        <div class="skeleton-button"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -47,7 +77,7 @@
                                 {% if page_obj.number|add:-2 > 1 %}
                                     <a href="?page=1">1</a>
                                     {% if page_obj.number|add:-2 > 2 %}
-                                        <span>. . .</span>
+                                        <span>...</span>
                                     {% endif %}
                                 {% endif %}
 
@@ -60,7 +90,7 @@
 
                                 {% if page_obj.number|add:2 < page_obj.paginator.num_pages %}
                                     {% if page_obj.number|add:3 < page_obj.paginator.num_pages %}
-                                        <span>. . .</span>
+                                        <span>...</span>
                                     {% endif %}
                                     <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
                                 {% endif %}
@@ -80,16 +110,16 @@
                         <h3 class="filter-title">فیلترها</h3>
                         <!-- Room Name Search -->
                         <div class="filter-group">
-                            <h4 class="filter-group-title">جستجو نام اتاق</h4>
+                            <h4 class="filter-group-title">جستجوی نام اتاق</h4>
                             <div class="filter-search">
-                                <input type="text" placeholder="جستجو نام اتاق" id="roomNameSearch">
+                                <input type="text" placeholder="جستجوی نام اتاق" id="roomNameSearch">
                                 <i class="fa fa-search"></i>
                             </div>
                         </div>
                         <!-- Star Rating Filter -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">
-                                ستاره ها
+                                ستاره‌ها
                                 <i class="fa fa-chevron-down"></i>
                             </h4>
                             <div class="filter-content">
@@ -169,8 +199,8 @@
                                     <input type="range" min="500000" max="10000000" value="7500000" class="max-price">
                                 </div>
                                 <div class="price-values">
-                                    <div class="price-value min-value">300,000</div>
-                                    <div class="price-value max-value">10,000,000</div>
+                                    <div class="price-value min-value">۵۰۰,۰۰۰</div>
+                                    <div class="price-value max-value">۱۰,۰۰۰,۰۰۰</div>
                                 </div>
                             </div>
                         </div>
@@ -185,6 +215,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sortOptions = document.querySelectorAll('#sortOptions .sort-option');
+            const sortOptionsContainer = document.getElementById("sortOptions")
             const roomsContainer = document.getElementById('roomsContainer');
             const pagination = document.getElementById('pagination');
             const roomNameSearch = document.getElementById('roomNameSearch');
@@ -192,9 +223,10 @@
             const minPriceInput = document.querySelector('.min-price');
             const maxPriceInput = document.querySelector('.max-price');
             const applyFilterBtn = document.querySelector('.apply-filter-btn');
-            const roomsLoader = document.getElementById('roomsLoader'); // لودر
+            const roomsLoader = document.getElementById('roomsLoader');
             let currentSort = 'default';
             let currentPage = 1;
+            let abortController = null;
 
             function truncateWords(text, wordLimit) {
                 const words = text.split(' ');
@@ -205,7 +237,14 @@
             }
 
             function loadRooms(sort = 'default', page = 1, filters = {}) {
-                // نمایش لودر و کم‌رنگ کردن کانتینر
+                if (abortController) {
+                    abortController.abort();
+                }
+                abortController = new AbortController();
+
+                const existingCards = roomsContainer.querySelectorAll('.room-card');
+                existingCards.forEach(card => card.remove());
+
                 roomsLoader.classList.add('show');
                 roomsContainer.classList.add('loading');
 
@@ -215,7 +254,6 @@
                     ...filters,
                 }).toString();
 
-                // به‌روزرسانی URL (اختیاری)
                 window.history.pushState({sort, page, filters}, '', `?${params}`);
 
                 fetch(`?${params}`, {
@@ -224,50 +262,53 @@
                         'Content-Type': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
                     },
+                    signal: abortController.signal,
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Request failed');
+                    })
                     .then(data => {
-                        // مخفی کردن لودر و برگرداندن opacity
                         roomsLoader.classList.remove('show');
                         roomsContainer.classList.remove('loading');
 
-                        roomsContainer.innerHTML = `
-                            <div class="loader" id="roomsLoader">
-                                <div class="spinner"></div>
-                                <p>در حال بارگذاری...</p>
-                            </div>
-                            ${data.room_list.map(room => `
-                                <div class="room-card fade-in-delay">
-                                    <div class="room-card-inner">
-                                        <div class="room-image-container">
-                                            <img src="${room.image_url}" alt="${room.alt_text}" class="room-image">
-                                            <div class="room-badge">رزرو شده</div>
+                        const roomCardsHtml = data.room_list.map(room => `
+                            <div class="room-card fade-in-delay">
+                                <div class="room-card-inner">
+                                    <div class="room-image-container">
+                                        <img src="${room.image_url}" alt="${room.alt_text}" class="room-image">
+                                        <div class="room-badge ${room.existing}">
+                                               ${room.existing_text}
                                         </div>
-                                        <div class="room-content">
-                                            <div class="room-header">
-                                                <h3 class="room-title">${room.title}</h3>
-                                                <div class="room-price-container">
-                                                    <div class="room-price">${room.price.toLocaleString()}</div>
-                                                    <span class="room-price-currency">تومان</span>
-                                                </div>
+                                    </div>
+                                    <div class="room-content">
+                                        <div class="room-header">
+                                            <h3 class="room-title">${room.title}</h3>
+                                            <div class="room-price-container">
+                                                <div class="room-price">${room.price.toLocaleString()}</div>
+                                                <span class="room-price-currency">تومان</span>
                                             </div>
-                                            <div class="room-amenities">
-                                                ${room.services.map(service => `<div class="amenity-badge">${service}</div>`).join('')}
-                                            </div>
-                                            <div class="room-description">
-                                                <h5>توضیحات:</h5>
-                                                <p>${truncateWords(room.description, 25)}</p>
-                                            </div>
-                                            <div class="room-footer">
-                                                <a href="${room.url}">
-                                                    <button class="reserve-btn">رزرو</button>
-                                                </a>
-                                            </div>
+                                        </div>
+                                        <div class="room-amenities">
+                                            ${room.services.map(service => `<div class="amenity-badge">${service}</div>`).join('')}
+                                        </div>
+                                        <div class="room-description">
+                                            <h5>توضیحات:</h5>
+                                            <p>${truncateWords(room.description, 25)}</p>
+                                        </div>
+                                        <div class="room-footer">
+                                            <a href="${room.url}">
+                                                <button class="reserve-btn">رزرو</button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            `).join('')}
-                        `;
+                            </div>
+                        `).join('');
+
+                        roomsContainer.insertAdjacentHTML('beforeend', roomCardsHtml);
 
                         let paginationHtml = '';
                         if (data.has_previous) {
@@ -275,7 +316,7 @@
                         }
                         if (data.current_page - 2 > 1) {
                             paginationHtml += `<a href="#" data-page="1">1</a>`;
-                            if (data.current_page - 2 > 2) paginationHtml += '<span>. . .</span>';
+                            if (data.current_page - 2 > 2) paginationHtml += '<span>...</span>';
                         }
                         for (let num = data.current_page - 2; num <= data.current_page + 2; num++) {
                             if (num >= 1 && num <= data.total_pages) {
@@ -283,7 +324,7 @@
                             }
                         }
                         if (data.current_page + 2 < data.total_pages) {
-                            if (data.current_page + 3 < data.total_pages) paginationHtml += '<span>. . .</span>';
+                            if (data.current_page + 3 < data.total_pages) paginationHtml += '<span>...</span>';
                             paginationHtml += `<a href="#" data-page="${data.total_pages}">${data.total_pages}</a>`;
                         }
                         if (data.has_next) {
@@ -291,7 +332,6 @@
                         }
                         pagination.innerHTML = paginationHtml;
 
-                        // افزودن رویداد کلیک به لینک‌های صفحه‌بندی
                         document.querySelectorAll('#pagination a').forEach(link => {
                             link.addEventListener('click', function (e) {
                                 e.preventDefault();
@@ -306,11 +346,18 @@
                         });
                     })
                     .catch(error => {
+                        if (error.name === 'AbortError') {
+                            console.log('Request was aborted');
+                            return;
+                        }
                         console.error('Error:', error);
-                        // مخفی کردن لودر در صورت خطا
                         roomsLoader.classList.remove('show');
                         roomsContainer.classList.remove('loading');
+                    })
+                    .finally(() => {
+                        abortController = null;
                     });
+
             }
 
             function getFilters() {
@@ -326,35 +373,35 @@
                 };
             }
 
-            // مدیریت کلیک بر روی گزینه‌های مرتب‌سازی
             sortOptions.forEach(option => {
                 option.addEventListener('click', function () {
+
                     sortOptions.forEach(opt => opt.classList.remove('active'));
                     this.classList.add('active');
                     currentSort = this.getAttribute('data-sort');
-                    currentPage = 1; // ریست کردن به صفحه اول
+                    currentPage = 1;
                     loadRooms(currentSort, currentPage, getFilters());
+
+                    sortOptionsContainer.style.pointerEvents = "none"
+
+                    setTimeout(() => {
+                        sortOptionsContainer.disabled = false
+                        sortOptionsContainer.style.pointerEvents = "auto"
+                    }, 3000)
                 });
+
             });
 
-            // جستجوی نام اتاق
-            roomNameSearch.addEventListener('input', function () {
-                currentPage = 1;
-                loadRooms(currentSort, currentPage, getFilters());
-            });
-
-            // مدیریت تعداد نفرات
+            // حذف فراخوانی loadRooms از رویدادهای فیلترها
             const minusBtn = document.querySelector('.minus-btn');
             const plusBtn = document.querySelector('.plus-btn');
             let peopleCountValue = 2;
 
             minusBtn.addEventListener('click', (e) => {
-                e.preventDefault()
+                e.preventDefault();
                 if (peopleCountValue > 1) {
                     peopleCountValue--;
                     peopleCount.textContent = convertToPersianNumbers(peopleCountValue);
-                    currentPage = 1;
-                    loadRooms(currentSort, currentPage, getFilters());
                 }
             });
 
@@ -362,12 +409,9 @@
                 if (peopleCountValue < 10) {
                     peopleCountValue++;
                     peopleCount.textContent = convertToPersianNumbers(peopleCountValue);
-                    currentPage = 1;
-                    loadRooms(currentSort, currentPage, getFilters());
                 }
             });
 
-            // مدیریت رنج قیمت
             const rangeInput = document.querySelectorAll(".price-range-input input");
             const progress = document.querySelector(".price-progress");
             const minValue = document.querySelector(".min-value");
@@ -387,40 +431,40 @@
                     } else {
                         progress.style.right = (minVal / rangeInput[0].max) * 100 + "%";
                         progress.style.left = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
-
                         minValue.textContent = formatPrice(minVal);
                         maxValue.textContent = formatPrice(maxVal);
-                        currentPage = 1;
-                        loadRooms(currentSort, currentPage, getFilters());
                     }
                 });
             });
 
-            // اعمال فیلترها
+            // رویداد کلیک دکمه اعمال فیلتر
             applyFilterBtn.addEventListener('click', () => {
+                applyFilterBtn.disabled = true
+
+                setTimeout(() => {
+                    applyFilterBtn.disabled = false
+                }, 3000)
                 currentPage = 1;
                 loadRooms(currentSort, currentPage, getFilters());
+                console.log(applyFilterBtn)
             });
 
-            // تابع تبدیل به اعداد فارسی
             function convertToPersianNumbers(num) {
                 const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
                 return num.toString().replace(/\d/g, (x) => persianDigits[x]);
             }
 
-            // تابع فرمت قیمت
             function formatPrice(price) {
-                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "٬");
+                return convertToPersianNumbers(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             }
 
-            // بارگذاری اولیه
+            // لود اولیه
             loadRooms(currentSort, currentPage, getFilters());
 
-            // تابع toggle برای فیلترها
             document.querySelectorAll(".filter-group-title").forEach(title => {
                 title.addEventListener("click", function () {
                     const content = this.nextElementSibling;
-                    if (content.style.display === "none") {
+                    if (content.style.display === "none" || !content.style.display) {
                         content.style.display = "block";
                         this.classList.remove("collapsed");
                     } else {

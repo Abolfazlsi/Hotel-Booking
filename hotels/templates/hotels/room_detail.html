@@ -27,6 +27,13 @@
                 <!-- Room Information Section -->
                 <div class="col-lg-6">
                     <div class="room-info">
+                        <div class="room-badge__detail {% if room.existing %} existing {% else %} reserved {% endif %}">
+                            {% if room.existing %}
+                                موجود
+                            {% else %}
+                                رزرو شده
+                            {% endif %}
+                        </div>
                         <h1 class="room-title">{{ room.title }}</h1>
                         <div class="room-rating">
                             <div class="stars-title">
@@ -36,7 +43,7 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <span class="rating-text">(4.8 از 5 - 124 نظر)</span>
+                            <span class="rating-text">(4.8 از 5 - {{ room.reviews.count }} نظر)</span>
                         </div>
                         <p class="room-description">
                             {{ room.description }}
@@ -136,7 +143,7 @@
                                         role="tab"
                                 >
                                     <i class="fas fa-star"></i>
-                                    نظرات (124)
+                                    نظرات ({{ room.reviews.count }})
                                 </button>
                             </li>
                         </ul>
@@ -205,7 +212,7 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="rating-count">بر اساس 124 نظر</div>
+                                                <div class="rating-count">بر اساس {{ room.reviews.count }} نظر</div>
                                             </div>
                                         </div>
                                         <div class="rating-breakdown">
@@ -247,81 +254,32 @@
                                         </div>
                                     </div>
 
-                                    <!-- Sample Reviews -->
-                                    <div class="reviews-list">
-                                        <div class="review-item">
-                                            <div class="reviewer-info">
-                                                <div class="reviewer-details">
-                                                    <h6>احمد محمدی</h6>
-                                                    <div class="review-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
+                                    {% for review in room.reviews.all %}
+                                        <div class="reviews-list">
+                                            <div class="review-item">
+                                                <div class="reviewer-info">
+                                                    <div class="reviewer-details">
+                                                        <h6>{{ review.user.first_name }} {{ review.user.last_name }}</h6>
+                                                        <div class="review-stars">
+                                                            {% for i in "x"|ljust:review.rating %}
+                                                                <i class="fa fa-star"></i>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <span class="review-date">{{ review.time_since_creation }}</span>
                                                     </div>
-                                                    <span class="review-date">2 روز پیش</span>
                                                 </div>
+                                                <p class="review-text">
+                                                    {{ review.comment }}
+                                                </p>
                                             </div>
-                                            <p class="review-text">
-                                                اتاق فوق‌العاده بود! نمای زیبا، امکانات کامل و خدمات
-                                                عالی. حتماً دوباره می‌آیم.
-                                            </p>
-                                        </div>
 
-                                        <div class="review-item">
-                                            <div class="reviewer-info">
-                                                <div class="reviewer-avatar">
-                                                    <img
-                                                            src="/placeholder.svg?height=50&width=50"
-                                                            alt="نظر دهنده"
-                                                    />
-                                                </div>
-                                                <div class="reviewer-details">
-                                                    <h6>مریم احمدی</h6>
-                                                    <div class="review-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="far fa-star"></i>
-                                                    </div>
-                                                    <span class="review-date">1 هفته پیش</span>
-                                                </div>
-                                            </div>
-                                            <p class="review-text">
-                                                اتاق تمیز و مرتب بود. تراس خیلی قشنگ بود ولی صدای
-                                                ترافیک کمی مزاحم بود.
-                                            </p>
                                         </div>
-                                    </div>
+                                    {% endfor %}
 
                                     <!-- Add Review Form -->
                                     <div class="add-review-section">
                                         <h5>نظر خود را بنویسید</h5>
                                         <form class="review-form">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>نام</label>
-                                                        <input
-                                                                type="text"
-                                                                class="form-control"
-                                                                required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>ایمیل</label>
-                                                        <input
-                                                                type="email"
-                                                                class="form-control"
-                                                                required
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="form-group">
                                                 <label>امتیاز شما</label>
                                                 <div class="rating-input">
