@@ -38,6 +38,21 @@ class Room(models.Model):
     def get_absolute_url(self):
         return reverse("hotels:room_detail", args=[self.slug])
 
+    def get_rating(self):
+        from django.db.models import Avg
+        return self.reviews.aggregate(Avg('rating'))['rating__avg'] or 0.0
+
+    def get_rating_breakdown(self):
+        from django.db.models import Count
+        total_reviews = self.reviews.count()
+        if total_reviews == 0:
+            return {str(i): 0 for i in range(1, 6)}
+        breakdown = self.reviews.values('rating').annotate(count=Count('rating')).order_by('-rating')
+        percentages = {str(i): 0 for i in range(1, 6)}
+        for item in breakdown:
+            percentages[str(item['rating'])] = (item['count'] / total_reviews) * 100
+        return percentages
+
     def __str__(self):
         return self.title
 

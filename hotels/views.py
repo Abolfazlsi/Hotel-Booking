@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView
-from hotels.models import Room
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.template.defaultfilters import truncatewords
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .models import Room, Review
+from .forms import ReviewForm
+from django.template.loader import render_to_string
+from django.contrib import messages
 
 
 class HomePage(TemplateView):
@@ -74,6 +79,53 @@ class RoomsListView(ListView):
             })
 
 
+@method_decorator(login_required, name='post')
 class RoomDetailView(DetailView):
     model = Room
     template_name = "hotels/room_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ReviewForm()
+        context['reviews'] = self.object.reviews.all()
+        context['rating'] = self.object.get_rating()
+        # تبدیل rating_breakdown به لیست برای استفاده در قالب
+        breakdown = self.object.get_rating_breakdown()
+        context['rating_breakdown'] = [
+            {'rating': i, 'percentage': breakdown[str(i)]}
+            for i in range(5, 0, -1)  # از 5 تا 1
+        ]
+        return context
+
+    def post(self, request, *args, **kwargs):
+        room = self.get_object()
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+
+            review = form.save(commit=False)
+            review.room = room
+            review.user = request.user
+            review.save()
+            # رندر HTML نظر جدید برای پاسخ AJAX
+            review_html = render_to_string('hotels/review_item.html', {
+                'review': review,
+                'request': request
+            })
+            # آماده‌سازی rating_breakdown برای AJAX
+            breakdown = room.get_rating_breakdown()
+            breakdown_list = [
+                {'rating': i, 'percentage': breakdown[str(i)]}
+                for i in range(5, 0, -1)
+            ]
+            return JsonResponse({
+                'success': True,
+                'review_html': review_html,
+                'review_count': room.reviews.count(),
+                'rating': room.get_rating(),
+                'rating_breakdown': breakdown_list
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'errors': form.errors.as_json()
+            }, status=400)

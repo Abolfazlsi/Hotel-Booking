@@ -4968,6 +4968,43 @@ ul, ol {
     margin: 0;
 }
 
+.fas.fa-trash-can {
+    color: #d80000;
+    width: 20px;
+    height: 20px;
+    margin-left: 2rem;
+    transition: all 1s ease;
+}
+
+.fas.fa-pencil {
+    color: #f8b500;
+    width: 20px;
+    height: 20px;
+    transition: all 1s ease;
+}
+
+.fas.fa-trash-can:hover, .fas.fa-pencil:hover {
+    cursor: pointer;
+    animation: shake 0.5s ease-in-out;
+
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: rotate(15deg);
+    }
+    75% {
+        transform: rotate(-15deg);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
 /* Add Review Section */
 .add-review-section {
     padding: 1.5rem;
@@ -5022,7 +5059,7 @@ ul, ol {
 
 .rating-input i {
     font-size: 1.5rem;
-    color: #e9ecef;
+    color: #f8b500;
     cursor: pointer;
     transition: all 0.3s ease;
 }
