@@ -62,7 +62,8 @@
                             </div>
                         </div>
                         <div class="amenities-section">
-                            <h3 class="section-title__room-detail"><i class="fas fa-concierge-bell"></i> امکانات و خدمات:</h3>
+                            <h3 class="section-title__room-detail"><i class="fas fa-concierge-bell"></i> امکانات و
+                                خدمات:</h3>
                             <div class="amenities-grid">
                                 {% for service in room.services.all %}
                                     <div class="amenity-item">
@@ -101,7 +102,8 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="reviews-tab" data-bs-toggle="tab"
                                         data-bs-target="#reviews" type="button" role="tab">
-                                    <i class="fas fa-star"></i> نظرات (<span class="review-count">{{ room.reviews.count }}</span>)
+                                    <i class="fas fa-star"></i> نظرات (<span
+                                        class="review-count">{{ room.reviews.count }}</span>)
                                 </button>
                             </li>
                         </ul>
@@ -164,7 +166,8 @@
                                                 <div class="rating-bar">
                                                     <span>{{ item.rating }} ستاره</span>
                                                     <div class="bar">
-                                                        <div class="fill" style="width: {{ item.percentage|floatformat:0 }}%"></div>
+                                                        <div class="fill"
+                                                             style="width: {{ item.percentage|floatformat:0 }}%"></div>
                                                     </div>
                                                     <span>{{ item.percentage|floatformat:0 }}%</span>
                                                 </div>
@@ -182,7 +185,8 @@
                                     <div class="add-review-section">
                                         <h5>نظر خود را بنویسید</h5>
                                         {% if user.is_authenticated %}
-                                            <form class="review-form" method="POST" action="{% url 'hotels:room_detail' room.slug %}">
+                                            <form class="review-form" method="POST"
+                                                  action="{% url 'hotels:room_detail' room.slug %}">
                                                 {% csrf_token %}
                                                 {{ form.non_field_errors }}
                                                 <div class="form-group">
@@ -207,7 +211,8 @@
                                                 <button type="submit" class="btn btn-primary">ارسال نظر</button>
                                             </form>
                                         {% else %}
-                                            <p>برای ثبت نظر، لطفاً <a href="{% url 'login' %}">وارد شوید</a>.</p>
+                                            <p>برای ثبت نظر، لطفاً <a href="{% url 'accounts:signin-signup' %}">وارد
+                                                شوید</a>.</p>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -216,280 +221,388 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Back to Top Button -->
-        <div class="back-to-top" id="backToTop">
-            <i class="fa fa-chevron-up"></i>
-        </div>
-        <!-- Image Modal -->
-        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel">تصاویر اتاق</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <img src="{{ room.primary_image.image.url }}" alt="تصویر اتاق" class="modal-image" id="modalImage">
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteConfirmModalLabel">تأیید حذف کامنت</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            آیا مطمئن هستید که می‌خواهید این کامنت را حذف کنید؟ این عملیات قابل بازگشت نیست.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">خیر</button>
+                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">بله</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Booking Modal -->
-        <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content booking-modal-content">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <!-- Back to Top Button -->
+            <div class="back-to-top" id="backToTop">
+                <i class="fa fa-chevron-up"></i>
+            </div>
+            <!-- Image Modal -->
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="imageModalLabel">تصاویر اتاق</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img src="{{ room.primary_image.image.url }}" alt="تصویر اتاق" class="modal-image"
+                                 id="modalImage">
+                        </div>
                     </div>
-                    <div class="modal-body p-4">
-                        <form id="bookingForm" class="booking-form">
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-6">
-                                    <label class="booking-label">تاریخ خروج:</label>
-                                    <input type="date" class="form-control__room-detail booking-input" id="checkoutDate" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="booking-label">تاریخ ورود:</label>
-                                    <input type="date" class="form-control__room-detail booking-input" id="checkinDate" required>
-                                </div>
-                            </div>
-                            {% for i in "x"|ljust:room.capacity %}
+                </div>
+            </div>
+            <!-- Booking Modal -->
+            <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content booking-modal-content">
+                        <div class="modal-header border-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <form id="bookingForm" class="booking-form">
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
-                                        <label class="booking-label">جنسیت</label>
-                                        <select class="form-control__room-detail booking-input" name="gender">
-                                            <option value="مرد">مرد</option>
-                                            <option value="زن">زن</option>
-                                        </select>
+                                        <label class="booking-label">تاریخ خروج:</label>
+                                        <input type="date" class="form-control__room-detail booking-input"
+                                               id="checkoutDate" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="booking-label">نام کامل شخص {{ forloop.counter }}:</label>
-                                        <input type="text" class="form-control__room-detail booking-input" placeholder="نام کامل" required>
+                                        <label class="booking-label">تاریخ ورود:</label>
+                                        <input type="date" class="form-control__room-detail booking-input"
+                                               id="checkinDate" required>
                                     </div>
                                 </div>
-                                <div class="row g-3 mb-4">
-                                    <div class="col-md-6">
-                                        <label class="booking-label">کد ملی:</label>
-                                        <input type="text" class="form-control__room-detail booking-input" placeholder="کد ملی" maxlength="10" required>
+                                {% for i in "x"|ljust:room.capacity %}
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="booking-label">جنسیت</label>
+                                            <select class="form-control__room-detail booking-input" name="gender">
+                                                <option value="مرد">مرد</option>
+                                                <option value="زن">زن</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="booking-label">نام کامل شخص {{ forloop.counter }}:</label>
+                                            <input type="text" class="form-control__room-detail booking-input"
+                                                   placeholder="نام کامل" required>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="booking-label">شماره تلفن:</label>
-                                        <input type="tel" class="form-control__room-detail booking-input" placeholder="شماره تلفن" required>
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-md-6">
+                                            <label class="booking-label">کد ملی:</label>
+                                            <input type="text" class="form-control__room-detail booking-input"
+                                                   placeholder="کد ملی" maxlength="10" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="booking-label">شماره تلفن:</label>
+                                            <input type="tel" class="form-control__room-detail booking-input"
+                                                   placeholder="شماره تلفن" required>
+                                        </div>
                                     </div>
+                                {% endfor %}
+                                <div class="text-start">
+                                    <button type="submit" class="btn payment-btn">پرداخت</button>
                                 </div>
-                            {% endfor %}
-                            <div class="text-start">
-                                <button type="submit" class="btn payment-btn">پرداخت</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-        // Change main image when thumbnail is clicked
-        function changeMainImage(thumbnail) {
-            const mainImage = document.getElementById('mainImage');
-            const modalImage = document.getElementById('modalImage');
-            document.querySelectorAll('.thumbnail').forEach(thumb => {
-                thumb.classList.remove('active');
-            });
-            thumbnail.classList.add('active');
-            mainImage.src = thumbnail.src;
-            modalImage.src = thumbnail.src;
-            mainImage.style.opacity = '0';
-            setTimeout(() => {
-                mainImage.style.opacity = '1';
-            }, 150);
-        }
 
-        // Reserve room function - show booking modal
-        function reserveRoom() {
-            const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
-            bookingModal.show();
-        }
 
-        // Star rating functionality
-        const stars = document.querySelectorAll('.rating-input .star');
-        const ratingInput = document.getElementById('rating-value');
+        <script>
+            // Change main image when thumbnail is clicked
+            function changeMainImage(thumbnail) {
+                const mainImage = document.getElementById('mainImage');
+                const modalImage = document.getElementById('modalImage');
+                document.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.classList.remove('active');
+                });
+                thumbnail.classList.add('active');
+                mainImage.src = thumbnail.src;
+                modalImage.src = thumbnail.src;
+                mainImage.style.opacity = '0';
+                setTimeout(() => {
+                    mainImage.style.opacity = '1';
+                }, 150);
+            }
 
-        stars.forEach(star => {
-            star.addEventListener('click', function () {
-                const rating = this.getAttribute('data-rating');
-                ratingInput.value = rating;
-                stars.forEach(s => {
-                    if (parseInt(s.getAttribute('data-rating')) <= parseInt(rating)) {
-                        s.classList.remove('far');
-                        s.classList.add('fas');
-                    } else {
-                        s.classList.remove('fas');
-                        s.classList.add('far');
-                    }
+            // Reserve room function - show booking modal
+            function reserveRoom() {
+                const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+                bookingModal.show();
+            }
+
+            // Star rating functionality
+            const stars = document.querySelectorAll('.rating-input .star');
+            const ratingInput = document.getElementById('rating-value');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function () {
+                    const rating = this.getAttribute('data-rating');
+                    ratingInput.value = rating;
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= parseInt(rating)) {
+                            s.classList.remove('far');
+                            s.classList.add('fas');
+                        } else {
+                            s.classList.remove('fas');
+                            s.classList.add('far');
+                        }
+                    });
                 });
             });
-        });
 
-        // AJAX form submission
-        document.querySelector('.review-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            if (!ratingInput.value) {
-                alert('لطفاً یک امتیاز انتخاب کنید.');
-                return;
-            }
-
-            const formData = new FormData(this);
-            const submitBtn = this.querySelector('.btn-primary');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'در حال ارسال...';
-            submitBtn.disabled = true;
-
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-
-                if (data.success) {
-                    // افزودن نظر جدید به لیست
-                    const reviewsList = document.querySelector('.reviews-list');
-                    reviewsList.insertAdjacentHTML('afterbegin', data.review_html);
-                    // حذف پیام "نظری ثبت نشده" اگر وجود داشته باشد
-                    const noComments = reviewsList.querySelector('.no-comments');
-                    if (noComments) noComments.remove();
-                    // به‌روزرسانی تعداد نظرات
-                    document.querySelector('.review-count').textContent = data.review_count;
-                    // به‌روزرسانی میانگین امتیاز
-                    document.querySelector('.rating-score').textContent = data.rating.toFixed(1);
-                    document.querySelector('.rating-text').textContent = `(${data.rating.toFixed(1)} از 5 - ${data.review_count} نظر)`;
-                    // به‌روزرسانی ستاره‌های بالای صفحه
-                    const starsTitle = document.querySelector('.stars-title');
-                    starsTitle.innerHTML = '';
-                    for (let i = 1; i <= 5; i++) {
-                        starsTitle.innerHTML += `<i class="fa fa-star${i > Math.round(data.rating) ? '-o' : ''}"></i>`;
-                    }
-                    // به‌روزرسانی rating breakdown
-                    const ratingBreakdown = document.querySelector('.rating-breakdown');
-                    ratingBreakdown.innerHTML = '';
-                    data.rating_breakdown.forEach(item => {
-                        ratingBreakdown.innerHTML += `
-                            <div class="rating-bar">
-                                <span>${item.rating} ستاره</span>
-                                <div class="bar">
-                                    <div class="fill" style="width: ${item.percentage.toFixed(0)}%"></div>
-                                </div>
-                                <span>${item.percentage.toFixed(0)}%</span>
-                            </div>`;
-                    });
-                    // ریست فرم
-                    this.reset();
-                    stars.forEach(s => {
-                        s.classList.remove('fas');
-                        s.classList.add('far');
-                    });
-                    ratingInput.value = '';
-                } else {
-                    let errorMessage = 'خطا در ارسال نظر:\n';
-                    for (const [field, errors] of Object.entries(JSON.parse(data.errors))) {
-                        errorMessage += `${field === '__all__' ? 'خطا' : field}: ${errors.map(e => e.message).join(', ')}\n`;
-                    }
-                    alert(errorMessage);
+            // AJAX form submission for adding review
+            document.querySelector('.review-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!ratingInput.value) {
+                    alert('لطفاً یک امتیاز انتخاب کنید.');
+                    return;
                 }
-            })
-            .catch(error => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                console.error('Error:', error);
-                alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+
+                const formData = new FormData(this);
+                const submitBtn = this.querySelector('.btn-primary');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'در حال ارسال...';
+                submitBtn.disabled = true;
+
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+
+                        if (data.success) {
+                            // افزودن نظر جدید به لیست
+                            const reviewsList = document.querySelector('.reviews-list');
+                            reviewsList.insertAdjacentHTML('afterbegin', data.review_html);
+                            // حذف پیام "نظری ثبت نشده" اگر وجود داشته باشد
+                            const noComments = reviewsList.querySelector('.no-comments');
+                            if (noComments) noComments.remove();
+                            // به‌روزرسانی تعداد نظرات
+                            document.querySelector('.review-count').textContent = data.review_count;
+                            // به‌روزرسانی میانگین امتیاز
+                            document.querySelector('.rating-score').textContent = data.rating.toFixed(1);
+                            document.querySelector('.rating-text').textContent = `(${data.rating.toFixed(1)} از 5 - ${data.review_count} نظر)`;
+                            // به‌روزرسانی ستاره‌های بالای صفحه
+                            const starsTitle = document.querySelector('.stars-title');
+                            starsTitle.innerHTML = '';
+                            for (let i = 1; i <= 5; i++) {
+                                starsTitle.innerHTML += `<i class="fa fa-star${i > Math.round(data.rating) ? '-o' : ''}"></i>`;
+                            }
+                            // به‌روزرسانی rating breakdown
+                            const ratingBreakdown = document.querySelector('.rating-breakdown');
+                            ratingBreakdown.innerHTML = '';
+                            data.rating_breakdown.forEach(item => {
+                                ratingBreakdown.innerHTML += `
+                                <div class="rating-bar">
+                                    <span>${item.rating} ستاره</span>
+                                    <div class="bar">
+                                        <div class="fill" style="width: ${item.percentage.toFixed(0)}%"></div>
+                                    </div>
+                                    <span>${item.percentage.toFixed(0)}%</span>
+                                </div>`;
+                            });
+                            // ریست فرم
+                            this.reset();
+                            stars.forEach(s => {
+                                s.classList.remove('fas');
+                                s.classList.add('far');
+                            });
+                            ratingInput.value = '';
+                        } else {
+                            let errorMessage = 'خطا در ارسال نظر:\n';
+                            for (const [field, errors] of Object.entries(JSON.parse(data.errors))) {
+                                errorMessage += `${field === '__all__' ? 'خطا' : field}: ${errors.map(e => e.message).join(', ')}\n`;
+                            }
+                            alert(errorMessage);
+                        }
+                    })
+                    .catch(error => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        console.error('Error:', error);
+                        alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+                    });
             });
-        });
 
-        // Booking form submission
-        document.getElementById('bookingForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const checkinDate = document.getElementById('checkinDate').value;
-            const checkoutDate = document.getElementById('checkoutDate').value;
-            const fullName = this.querySelector('input[placeholder="نام کامل"]').value;
-            const guestCount = this.querySelector('select').value;
-            const nationalId = this.querySelector('input[placeholder="کد ملی"]').value;
-            const phoneNumber = this.querySelector('input[type="tel"]').value;
+            // Delete review functionality
+            document.querySelectorAll('.fas.fa-trash-can').forEach(trashIcon => {
+                trashIcon.addEventListener('click', function () {
+                    const reviewId = this.closest('.review-item').getAttribute('data-review-id');
+                    document.getElementById('confirmDeleteBtn').setAttribute('data-review-id', reviewId);
+                });
+            });
 
-            if (!checkinDate || !checkoutDate || !fullName || !nationalId || !phoneNumber) {
-                alert('لطفاً تمام فیلدها را پر کنید.');
-                return;
-            }
+            document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+                const reviewId = this.getAttribute('data-review-id');
+                const deleteBtn = this;
+                const originalText = deleteBtn.textContent;
+                deleteBtn.textContent = 'در حال حذف...';
+                deleteBtn.disabled = true;
 
-            const checkin = new Date(checkinDate);
-            const checkout = new Date(checkoutDate);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+                fetch(`/reviews/${reviewId}/delete/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        deleteBtn.textContent = originalText;
+                        deleteBtn.disabled = false;
 
-            if (checkin < today) {
-                alert('تاریخ ورود نمی‌تواند از امروز کمتر باشد.');
-                return;
-            }
+                        if (data.success) {
+                            // حذف کامنت از DOM
+                            const reviewElement = document.querySelector(`.review-item[data-review-id="${reviewId}"]`);
+                            reviewElement.style.transition = 'opacity 0.3s';
+                            reviewElement.style.opacity = '0';
+                            setTimeout(() => {
+                                reviewElement.remove();
+                                // به‌روزرسانی تعداد نظرات
+                                document.querySelector('.review-count').textContent = data.review_count;
+                                // به‌روزرسانی میانگین امتیاز
+                                document.querySelector('.rating-score').textContent = data.rating.toFixed(1);
+                                document.querySelector('.rating-text').textContent = `(${data.rating.toFixed(1)} از 5 - ${data.review_count} نظر)`;
+                                // به‌روزرسانی ستاره‌های بالای صفحه
+                                const starsTitle = document.querySelector('.stars-title');
+                                starsTitle.innerHTML = '';
+                                for (let i = 1; i <= 5; i++) {
+                                    starsTitle.innerHTML += `<i class="fa fa-star${i > Math.round(data.rating) ? '-o' : ''}"></i>`;
+                                }
+                                // به‌روزرسانی rating breakdown
+                                const ratingBreakdown = document.querySelector('.rating-breakdown');
+                                ratingBreakdown.innerHTML = '';
+                                data.rating_breakdown.forEach(item => {
+                                    ratingBreakdown.innerHTML += `
+                                    <div class="rating-bar">
+                                        <span>${item.rating} ستاره</span>
+                                        <div class="bar">
+                                            <div class="fill" style="width: ${item.percentage.toFixed(0)}%"></div>
+                                        </div>
+                                        <span>${item.percentage.toFixed(0)}%</span>
+                                    </div>`;
+                                });
+                                // نمایش پیام "نظری ثبت نشده" اگر هیچ نظری باقی نمانده باشد
+                                if (data.review_count === 0) {
+                                    document.querySelector('.reviews-list').innerHTML = '<p class="no-comments">نظری برای این اتاق ثبت نشده است.</p>';
+                                }
+                            }, 300);
+                            // بستن مدال
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+                            modal.hide();
+                        } else {
+                            alert(data.error || 'خطا در حذف کامنت. لطفاً دوباره تلاش کنید.');
+                        }
+                    })
+                    .catch(error => {
+                        deleteBtn.textContent = originalText;
+                        deleteBtn.disabled = false;
+                        console.error('Error:', error);
+                        alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+                    });
+            });
 
-            if (checkout <= checkin) {
-                alert('تاریخ خروج باید بعد از تاریخ ورود باشد.');
-                return;
-            }
+            // Booking form submission
+            document.getElementById('bookingForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const checkinDate = document.getElementById('checkinDate').value;
+                const checkoutDate = document.getElementById('checkoutDate').value;
+                const fullName = this.querySelector('input[placeholder="نام کامل"]').value;
+                const guestCount = this.querySelector('select').value;
+                const nationalId = this.querySelector('input[placeholder="کد ملی"]').value;
+                const phoneNumber = this.querySelector('input[type="tel"]').value;
 
-            if (!/^\d{10}$/.test(nationalId)) {
-                alert('کد ملی باید ۱۰ رقم باشد.');
-                return;
-            }
+                if (!checkinDate || !checkoutDate || !fullName || !nationalId || !phoneNumber) {
+                    alert('لطفاً تمام فیلدها را پر کنید.');
+                    return;
+                }
 
-            if (!/^09\d{9}$/.test(phoneNumber)) {
-                alert('شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد.');
-                return;
-            }
+                const checkin = new Date(checkinDate);
+                const checkout = new Date(checkoutDate);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
 
-            const submitBtn = this.querySelector('.payment-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'در حال پردازش...';
-            submitBtn.disabled = true;
+                if (checkin < today) {
+                    alert('تاریخ ورود نمی‌تواند از امروز کمتر باشد.');
+                    return;
+                }
 
-            const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
-            const totalPrice = nights * {{ room.price }};
+                if (checkout <= checkin) {
+                    alert('تاریخ خروج باید بعد از تاریخ ورود باشد.');
+                    return;
+                }
 
-            setTimeout(() => {
-                alert(`رزرو شما با موفقیت ثبت شد!\n\nجزئیات رزرو:\nنام: ${fullName}\nتاریخ ورود: ${checkinDate}\nتاریخ خروج: ${checkoutDate}\nتعداد مهمان: ${guestCount}\nتعداد شب: ${nights}\nمبلغ کل: ${totalPrice.toLocaleString()} تومان\n\nبه زودی با شما تماس خواهیم گرفت.`);
-                const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
-                modal.hide();
-                this.reset();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 2000);
-        });
+                if (!/^\d{10}$/.test(nationalId)) {
+                    alert('کد ملی باید ۱۰ رقم باشد.');
+                    return;
+                }
 
-        // Set minimum date to today for check-in
-        document.getElementById('checkinDate').min = new Date().toISOString().split('T')[0];
+                if (!/^09\d{9}$/.test(phoneNumber)) {
+                    alert('شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد.');
+                    return;
+                }
 
-        // Update checkout minimum date when checkin changes
-        document.getElementById('checkinDate').addEventListener('change', function () {
-            const checkinDate = new Date(this.value);
-            checkinDate.setDate(checkinDate.getDate() + 1);
-            document.getElementById('checkoutDate').min = checkinDate.toISOString().split('T')[0];
-        });
+                const submitBtn = this.querySelector('.payment-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'در حال پردازش...';
+                submitBtn.disabled = true;
 
-        // Back to top button functionality
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+                const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+                const totalPrice = nights * {{ room.price }};
+
+                setTimeout(() => {
+                    alert(`رزرو شما با موفقیت ثبت شد!\n\nجزئیات رزرو:\nنام: ${fullName}\nتاریخ ورود: ${checkinDate}\nتاریخ خروج: ${checkoutDate}\nتعداد مهمان: ${guestCount}\nتعداد شب: ${nights}\nمبلغ کل: ${totalPrice.toLocaleString()} تومان\n\nبه زودی با شما تماس خواهیم گرفت.`);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+                    modal.hide();
+                    this.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+            });
+
+            // Set minimum date to today for check-in
+            document.getElementById('checkinDate').min = new Date().toISOString().split('T')[0];
+
+            // Update checkout minimum date when checkin changes
+            document.getElementById('checkinDate').addEventListener('change', function () {
+                const checkinDate = new Date(this.value);
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                document.getElementById('checkoutDate').min = checkinDate.toISOString().split('T')[0];
+            });
+
+            // Back to top button functionality
+            const backToTopBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+        </script>
+    </div>
 {% endblock %}

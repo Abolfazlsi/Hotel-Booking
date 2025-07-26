@@ -1,4 +1,4 @@
-<div class="review-item">
+<div class="review-item" data-review-id="{{ review.id }}">
     <div class="reviewer-info">
         <div class="reviewer-details">
             <h6>{{ review.user.first_name }} {{ review.user.last_name }}</h6>
@@ -11,7 +11,8 @@
         </div>
     </div>
     <p class="review-text">{{ review.comment }}</p>
-    <i class="fas fa-trash-can"></i>
-    <i class="fas fa-pencil"></i>
-
+    {% if user.is_authenticated and user == review.user or user.is_staff %}
+        <i class="fas fa-trash-can" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal"></i>
+        <i class="fas fa-pencil"></i>
+    {% endif %}
 </div>

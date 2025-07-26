@@ -5004,6 +5004,24 @@ ul, ol {
     }
 }
 
+/* style for delete review modal*/
+.modal {
+    text-align: right;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    direction: rtl;
+}
+
+.modal-footer .btn {
+    margin-left: 10px;
+}
+
+.reviewer-details h6 {
+    margin: 0;
+    font-size: 16px;
+    color: #2c2c2c;
+}
 
 /* Add Review Section */
 .add-review-section {

@@ -9,6 +9,7 @@ from .models import Room, Review
 from .forms import ReviewForm
 from django.template.loader import render_to_string
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 
 class HomePage(TemplateView):
@@ -89,11 +90,11 @@ class RoomDetailView(DetailView):
         context['form'] = ReviewForm()
         context['reviews'] = self.object.reviews.all()
         context['rating'] = self.object.get_rating()
-        # تبدیل rating_breakdown به لیست برای استفاده در قالب
+        # تبدیل rating_breakdown به لیست برای استفاده در template
         breakdown = self.object.get_rating_breakdown()
         context['rating_breakdown'] = [
             {'rating': i, 'percentage': breakdown[str(i)]}
-            for i in range(5, 0, -1)  # از 5 تا 1
+            for i in range(5, 0, -1)
         ]
         return context
 
