@@ -1,15 +1,14 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, DeleteView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.template.defaultfilters import truncatewords
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import Room, Review
-from .forms import ReviewForm
+from hotels.models import Room, Review, Service
+from hotels.forms import ReviewForm
 from django.template.loader import render_to_string
-from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 
 
 class HomePage(TemplateView):
@@ -26,7 +25,12 @@ class RoomsListView(ListView):
     model = Room
     template_name = "hotels/rooms.html"
     paginate_by = 5
-    context_object_name = 'room_list'  # نام متغیر برای دسترسی به لیست اتاق‌ها در قالب
+    context_object_name = 'room_list'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["services"] = Service.objects.all()
+        return context
 
     def get(self, request, *args, **kwargs):
         rooms = Room.objects.all()
@@ -54,6 +58,8 @@ class RoomsListView(ListView):
                 room_data.append({
                     'title': room.title,
                     'price': room.price,
+                    "capacity": room.capacity,
+                    "size": room.size,
                     'description': truncatewords(room.description, 25),
                     "existing": "exist" if room.existing else "reserved",
                     "existing_text": "موجود" if room.existing else "رزرو شده",
@@ -77,6 +83,7 @@ class RoomsListView(ListView):
             return render(request, self.template_name, {
                 'room_list': room_list,
                 'page_obj': room_list,  # برای صفحه‌بندی در قالب
+                'services': Service.objects.all(),
             })
 
 
@@ -102,7 +109,6 @@ class RoomDetailView(DetailView):
         room = self.get_object()
         form = ReviewForm(request.POST)
         if form.is_valid():
-
             review = form.save(commit=False)
             review.room = room
             review.user = request.user
@@ -130,3 +136,38 @@ class RoomDetailView(DetailView):
                 'success': False,
                 'errors': form.errors.as_json()
             }, status=400)
+
+
+class ReviewDeleteView(DeleteView):
+    model = Review
+    http_method_names = ['delete']
+
+    def get_success_url(self):
+        return reverse('hotels:room_detail', kwargs={'slug': self.object.room.slug})
+
+    def delete(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'success': False, 'error': 'لطفاً ابتدا وارد حساب کاربری خود شوید.'}, status=403)
+
+        self.object = self.get_object()
+        if self.object.user != request.user and not request.user.is_staff:
+            return JsonResponse({'success': False, 'error': 'شما مجاز به حذف این کامنت نیستید.'}, status=403)
+
+        room = self.object.room
+        self.object.delete()
+
+        # محاسبه اطلاعات به‌روز شده
+        review_count = room.reviews.count()
+        rating = room.get_rating()
+        breakdown = room.get_rating_breakdown()
+        breakdown_list = [
+            {'rating': i, 'percentage': breakdown[str(i)]}
+            for i in range(5, 0, -1)
+        ]
+
+        return JsonResponse({
+            'success': True,
+            'review_count': review_count,
+            'rating': rating,
+            'rating_breakdown': breakdown_list
+        }, status=200)

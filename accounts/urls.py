@@ -13,4 +13,5 @@ urlpatterns = [
 
     # user profile
     path("profile/", views.UserProfileView.as_view(), name="user_profile"),
+
 ]

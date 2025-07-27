@@ -11,4 +11,7 @@ urlpatterns = [
     path("rooms-list/", views.RoomsListView.as_view(), name="rooms_list"),
     re_path(r"room-detail/(?P<slug>[-\w]*)/", views.RoomDetailView.as_view(), name="room_detail"),
 
+    # reviews
+    path('reviews/<int:pk>/delete/', views.ReviewDeleteView.as_view(), name='delete_review'),
+
 ]

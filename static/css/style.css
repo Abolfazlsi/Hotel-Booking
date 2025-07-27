@@ -2093,6 +2093,11 @@ ul, ol {
     padding: 20px;
 }
 
+.row.g-3.mb-4 {
+    border-bottom: 2px solid #e4e4e4;
+    padding-bottom: 1rem;
+}
+
 .booking-label {
     font-weight: 500;
     color: #333;
@@ -5036,6 +5041,11 @@ ul, ol {
     margin-bottom: 1.5rem;
 }
 
+.add-review-section p a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
 .review-form .form-group {
     margin-bottom: 1.5rem;
 }
@@ -5473,7 +5483,9 @@ ul, ol {
     gap: 10px;
     margin-bottom: 10px;
     cursor: pointer;
+    color: #f8b500;
 }
+
 
 .filter-checkbox input {
     width: 18px;

@@ -212,7 +212,7 @@
                                             </form>
                                         {% else %}
                                             <p>برای ثبت نظر، لطفاً <a href="{% url 'accounts:signin-signup' %}">وارد
-                                                شوید</a>.</p>
+                                                حساب کاربری خود شوید</a>.</p>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -229,7 +229,6 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="deleteConfirmModalLabel">تأیید حذف کامنت</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             آیا مطمئن هستید که می‌خواهید این کامنت را حذف کنید؟ این عملیات قابل بازگشت نیست.
@@ -286,16 +285,16 @@
                                 {% for i in "x"|ljust:room.capacity %}
                                     <div class="row g-3 mb-3">
                                         <div class="col-md-6">
+                                            <label class="booking-label">نام کامل شخص {{ forloop.counter|number_to_persian_word }}:</label>
+                                            <input type="text" class="form-control__room-detail booking-input"
+                                                   placeholder="نام کامل" required>
+                                        </div>
+                                        <div class="col-md-6">
                                             <label class="booking-label">جنسیت</label>
                                             <select class="form-control__room-detail booking-input" name="gender">
                                                 <option value="مرد">مرد</option>
                                                 <option value="زن">زن</option>
                                             </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="booking-label">نام کامل شخص {{ forloop.counter }}:</label>
-                                            <input type="text" class="form-control__room-detail booking-input"
-                                                   placeholder="نام کامل" required>
                                         </div>
                                     </div>
                                     <div class="row g-3 mb-4">
@@ -320,7 +319,6 @@
                 </div>
             </div>
         </div>
-
 
         <script>
             // Change main image when thumbnail is clicked
@@ -460,7 +458,7 @@
                 deleteBtn.textContent = 'در حال حذف...';
                 deleteBtn.disabled = true;
 
-                fetch(`/reviews/${reviewId}/delete/`, {
+                fetch("{% url 'hotels:delete_review' pk=0 %}".replace('0', reviewId), {
                     method: 'DELETE',
                     headers: {
                         'X-CSRFToken': '{{ csrf_token }}',

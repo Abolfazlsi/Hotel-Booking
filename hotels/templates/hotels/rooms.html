@@ -125,23 +125,34 @@
                             <div class="filter-content">
                                 <div class="filter-checkbox">
                                     <input type="checkbox" id="star5" name="star" value="5">
-                                    <label for="star5">۵ ستاره</label>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
                                 <div class="filter-checkbox">
                                     <input type="checkbox" id="star4" name="star" value="4">
-                                    <label for="star4">۴ ستاره</label>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
                                 <div class="filter-checkbox">
                                     <input type="checkbox" id="star3" name="star" value="3">
-                                    <label for="star3">۳ ستاره</label>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
                                 <div class="filter-checkbox">
                                     <input type="checkbox" id="star2" name="star" value="2">
-                                    <label for="star2">۲ ستاره</label>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+
                                 </div>
                                 <div class="filter-checkbox">
                                     <input type="checkbox" id="star1" name="star" value="1">
-                                    <label for="star1">۱ ستاره</label>
+                                    <i class="fas fa-star"></i>
                                 </div>
                             </div>
                         </div>
@@ -152,26 +163,13 @@
                                 <i class="fa fa-chevron-down"></i>
                             </h4>
                             <div class="filter-content">
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="wifi" name="amenity" value="wifi">
-                                    <label for="wifi">اینترنت</label>
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="breakfast" name="amenity" value="breakfast">
-                                    <label for="breakfast">صبحانه</label>
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="parking" name="amenity" value="parking">
-                                    <label for="parking">پارکینگ</label>
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="pool" name="amenity" value="pool">
-                                    <label for="pool">استخر</label>
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="gym" name="amenity" value="gym">
-                                    <label for="gym">سالن ورزشی</label>
-                                </div>
+                                {% for service in services %}
+                                    <div class="filter-checkbox">
+                                        <input type="checkbox" id="service-{{ service.id }}" name="amenity" value="{{ service.name }}">
+                                        <label for="service-{{ service.id }}">{{ service.name }}</label>
+                                    </div>
+                                {% endfor %}
+
                             </div>
                         </div>
                         <!-- Number of People Filter -->
