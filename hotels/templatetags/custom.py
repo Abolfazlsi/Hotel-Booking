@@ -1,4 +1,6 @@
 from django import template
+import jdatetime
+
 
 register = template.Library()
 
@@ -42,3 +44,14 @@ def number_to_persian_word(value):
     except (ValueError, TypeError):
         # در صورت خطا خود عدد برگردانده میشود
         return str(value)
+
+
+@register.filter
+def to_jalali(value):
+    if value:
+        try:
+            jalali_date = jdatetime.datetime.fromgregorian(datetime=value)
+            return jalali_date.strftime('%Y/%m/%d %H:%M:%S')
+        except (ValueError, TypeError):
+            return ''
+    return ''

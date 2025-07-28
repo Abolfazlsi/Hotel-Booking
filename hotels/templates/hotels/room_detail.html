@@ -241,6 +241,44 @@
                 </div>
             </div>
 
+            <!-- Edit Review Modal -->
+            <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editReviewModalLabel">ویرایش نظر</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editReviewForm" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="review_id" id="editReviewId">
+                                <div class="form-group">
+                                    <label for="editRating">امتیاز:</label>
+                                    <div class="rating-input">
+                                        <i class="far fa-star star" data-rating="1"></i>
+                                        <i class="far fa-star star" data-rating="2"></i>
+                                        <i class="far fa-star star" data-rating="3"></i>
+                                        <i class="far fa-star star" data-rating="4"></i>
+                                        <i class="far fa-star star" data-rating="5"></i>
+                                        <input type="hidden" name="rating" id="editRating">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editComment">متن نظر:</label>
+                                    <textarea class="form-control" name="comment" id="editComment" rows="4"
+                                              required></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                                    <button type="submit" class="btn btn-primary">تأیید</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Back to Top Button -->
             <div class="back-to-top" id="backToTop">
                 <i class="fa fa-chevron-up"></i>
@@ -272,9 +310,9 @@
                             <form id="bookingForm" class="booking-form">
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
-                                        <label class="booking-label">تاریخ خروج:</label>
+                                        <label class="booking-label">تاریخ ورود:</label>
                                         <input type="date" class="form-control__room-detail booking-input"
-                                               id="checkoutDate" required>
+                                               id="checkinDate" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="booking-label">تاریخ ورود:</label>
@@ -285,7 +323,8 @@
                                 {% for i in "x"|ljust:room.capacity %}
                                     <div class="row g-3 mb-3">
                                         <div class="col-md-6">
-                                            <label class="booking-label">نام کامل شخص {{ forloop.counter|number_to_persian_word }}:</label>
+                                            <label class="booking-label">نام کامل
+                                                شخص {{ forloop.counter|number_to_persian_word }}:</label>
                                             <input type="text" class="form-control__room-detail booking-input"
                                                    placeholder="نام کامل" required>
                                         </div>
@@ -320,6 +359,7 @@
             </div>
         </div>
 
+
         <script>
             // Change main image when thumbnail is clicked
             function changeMainImage(thumbnail) {
@@ -343,10 +383,9 @@
                 bookingModal.show();
             }
 
-            // Star rating functionality
-            const stars = document.querySelectorAll('.rating-input .star');
+            // Star rating functionality for add review form
+            const stars = document.querySelectorAll('.add-review-section .rating-input .star');
             const ratingInput = document.getElementById('rating-value');
-
             stars.forEach(star => {
                 star.addEventListener('click', function () {
                     const rating = this.getAttribute('data-rating');
@@ -516,6 +555,152 @@
                     .catch(error => {
                         deleteBtn.textContent = originalText;
                         deleteBtn.disabled = false;
+                        console.error('Error:', error);
+                        alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+                    });
+            });
+
+            // Edit review functionality
+            document.querySelectorAll('.fas.fa-pencil').forEach(pencilIcon => {
+                pencilIcon.addEventListener('click', function () {
+                    const reviewId = this.closest('.review-item').getAttribute('data-review-id');
+                    const editModal = new bootstrap.Modal(document.getElementById('editReviewModal'));
+                    const editForm = document.getElementById('editReviewForm');
+                    const editRatingInput = document.getElementById('editRating');
+                    const editCommentInput = document.getElementById('editComment');
+                    const editReviewIdInput = document.getElementById('editReviewId');
+                    const editStars = document.querySelectorAll('#editReviewModal .rating-input .star');
+
+                    // تنظیم review_id در فرم
+                    editReviewIdInput.value = reviewId;
+
+                    // دریافت اطلاعات نظر با AJAX
+                    fetch("{% url 'hotels:edit_review' pk=0 %}".replace('0', reviewId), {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // پر کردن فرم با اطلاعات فعلی نظر
+                                editRatingInput.value = data.review.rating;
+                                editCommentInput.value = data.review.comment;
+
+                                // به‌روزرسانی ستاره‌ها
+                                editStars.forEach(star => {
+                                    const rating = star.getAttribute('data-rating');
+                                    if (parseInt(rating) <= parseInt(data.review.rating)) {
+                                        star.classList.remove('far');
+                                        star.classList.add('fas');
+                                    } else {
+                                        star.classList.remove('fas');
+                                        star.classList.add('far');
+                                    }
+                                });
+
+                                // نمایش مدال
+                                editModal.show();
+                            } else {
+                                alert(data.error || 'خطا در بارگذاری اطلاعات نظر.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+                        });
+                });
+            });
+
+            // Star rating functionality for edit review form
+            const editStars = document.querySelectorAll('#editReviewModal .rating-input .star');
+            const editRatingInput = document.getElementById('editRating');
+            editStars.forEach(star => {
+                star.addEventListener('click', function () {
+                    const rating = this.getAttribute('data-rating');
+                    editRatingInput.value = rating;
+                    editStars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= parseInt(rating)) {
+                            s.classList.remove('far');
+                            s.classList.add('fas');
+                        } else {
+                            s.classList.remove('fas');
+                            s.classList.add('far');
+                        }
+                    });
+                });
+            });
+
+            // AJAX form submission for editing review
+            document.getElementById('editReviewForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const reviewId = document.getElementById('editReviewId').value;
+                const formData = new FormData(this);
+                const submitBtn = this.querySelector('.btn-primary');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'در حال ویرایش...';
+                submitBtn.disabled = true;
+
+                fetch("{% url 'hotels:edit_review' pk=0 %}".replace('0', reviewId), {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+
+                        if (data.success) {
+                            // به‌روزرسانی نظر در DOM
+                            const reviewElement = document.querySelector(`.review-item[data-review-id="${reviewId}"]`);
+                            reviewElement.style.transition = 'opacity 0.3s';
+                            reviewElement.style.opacity = '0';
+                            setTimeout(() => {
+                                reviewElement.outerHTML = data.review_html;
+                                // به‌روزرسانی تعداد نظرات
+                                document.querySelector('.review-count').textContent = data.review_count;
+                                // به‌روزرسانی میانگین امتیاز
+                                document.querySelector('.rating-score').textContent = data.rating.toFixed(1);
+                                document.querySelector('.rating-text').textContent = `(${data.rating.toFixed(1)} از 5 - ${data.review_count} نظر)`;
+                                // به‌روزرسانی ستاره‌های بالای صفحه
+                                const starsTitle = document.querySelector('.stars-title');
+                                starsTitle.innerHTML = '';
+                                for (let i = 1; i <= 5; i++) {
+                                    starsTitle.innerHTML += `<i class="fa fa-star${i > Math.round(data.rating) ? '-o' : ''}"></i>`;
+                                }
+                                // به‌روزرسانی rating breakdown
+                                const ratingBreakdown = document.querySelector('.rating-breakdown');
+                                ratingBreakdown.innerHTML = '';
+                                data.rating_breakdown.forEach(item => {
+                                    ratingBreakdown.innerHTML += `
+                                    <div class="rating-bar">
+                                        <span>${item.rating} ستاره</span>
+                                        <div class="bar">
+                                            <div class="fill" style="width: ${item.percentage.toFixed(0)}%"></div>
+                                        </div>
+                                        <span>${item.percentage.toFixed(0)}%</span>
+                                    </div>`;
+                                });
+                                // بستن مدال
+                                const modal = bootstrap.Modal.getInstance(document.getElementById('editReviewModal'));
+                                modal.hide();
+                            }, 300);
+                        } else {
+                            let errorMessage = 'خطا در ویرایش نظر:\n';
+                            for (const [field, errors] of Object.entries(JSON.parse(data.errors))) {
+                                errorMessage += `${field === '__all__' ? 'خطا' : field}: ${errors.map(e => e.message).join(', ')}\n`;
+                            }
+                            alert(errorMessage);
+                        }
+                    })
+                    .catch(error => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
                         console.error('Error:', error);
                         alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
                     });

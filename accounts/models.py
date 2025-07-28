@@ -27,16 +27,17 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, null=True, blank=True, unique=True)
-    first_name = models.CharField(max_length=100, blank=True, null=True)
-    last_name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(max_length=255, null=True, blank=True, unique=True, verbose_name="ادرس ایمیل")
+    first_name = models.CharField(max_length=100, blank=True, null=True, verbose_name="نام")
+    last_name = models.CharField(max_length=100, blank=True, null=True, verbose_name="نام خانوادگی")
     phone = models.CharField(
         max_length=11,
         unique=True,
-        validators=[RegexValidator(r'^09\d{9}$', 'شماره تلفن باید با 09 شروع شود و 11 رقم باشد.')]
+        validators=[RegexValidator(r'^09\d{9}$', 'شماره تلفن باید با 09 شروع شود و 11 رقم باشد.')],
+        verbose_name="شماره موبایل"
     )
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True, verbose_name="کاربر فعال")
+    is_admin = models.BooleanField(default=False, verbose_name="کاربر ادمین")
     date_joined = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()
@@ -50,4 +51,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.is_admin
 
-
+    class Meta:
+        verbose_name = "کاربر"
+        verbose_name_plural = "کاربران"

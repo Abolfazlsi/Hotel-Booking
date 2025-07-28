@@ -1,5 +1,6 @@
 from django.contrib import admin
 from hotels.models import RoomImage, Room, Service, Review
+import jdatetime
 
 
 class RoomImageInline(admin.TabularInline):
@@ -10,16 +11,23 @@ class RoomImageInline(admin.TabularInline):
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ['title', 'price', 'size', "existing", 'capacity', 'created_at']
+    list_display = ['title', 'price', 'size', "existing", 'capacity', 'created_at_jalali']
     list_filter = ['created_at']
     search_fields = ['title', 'description']
     inlines = [RoomImageInline]
     fieldsets = [
-        (None, {'fields': ['title', 'price', 'size', 'capacity', "existing"]}),
+        ("اطلاعات", {'fields': ['title', 'price', 'size', 'capacity', "existing"]}),
         ('جزئیات', {'fields': ['services', 'description']}),
-        ('اسلاگ', {'fields': ['slug']}),
 
     ]
+
+    def created_at_jalali(self, obj):
+        if obj.created_at:
+            jalali_date = jdatetime.datetime.fromgregorian(datetime=obj.created_at)
+            return jalali_date.strftime('%Y/%m/%d %H:%M:%S')
+        return ''
+
+    created_at_jalali.short_description = 'تاریخ ایجاد'
 
 
 @admin.register(RoomImage)
@@ -38,7 +46,14 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ["room", "user", "rating", "created_at"]
+    list_display = ["room", "user", "rating", "created_at_jalali"]
     list_filter = ["rating", "room"]
     search_fields = ["user", "room"]
-    exclude = ["created_at"]
+
+    def created_at_jalali(self, obj):
+        if obj.created_at:
+            jalali_date = jdatetime.datetime.fromgregorian(datetime=obj.created_at)
+            return jalali_date.strftime('%Y/%m/%d %H:%M:%S')
+        return ''
+
+    created_at_jalali.short_description = 'تاریخ ایجاد'

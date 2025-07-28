@@ -13,8 +13,8 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ["is_admin", "is_active"]
     fieldsets = [
         (None, {"fields": ["phone", "password"]}),
-        ("Personal Info", {"fields": ["first_name", "last_name", "email"]}),
-        ("Permissions", {"fields": ["is_admin", "is_active", "is_superuser", "groups", "user_permissions"]}),
+        ("اطلاعات شخصی", {"fields": ["first_name", "last_name", "email"]}),
+        ("دسترسی ها", {"fields": ["is_admin", "is_active", "is_superuser", "groups", "user_permissions"]}),
     ]
     add_fieldsets = [
         (

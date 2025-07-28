@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'debug_toolbar',
     'imagekit',
+    'django_jalali',
 
     # my apps
     'accounts.apps.AccountsConfig',
@@ -83,17 +84,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa-ir'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
-
+USE_L10N = False
 USE_TZ = True
 
 REDIS_URL = config('REDIS_URL', default='redis://localhost:6379/0')
 
-# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]

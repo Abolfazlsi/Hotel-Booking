@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView, DeleteView
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import TemplateView, ListView, DetailView, DeleteView, View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from django.template.defaultfilters import truncatewords
@@ -9,6 +9,7 @@ from hotels.models import Room, Review, Service
 from hotels.forms import ReviewForm
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomePage(TemplateView):
@@ -171,3 +172,68 @@ class ReviewDeleteView(DeleteView):
             'rating': rating,
             'rating_breakdown': breakdown_list
         }, status=200)
+
+
+class ReviewEditView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        try:
+            review = get_object_or_404(Review, pk=kwargs['pk'])
+            # بررسی مالکیت نظر
+            if review.user != request.user and not request.user.is_staff:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'شما اجازه ویرایش این نظر را ندارید.'
+                }, status=403)
+            return JsonResponse({
+                'success': True,
+                'review': {
+                    'rating': review.rating,
+                    'comment': review.comment
+                }
+            })
+        except Review.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'نظر مورد نظر یافت نشد.'
+            }, status=404)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            review = get_object_or_404(Review, pk=kwargs['pk'])
+            # بررسی مالکیت نظر
+            if review.user != request.user and not request.user.is_staff:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'شما اجازه ویرایش این نظر را ندارید.'
+                }, status=403)
+            form = ReviewForm(request.POST, instance=review)
+            if form.is_valid():
+                review = form.save()
+                # رندر HTML نظر به‌روزرسانی‌شده برای پاسخ AJAX
+                review_html = render_to_string('hotels/review_item.html', {
+                    'review': review,
+                    'request': request
+                })
+                # آماده‌سازی rating_breakdown برای AJAX
+                breakdown = review.room.get_rating_breakdown()
+                breakdown_list = [
+                    {'rating': i, 'percentage': breakdown[str(i)]}
+                    for i in range(5, 0, -1)
+                ]
+                return JsonResponse({
+                    'success': True,
+                    'review_html': review_html,
+                    'review_count': review.room.reviews.count(),
+                    'rating': review.room.get_rating(),
+                    'rating_breakdown': breakdown_list
+                })
+            else:
+                return JsonResponse({
+                    'success': False,
+                    'errors': form.errors.as_json()
+                }, status=400)
+        except Review.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'نظر مورد نظر یافت نشد.'
+            }, status=404)

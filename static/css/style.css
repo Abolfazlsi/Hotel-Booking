@@ -2004,6 +2004,25 @@ ul, ol {
     text-align: right;
 }
 
+.form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #c9a96e;
+    box-shadow: 0 0 0 0.2rem rgba(201, 169, 110, 0.25);
+    outline: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
 .comment-textarea {
     min-height: 120px;
     resize: vertical;
