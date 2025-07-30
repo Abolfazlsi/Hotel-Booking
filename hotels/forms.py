@@ -1,6 +1,8 @@
 from django import forms
-from hotels.models import Review
+from hotels.models import Review, Booking
 from django.core.validators import MinValueValidator, MaxValueValidator
+from jalali_date.widgets import AdminJalaliDateWidget
+import jdatetime
 
 
 class ReviewForm(forms.ModelForm):
@@ -22,3 +24,25 @@ class ReviewForm(forms.ModelForm):
         if rating is None or rating < 1 or rating > 5:
             raise forms.ValidationError('امتیاز باید بین ۱ تا ۵ باشد.')
         return rating
+
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['check_in', 'check_out']
+        widgets = {
+            'check_in': AdminJalaliDateWidget(
+                attrs={'class': 'form-control__room-detail booking-input'},
+                format='%Y/%m/%d'
+            ),
+            'check_out': AdminJalaliDateWidget(
+                attrs={'class': 'form-control__room-detail booking-input'},
+                format='%Y/%m/%d'
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        today_jalali = jdatetime.date.today()
+        self.fields['check_in'].initial = today_jalali.strftime('%Y/%m/%d')
+        self.fields['check_out'].initial = today_jalali.strftime('%Y/%m/%d')

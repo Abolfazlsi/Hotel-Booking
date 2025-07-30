@@ -6,7 +6,7 @@ from django.template.defaultfilters import truncatewords
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from hotels.models import Room, Review, Service
-from hotels.forms import ReviewForm
+from hotels.forms import ReviewForm, BookingForm
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -98,6 +98,7 @@ class RoomDetailView(DetailView):
         context['form'] = ReviewForm()
         context['reviews'] = self.object.reviews.all()
         context['rating'] = self.object.get_rating()
+        context['booking_form'] = BookingForm()
         # تبدیل rating_breakdown به لیست برای استفاده در template
         breakdown = self.object.get_rating_breakdown()
         context['rating_breakdown'] = [

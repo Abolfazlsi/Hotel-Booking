@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% load custom %}
+{% load jalali_tags %}
 
 {% block main %}
+
     <div class="container-fluid" dir="rtl">
         <div class="room-detail-container">
             <div class="row g-0">
@@ -307,17 +309,16 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-4">
-                            <form id="bookingForm" class="booking-form">
+                            <form id="bookingForm" class="booking-form" method="post">
+                                {% csrf_token %}
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
                                         <label class="booking-label">تاریخ ورود:</label>
-                                        <input type="date" class="form-control__room-detail booking-input"
-                                               id="checkinDate" required>
+                                        {{ booking_form.check_in }}
                                     </div>
                                     <div class="col-md-6">
                                         <label class="booking-label">تاریخ ورود:</label>
-                                        <input type="date" class="form-control__room-detail booking-input"
-                                               id="checkinDate" required>
+                                        {{ booking_form.check_out }}
                                     </div>
                                 </div>
                                 {% for i in "x"|ljust:room.capacity %}
@@ -358,9 +359,13 @@
                 </div>
             </div>
         </div>
-
-
         <script>
+
+            window.addEventListener("load", function () {
+                jalaliDatepicker.startWatch();
+            });
+
+
             // Change main image when thumbnail is clicked
             function changeMainImage(thumbnail) {
                 const mainImage = document.getElementById('mainImage');
@@ -716,25 +721,11 @@
                 const nationalId = this.querySelector('input[placeholder="کد ملی"]').value;
                 const phoneNumber = this.querySelector('input[type="tel"]').value;
 
-                if (!checkinDate || !checkoutDate || !fullName || !nationalId || !phoneNumber) {
-                    alert('لطفاً تمام فیلدها را پر کنید.');
-                    return;
-                }
 
-                const checkin = new Date(checkinDate);
                 const checkout = new Date(checkoutDate);
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
-                if (checkin < today) {
-                    alert('تاریخ ورود نمی‌تواند از امروز کمتر باشد.');
-                    return;
-                }
-
-                if (checkout <= checkin) {
-                    alert('تاریخ خروج باید بعد از تاریخ ورود باشد.');
-                    return;
-                }
 
                 if (!/^\d{10}$/.test(nationalId)) {
                     alert('کد ملی باید ۱۰ رقم باشد.');
@@ -751,11 +742,7 @@
                 submitBtn.textContent = 'در حال پردازش...';
                 submitBtn.disabled = true;
 
-                const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
-                const totalPrice = nights * {{ room.price }};
-
                 setTimeout(() => {
-                    alert(`رزرو شما با موفقیت ثبت شد!\n\nجزئیات رزرو:\nنام: ${fullName}\nتاریخ ورود: ${checkinDate}\nتاریخ خروج: ${checkoutDate}\nتعداد مهمان: ${guestCount}\nتعداد شب: ${nights}\nمبلغ کل: ${totalPrice.toLocaleString()} تومان\n\nبه زودی با شما تماس خواهیم گرفت.`);
                     const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
                     modal.hide();
                     this.reset();
@@ -764,15 +751,6 @@
                 }, 2000);
             });
 
-            // Set minimum date to today for check-in
-            document.getElementById('checkinDate').min = new Date().toISOString().split('T')[0];
-
-            // Update checkout minimum date when checkin changes
-            document.getElementById('checkinDate').addEventListener('change', function () {
-                const checkinDate = new Date(this.value);
-                checkinDate.setDate(checkinDate.getDate() + 1);
-                document.getElementById('checkoutDate').min = checkinDate.toISOString().split('T')[0];
-            });
 
             // Back to top button functionality
             const backToTopBtn = document.getElementById('backToTop');
@@ -786,6 +764,8 @@
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({top: 0, behavior: 'smooth'});
             });
+
+
         </script>
     </div>
 {% endblock %}

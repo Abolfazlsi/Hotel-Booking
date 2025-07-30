@@ -8,6 +8,7 @@ from accounts.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 import jdatetime
+import django_jalali.db.models as jmodels
 
 
 class Service(models.Model):
@@ -136,3 +137,14 @@ class Review(models.Model):
         # تبدیل تاریخ میلادی به شمسی
         jalali_date = jdatetime.datetime.fromgregorian(datetime=self.created_at)
         return jalali_date.strftime('%Y/%m/%d %H:%M:%S')
+
+
+class Booking(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='bookings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    check_in = jmodels.jDateField()
+    check_out = jmodels.jDateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.first_name} - {self.room.title} ({self.check_in} - {self.check_out})"
