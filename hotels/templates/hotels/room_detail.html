@@ -362,7 +362,9 @@
         <script>
 
             window.addEventListener("load", function () {
-                jalaliDatepicker.startWatch();
+                jalaliDatepicker.startWatch({
+                    minDate: "today",
+                });
             });
 
 

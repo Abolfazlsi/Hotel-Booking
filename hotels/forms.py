@@ -2,6 +2,7 @@ from django import forms
 from hotels.models import Review, Booking
 from django.core.validators import MinValueValidator, MaxValueValidator
 from jalali_date.widgets import AdminJalaliDateWidget
+from jalali_date.fields import JalaliDateField
 import jdatetime
 
 
@@ -46,3 +47,25 @@ class BookingForm(forms.ModelForm):
         today_jalali = jdatetime.date.today()
         self.fields['check_in'].initial = today_jalali.strftime('%Y/%m/%d')
         self.fields['check_out'].initial = today_jalali.strftime('%Y/%m/%d')
+
+
+class SearchForm(forms.Form):
+    check_in = JalaliDateField(
+        widget=AdminJalaliDateWidget(
+            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_in'},
+            format='%Y/%m/%d'
+        ),
+        label='تاریخ ورود'
+    )
+    check_out = JalaliDateField(
+        widget=AdminJalaliDateWidget(
+            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_out'},
+            format='%Y/%m/%d'
+        ),
+        label='تاریخ خروج'
+    )
+    people_count = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={'id': 'people_count'}),
+        label='تعداد نفرات',
+        initial=2
+    )

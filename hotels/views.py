@@ -6,7 +6,7 @@ from django.template.defaultfilters import truncatewords
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from hotels.models import Room, Review, Service
-from hotels.forms import ReviewForm, BookingForm
+from hotels.forms import ReviewForm, BookingForm, SearchForm
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -31,6 +31,7 @@ class RoomsListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["services"] = Service.objects.all()
+        context["search_form"] = SearchForm(self.request.GET or None)
         return context
 
     def get(self, request, *args, **kwargs):
@@ -38,7 +39,7 @@ class RoomsListView(ListView):
         sort = request.GET.get('sort', 'default')
         page = request.GET.get('page', 1)
 
-        # اعمال مرتب‌سازی بر اساس پارامتر sort
+        # اعمال مرتب‌سازی
         if sort == 'lower-price':
             rooms = rooms.order_by('price')
         elif sort == 'higher-price':
@@ -59,11 +60,11 @@ class RoomsListView(ListView):
                 room_data.append({
                     'title': room.title,
                     'price': room.price,
-                    "capacity": room.capacity,
-                    "size": room.size,
+                    'capacity': room.capacity,
+                    'size': room.size,
                     'description': truncatewords(room.description, 25),
-                    "existing": "exist" if room.existing else "reserved",
-                    "existing_text": "موجود" if room.existing else "رزرو شده",
+                    'existing': 'exist' if room.existing else 'reserved',
+                    'existing_text': 'موجود' if room.existing else 'رزرو شده',
                     'image_url': room.primary_image.image.url if room.primary_image else '',
                     'alt_text': room.primary_image.alt_text if room.primary_image else '',
                     'services': [service.name for service in room.services.all()],
@@ -80,11 +81,11 @@ class RoomsListView(ListView):
                 'total_pages': paginator.num_pages,
             })
         else:
-            # رندر کردن قالب HTML برای درخواست‌های معمولی
             return render(request, self.template_name, {
                 'room_list': room_list,
-                'page_obj': room_list,  # برای صفحه‌بندی در قالب
+                'page_obj': room_list,
                 'services': Service.objects.all(),
+                'search_form': SearchForm(request.GET or None),
             })
 
 

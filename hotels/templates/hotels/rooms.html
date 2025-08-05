@@ -108,102 +108,116 @@
                 <div class="col-lg-4 order-lg-2 order-1">
                     <div class="filter-sidebar">
                         <h3 class="filter-title">فیلترها</h3>
-                        <!-- Room Name Search -->
-                        <div class="filter-group">
-                            <h4 class="filter-group-title">جستجوی نام اتاق</h4>
-                            <div class="filter-search">
-                                <input type="text" placeholder="جستجوی نام اتاق" id="roomNameSearch">
-                                <i class="fa fa-search"></i>
-                            </div>
-                        </div>
-                        <!-- Star Rating Filter -->
-                        <div class="filter-group">
-                            <h4 class="filter-group-title">
-                                ستاره‌ها
-                                <i class="fa fa-chevron-down"></i>
-                            </h4>
-                            <div class="filter-content">
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="star5" name="star" value="5">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="star4" name="star" value="4">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="star3" name="star" value="3">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="star2" name="star" value="2">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-
-                                </div>
-                                <div class="filter-checkbox">
-                                    <input type="checkbox" id="star1" name="star" value="1">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Hotel Amenities Filter -->
-                        <div class="filter-group">
-                            <h4 class="filter-group-title">
-                                امکانات هتل
-                                <i class="fa fa-chevron-down"></i>
-                            </h4>
-                            <div class="filter-content">
-                                {% for service in services %}
-                                    <div class="filter-checkbox">
-                                        <input type="checkbox" id="service-{{ service.id }}" name="amenity" value="{{ service.name }}">
-                                        <label for="service-{{ service.id }}">{{ service.name }}</label>
+                        <form method="get" action="{% url 'hotels:rooms_list' %}">
+                            <!-- Date Filters -->
+                            <div class="filter-group">
+                                <h4 class="filter-group-title">تاریخ</h4>
+                                <div class="filter-content">
+                                    <div class="mb-3">
+                                        <label for="{{ search_form.check_in.id_for_label }}" class="booking-label">تاریخ
+                                            ورود:</label>
+                                        {{ search_form.check_in }}
                                     </div>
-                                {% endfor %}
-
-                            </div>
-                        </div>
-                        <!-- Number of People Filter -->
-                        <div class="filter-group">
-                            <h4 class="filter-group-title">تعداد نفرات</h4>
-                            <div class="people-counter">
-                                <button class="counter-btn minus-btn">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                                <span class="counter-value" id="peopleCount">۲</span>
-                                <button class="counter-btn plus-btn">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Price Range Filter -->
-                        <div class="filter-group">
-                            <h4 class="filter-group-title">قیمت برای هر شب</h4>
-                            <div class="price-range">
-                                <div class="price-slider">
-                                    <div class="price-progress"></div>
-                                </div>
-                                <div class="price-range-input">
-                                    <input type="range" min="500000" max="10000000" value="2500000" class="min-price">
-                                    <input type="range" min="500000" max="10000000" value="7500000" class="max-price">
-                                </div>
-                                <div class="price-values">
-                                    <div class="price-value min-value">۵۰۰,۰۰۰</div>
-                                    <div class="price-value max-value">۱۰,۰۰۰,۰۰۰</div>
+                                    <div class="mb-3">
+                                        <label for="{{ search_form.check_out.id_for_label }}" class="booking-label">تاریخ
+                                            خروج:</label>
+                                        {{ search_form.check_out }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Apply Filter Button -->
-                        <button class="apply-filter-btn">اعمال فیلتر</button>
+                            <!-- Star Rating Filter -->
+                            <div class="filter-group">
+                                <h4 class="filter-group-title">
+                                    ستاره‌ها
+                                    <i class="fa fa-chevron-down"></i>
+                                </h4>
+                                <div class="filter-content">
+                                    <div class="filter-checkbox">
+                                        <input type="checkbox" id="star5" name="star" value="5">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="filter-checkbox">
+                                        <input type="checkbox" id="star4" name="star" value="4">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="filter-checkbox">
+                                        <input type="checkbox" id="star3" name="star" value="3">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="filter-checkbox">
+                                        <input type="checkbox" id="star2" name="star" value="2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="filter-checkbox">
+                                        <input type="checkbox" id="star1" name="star" value="1">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Hotel Amenities Filter -->
+                            <div class="filter-group">
+                                <h4 class="filter-group-title">
+                                    امکانات هتل
+                                    <i class="fa fa-chevron-down"></i>
+                                </h4>
+                                <div class="filter-content">
+                                    {% for service in services %}
+                                        <div class="filter-checkbox">
+                                            <input type="checkbox" id="service-{{ service.id }}" name="amenity"
+                                                   value="{{ service.name }}">
+                                            <label for="service-{{ service.id }}">{{ service.name }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- Number of People Filter -->
+                            <div class="filter-group">
+                                <h4 class="filter-group-title">تعداد نفرات</h4>
+                                <div class="filter-content">
+                                    <div class="people-counter">
+                                        <button type="button" class="counter-btn minus-btn">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <span class="counter-value" id="peopleCount">۲</span>
+                                        <input type="hidden" name="people_count" id="people_count" value="2">
+                                        <button type="button" class="counter-btn plus-btn">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Price Range Filter -->
+                            <div class="filter-group">
+                                <h4 class="filter-group-title">قیمت برای هر شب</h4>
+                                <div class="price-range">
+                                    <div class="price-slider">
+                                        <div class="price-progress"></div>
+                                    </div>
+                                    <div class="price-range-input">
+                                        <input type="range" min="500000" max="10000000" value="2500000"
+                                               class="min-price">
+                                        <input type="range" min="500000" max="10000000" value="7500000"
+                                               class="max-price">
+                                    </div>
+                                    <div class="price-values">
+                                        <div class="price-value min-value">۵۰۰,۰۰۰</div>
+                                        <div class="price-value max-value">۱۰,۰۰۰,۰۰۰</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Apply Filter Button -->
+                            <button type="submit" class="apply-filter-btn">اعمال فیلتر</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -213,11 +227,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sortOptions = document.querySelectorAll('#sortOptions .sort-option');
-            const sortOptionsContainer = document.getElementById("sortOptions")
+            const sortOptionsContainer = document.getElementById("sortOptions");
             const roomsContainer = document.getElementById('roomsContainer');
             const pagination = document.getElementById('pagination');
-            const roomNameSearch = document.getElementById('roomNameSearch');
             const peopleCount = document.getElementById('peopleCount');
+            const peopleCountInput = document.getElementById('people_count');
             const minPriceInput = document.querySelector('.min-price');
             const maxPriceInput = document.querySelector('.max-price');
             const applyFilterBtn = document.querySelector('.apply-filter-btn');
@@ -225,6 +239,14 @@
             let currentSort = 'default';
             let currentPage = 1;
             let abortController = null;
+
+            // فعال‌سازی تقویم شمسی
+            jalaliDatepicker.startWatch({
+                minDate: 'today',
+                disabledDates: ['2025-07-31'], // معادل 10-5-1404
+                separator: '/',
+                dateFormat: 'YYYY/MM/DD'
+            });
 
             function truncateWords(text, wordLimit) {
                 const words = text.split(' ');
@@ -273,38 +295,38 @@
                         roomsContainer.classList.remove('loading');
 
                         const roomCardsHtml = data.room_list.map(room => `
-                            <div class="room-card fade-in-delay">
-                                <div class="room-card-inner">
-                                    <div class="room-image-container">
-                                        <img src="${room.image_url}" alt="${room.alt_text}" class="room-image">
-                                        <div class="room-badge ${room.existing}">
-                                               ${room.existing_text}
-                                        </div>
-                                    </div>
-                                    <div class="room-content">
-                                        <div class="room-header">
-                                            <h3 class="room-title">${room.title}</h3>
-                                            <div class="room-price-container">
-                                                <div class="room-price">${room.price.toLocaleString()}</div>
-                                                <span class="room-price-currency">تومان</span>
-                                            </div>
-                                        </div>
-                                        <div class="room-amenities">
-                                            ${room.services.map(service => `<div class="amenity-badge">${service}</div>`).join('')}
-                                        </div>
-                                        <div class="room-description">
-                                            <h5>توضیحات:</h5>
-                                            <p>${truncateWords(room.description, 25)}</p>
-                                        </div>
-                                        <div class="room-footer">
-                                            <a href="${room.url}">
-                                                <button class="reserve-btn">رزرو</button>
-                                            </a>
-                                        </div>
-                                    </div>
+                    <div class="room-card fade-in-delay">
+                        <div class="room-card-inner">
+                            <div class="room-image-container">
+                                <img src="${room.image_url}" alt="${room.alt_text}" class="room-image">
+                                <div class="room-badge ${room.existing}">
+                                    ${room.existing_text}
                                 </div>
                             </div>
-                        `).join('');
+                            <div class="room-content">
+                                <div class="room-header">
+                                    <h3 class="room-title">${room.title}</h3>
+                                    <div class="room-price-container">
+                                        <div class="room-price">${room.price.toLocaleString()}</div>
+                                        <span class="room-price-currency">تومان</span>
+                                    </div>
+                                </div>
+                                <div class="room-amenities">
+                                    ${room.services.map(service => `<div class="amenity-badge">${service}</div>`).join('')}
+                                </div>
+                                <div class="room-description">
+                                    <h5>توضیحات:</h5>
+                                    <p>${truncateWords(room.description, 25)}</p>
+                                </div>
+                                <div class="room-footer">
+                                    <a href="${room.url}">
+                                        <button class="reserve-btn">رزرو</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
 
                         roomsContainer.insertAdjacentHTML('beforeend', roomCardsHtml);
 
@@ -355,42 +377,39 @@
                     .finally(() => {
                         abortController = null;
                     });
-
             }
 
             function getFilters() {
                 const starRatings = Array.from(document.querySelectorAll('[name="star"]:checked')).map(cb => cb.value);
                 const amenities = Array.from(document.querySelectorAll('[name="amenity"]:checked')).map(cb => cb.value);
+                const checkIn = document.getElementById('check_in') ? document.getElementById('check_in').value : '';
+                const checkOut = document.getElementById('check_out') ? document.getElementById('check_out').value : '';
                 return {
-                    room_name: roomNameSearch.value,
                     stars: starRatings.length ? starRatings.join(',') : '',
                     amenities: amenities.length ? amenities.join(',') : '',
-                    people: peopleCount.textContent,
+                    people: peopleCountInput.value,
                     min_price: minPriceInput.value,
                     max_price: maxPriceInput.value,
+                    check_in: checkIn,
+                    check_out: checkOut
                 };
             }
 
             sortOptions.forEach(option => {
                 option.addEventListener('click', function () {
-
                     sortOptions.forEach(opt => opt.classList.remove('active'));
                     this.classList.add('active');
                     currentSort = this.getAttribute('data-sort');
                     currentPage = 1;
                     loadRooms(currentSort, currentPage, getFilters());
 
-                    sortOptionsContainer.style.pointerEvents = "none"
-
+                    sortOptionsContainer.style.pointerEvents = "none";
                     setTimeout(() => {
-                        sortOptionsContainer.disabled = false
-                        sortOptionsContainer.style.pointerEvents = "auto"
-                    }, 3000)
+                        sortOptionsContainer.style.pointerEvents = "auto";
+                    }, 3000);
                 });
-
             });
 
-            // حذف فراخوانی loadRooms از رویدادهای فیلترها
             const minusBtn = document.querySelector('.minus-btn');
             const plusBtn = document.querySelector('.plus-btn');
             let peopleCountValue = 2;
@@ -400,6 +419,7 @@
                 if (peopleCountValue > 1) {
                     peopleCountValue--;
                     peopleCount.textContent = convertToPersianNumbers(peopleCountValue);
+                    peopleCountInput.value = peopleCountValue;
                 }
             });
 
@@ -407,6 +427,7 @@
                 if (peopleCountValue < 10) {
                     peopleCountValue++;
                     peopleCount.textContent = convertToPersianNumbers(peopleCountValue);
+                    peopleCountInput.value = peopleCountValue;
                 }
             });
 
@@ -435,16 +456,13 @@
                 });
             });
 
-            // رویداد کلیک دکمه اعمال فیلتر
             applyFilterBtn.addEventListener('click', () => {
-                applyFilterBtn.disabled = true
-
+                applyFilterBtn.disabled = true;
                 setTimeout(() => {
-                    applyFilterBtn.disabled = false
-                }, 3000)
+                    applyFilterBtn.disabled = false;
+                }, 3000);
                 currentPage = 1;
                 loadRooms(currentSort, currentPage, getFilters());
-                console.log(applyFilterBtn)
             });
 
             function convertToPersianNumbers(num) {
@@ -456,7 +474,6 @@
                 return convertToPersianNumbers(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             }
 
-            // لود اولیه
             loadRooms(currentSort, currentPage, getFilters());
 
             document.querySelectorAll(".filter-group-title").forEach(title => {
