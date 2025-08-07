@@ -52,14 +52,14 @@ class BookingForm(forms.ModelForm):
 class SearchForm(forms.Form):
     check_in = JalaliDateField(
         widget=AdminJalaliDateWidget(
-            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_in'},
+            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_in', "placeholder": "تاریخ ورود"},
             format='%Y/%m/%d'
         ),
         label='تاریخ ورود'
     )
     check_out = JalaliDateField(
         widget=AdminJalaliDateWidget(
-            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_out'},
+            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_out', "placeholder": "تاریخ خروج"},
             format='%Y/%m/%d'
         ),
         label='تاریخ خروج'

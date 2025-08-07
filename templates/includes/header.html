@@ -1,5 +1,5 @@
 <!-- Top Header -->
-
+{% load static %}
 {% if messages %}
     {% for message in messages %}
         <script>console.log({{ message.tags }})</script>
@@ -11,6 +11,13 @@
         </div>
     {% endfor %}
 {% endif %}
+<!-- Loading Screen -->
+<div class="loader" id="loader">
+    <div class="text-center">
+        <div class="loader-spinner"></div>
+        <h4 class="mt-4 fs-5 fw-semibold text-primary-custom">در حال بارگذاری...</h4>
+    </div>
+</div>
 <div class="top-header" dir="rtl">
     <div class="container">
         <div class="row align-items-center">
@@ -34,6 +41,11 @@
         <nav class="navbar navbar-expand-lg">
             <div class="d-flex align-items-center">
                 <a href="
+
+
+
+
+
                         {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
                     <div class="user-account me-3">
                         <i class="fa fa-user"></i>
@@ -110,18 +122,30 @@
 
                 </ul>
             </div>
-
-            <div class="logo">
-                <div class="logo-text">هتل</div>
-                <div class="logo-icon">
-                    <i class="fa fa-building"></i>
+            <a href="{% url "hotels:home" %}">
+                <div class="logo">
+                    <div class="logo-text">هتل</div>
+                    <div class="logo-icon">
+                        <i class="fa fa-building"></i>
+                    </div>
                 </div>
-            </div>
+            </a>
+
         </nav>
     </div>
 </header>
 
 <script>
+
+    window.addEventListener("load", function () {
+        const loader = document.getElementById("loader");
+        setTimeout(() => {
+            loader.style.opacity = "0";
+            setTimeout(() => {
+                loader.style.display = "none";
+            }, 500);
+        }, 1000);
+    });
     const accountIcon = document.querySelector(".user-account");
     const profileContent = document.querySelector(".profile-content");
     let profileContentFlag = false;

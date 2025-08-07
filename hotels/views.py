@@ -17,8 +17,23 @@ class HomePage(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["top_rooms"] = Room.objects.all()[:3]
-        context["rooms_list"] = Room.objects.all()[:5]
+        rooms = Room.objects.filter(existing=True)[:5]
+        rooms_list = [
+            {
+                'title': room.title,
+                'price': room.price,
+                'capacity': room.capacity,
+                'description': room.description,
+                'image_url': room.primary_image.image.url if room.primary_image else '',
+                'alt_text': room.primary_image.alt_text if room.primary_image else '',
+                'services': [service.name for service in room.services.all()],
+                'url': room.get_absolute_url(),
+                'rating': room.get_rating(),
+            }
+            for room in rooms
+        ]
+        context["rooms_list"] = rooms_list
+        context["search_form"] = SearchForm()
         return context
 
 
@@ -31,7 +46,7 @@ class RoomsListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["services"] = Service.objects.all()
-        context["search_form"] = SearchForm(self.request.GET or None)
+        context["search_form"] = SearchForm()
         return context
 
     def get(self, request, *args, **kwargs):

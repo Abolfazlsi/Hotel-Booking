@@ -1,64 +1,76 @@
-<footer class="footer-section">
-        <div class="container">
-            <div class="footer-text">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="ft-about">
-                            <div class="logo">
-                                <a href="#">
-                                    <img src="img/footer-logo.png" alt="">
-                                </a>
-                            </div>
-                            <p>We inspire and reach millions of travelers<br /> across 90 local websites</p>
-                            <div class="fa-social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-tripadvisor"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 offset-lg-1">
-                        <div class="ft-contact">
-                            <h6>Contact Us</h6>
-                            <ul>
-                                <li>(12) 345 67890</li>
-                                <li>info.colorlib@gmail.com</li>
-                                <li>856 Cordia Extension Apt. 356, Lake, United State</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 offset-lg-1">
-                        <div class="ft-newslatter">
-                            <h6>New latest</h6>
-                            <p>Get the latest updates and offers.</p>
-                            <form action="#" class="fn-form">
-                                <input type="text" placeholder="Email">
-                                <button type="submit"><i class="fa fa-send"></i></button>
-                            </form>
-                        </div>
-                    </div>
+{% load static %}
+<footer id="contact" class="bg-dark-custom text-white pt-5 pb-3" dir="rtl">
+    <div class="container custom-container">
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <h5 class="fs-5 fw-bold text-primary-custom mb-4">هتل سونا</h5>
+                <p class="text-light mb-4 footer-text-muted">
+                    ما افتخار داریم که بهترین خدمات هتلداری را به شما ارائه دهیم. تجربه‌ای لوکس و فراموش‌نشدنی در انتظار
+                    شماست.
+                </p>
+                <div class="d-flex gap-2">
+                    <a href="#" class="footer-social-link">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="footer-social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="footer-social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="footer-social-link">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
                 </div>
             </div>
-        </div>
-        <div class="copyright-option">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <ul>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Terms of use</a></li>
-                            <li><a href="#">Privacy</a></li>
-                            <li><a href="#">Environmental Policy</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="co-text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-                    </div>
-                </div>
+            <div class="col-md-6 col-lg-3">
+                <h5 class="fs-5 fw-bold text-primary-custom mb-4">لینک‌های مفید</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#home" class="footer-link">خانه</a></li>
+                    <li class="mb-2"><a href="#about" class="footer-link">درباره ما</a></li>
+                    <li class="mb-2"><a href="#services" class="footer-link">خدمات</a></li>
+                    <li class="mb-2"><a href="#rooms" class="footer-link">اتاق‌ها</a></li>
+                    <li class="mb-2"><a href="#blog" class="footer-link">وبلاگ</a></li>
+                    <li class="mb-2"><a href="#testimonials" class="footer-link">نظرات</a></li>
+                    <li class="mb-2"><a href="#contact" class="footer-link">تماس</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <h5 class="fs-5 fw-bold text-primary-custom mb-4">خدمات</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="footer-link">رستوران</a></li>
+                    <li class="mb-2"><a href="#" class="footer-link">استخر</a></li>
+                    <li class="mb-2"><a href="#" class="footer-link">باشگاه ورزشی</a></li>
+                    <li class="mb-2"><a href="#" class="footer-link">اسپا</a></li>
+                    <li class="mb-2"><a href="#" class="footer-link">خدمات اتاق</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <h5 class="fs-5 fw-bold text-primary-custom mb-4">تماس با ما</h5>
+                <ul class="list-unstyled">
+                    <li class="d-flex align-items-start mb-3">
+                        <i class="fas fa-map-marker-alt text-primary-custom mt-1 me-2"></i>
+                        <span class="text-light footer-text-muted">تهران، خیابان ولیعصر، پلاک ۱۲۳</span>
+                    </li>
+                    <li class="d-flex align-items-center mb-3">
+                        <i class="fas fa-phone text-primary-custom me-2"></i>
+                        <span class="text-light footer-text-muted">۰۲۱-۱۲۳۴۵۶۷۸</span>
+                    </li>
+                    <li class="d-flex align-items-center mb-3">
+                        <i class="fas fa-envelope text-primary-custom me-2"></i>
+                        <span class="text-light footer-text-muted">info@sonhotel.com</span>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <i class="fas fa-clock text-primary-custom me-2"></i>
+                        <span class="text-light footer-text-muted">۲۴ ساعته</span>
+                    </li>
+                </ul>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
+
+<!-- Scroll to Top Button -->
+<a href="#home" class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+</a>
