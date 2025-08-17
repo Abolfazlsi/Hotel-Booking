@@ -243,9 +243,6 @@
             // فعال‌سازی تقویم شمسی
             jalaliDatepicker.startWatch({
                 minDate: 'today',
-                disabledDates: ['2025-07-31'], // معادل 10-5-1404
-                separator: '/',
-                dateFormat: 'YYYY/MM/DD'
             });
 
             function truncateWords(text, wordLimit) {
@@ -294,6 +291,10 @@
                         roomsLoader.classList.remove('show');
                         roomsContainer.classList.remove('loading');
 
+                        // گرفتن تاریخ‌ها برای اضافه کردن به لینک رزرو
+                        const checkIn = filters.check_in || '';
+                        const checkOut = filters.check_out || '';
+
                         const roomCardsHtml = data.room_list.map(room => `
                     <div class="room-card fade-in-delay">
                         <div class="room-card-inner">
@@ -319,7 +320,7 @@
                                     <p>${truncateWords(room.description, 25)}</p>
                                 </div>
                                 <div class="room-footer">
-                                    <a href="${room.url}">
+                                    <a href="${room.url}?check_in=${encodeURIComponent(checkIn)}&check_out=${encodeURIComponent(checkOut)}">
                                         <button class="reserve-btn">رزرو</button>
                                     </a>
                                 </div>
@@ -385,8 +386,6 @@
                 const checkIn = document.getElementById('check_in') ? document.getElementById('check_in').value : '';
                 const checkOut = document.getElementById('check_out') ? document.getElementById('check_out').value : '';
                 return {
-                    stars: starRatings.length ? starRatings.join(',') : '',
-                    amenities: amenities.length ? amenities.join(',') : '',
                     people: peopleCountInput.value,
                     min_price: minPriceInput.value,
                     max_price: maxPriceInput.value,

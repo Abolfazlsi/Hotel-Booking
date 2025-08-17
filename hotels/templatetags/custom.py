@@ -1,7 +1,6 @@
 from django import template
 import jdatetime
 
-
 register = template.Library()
 
 
@@ -55,3 +54,17 @@ def to_jalali(value):
         except (ValueError, TypeError):
             return ''
     return ''
+
+
+@register.simple_tag
+def format_jalali_date(date_obj):
+    """
+    شیء jdatetime.date را به فرمت خوانا (مثل '25 مرداد 1404') تبدیل می‌کند.
+    """
+    if not isinstance(date_obj, jdatetime.date):
+        return ""
+    return date_obj.strftime('%d %B %Y').replace('Farvardin', 'فروردین').replace(
+        'Ordibehesht', 'اردیبهشت').replace('Khordad', 'خرداد').replace('Tir', 'تیر').replace(
+        'Mordad', 'مرداد').replace('Shahrivar', 'شهریور').replace('Mehr', 'مهر').replace(
+        'Aban', 'آبان').replace('Azar', 'آذر').replace('Dey', 'دی').replace(
+        'Bahman', 'بهمن').replace('Esfand', 'اسفند')

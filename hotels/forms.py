@@ -3,7 +3,7 @@ from hotels.models import Review, Booking
 from django.core.validators import MinValueValidator, MaxValueValidator
 from jalali_date.widgets import AdminJalaliDateWidget
 from jalali_date.fields import JalaliDateField
-import jdatetime
+from jdatetime import date as jdate, timedelta
 
 
 class ReviewForm(forms.ModelForm):
@@ -27,39 +27,25 @@ class ReviewForm(forms.ModelForm):
         return rating
 
 
-class BookingForm(forms.ModelForm):
-    class Meta:
-        model = Booking
-        fields = ['check_in', 'check_out']
-        widgets = {
-            'check_in': AdminJalaliDateWidget(
-                attrs={'class': 'form-control__room-detail booking-input'},
-                format='%Y/%m/%d'
-            ),
-            'check_out': AdminJalaliDateWidget(
-                attrs={'class': 'form-control__room-detail booking-input'},
-                format='%Y/%m/%d'
-            ),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        today_jalali = jdatetime.date.today()
-        self.fields['check_in'].initial = today_jalali.strftime('%Y/%m/%d')
-        self.fields['check_out'].initial = today_jalali.strftime('%Y/%m/%d')
-
-
 class SearchForm(forms.Form):
     check_in = JalaliDateField(
         widget=AdminJalaliDateWidget(
-            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_in', "placeholder": "تاریخ ورود"},
+            attrs={
+                'class': 'form-control__room-detail booking-input',
+                'id': 'check_in',
+                'placeholder': 'تاریخ ورود'
+            },
             format='%Y/%m/%d'
         ),
         label='تاریخ ورود'
     )
     check_out = JalaliDateField(
         widget=AdminJalaliDateWidget(
-            attrs={'class': 'form-control__room-detail booking-input', 'id': 'check_out', "placeholder": "تاریخ خروج"},
+            attrs={
+                'class': 'form-control__room-detail booking-input',
+                'id': 'check_out',
+                'placeholder': 'تاریخ خروج'
+            },
             format='%Y/%m/%d'
         ),
         label='تاریخ خروج'
@@ -69,3 +55,26 @@ class SearchForm(forms.Form):
         label='تعداد نفرات',
         initial=2
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        today_jalali = jdate.today()
+        self.fields['check_in'].initial = today_jalali.strftime('%Y/%m/%d')
+        self.fields['check_out'].initial = (today_jalali + timedelta(days=2)).strftime('%Y/%m/%d')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        check_in = cleaned_data.get('check_in')
+        check_out = cleaned_data.get('check_out')
+
+        # تبدیل تاریخ‌های با خط تیره به اسلش
+        if isinstance(check_in, str):
+            cleaned_data['check_in'] = check_in.replace('-', '/')
+        if isinstance(check_out, str):
+            cleaned_data['check_out'] = check_out.replace('-', '/')
+
+        # اعتبارسنجی: تاریخ خروج باید بعد از تاریخ ورود باشه
+        if check_in and check_out and check_out <= check_in:
+            raise forms.ValidationError("تاریخ خروج باید بعد از تاریخ ورود باشد.")
+
+        return cleaned_data

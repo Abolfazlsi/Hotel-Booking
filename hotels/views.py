@@ -6,10 +6,12 @@ from django.template.defaultfilters import truncatewords
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from hotels.models import Room, Review, Service
-from hotels.forms import ReviewForm, BookingForm, SearchForm
+from hotels.forms import ReviewForm, SearchForm
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+import jdatetime
+from datetime import datetime
 
 
 class HomePage(TemplateView):
@@ -114,13 +116,38 @@ class RoomDetailView(DetailView):
         context['form'] = ReviewForm()
         context['reviews'] = self.object.reviews.all()
         context['rating'] = self.object.get_rating()
-        context['booking_form'] = BookingForm()
-        # تبدیل rating_breakdown به لیست برای استفاده در template
         breakdown = self.object.get_rating_breakdown()
         context['rating_breakdown'] = [
             {'rating': i, 'percentage': breakdown[str(i)]}
             for i in range(5, 0, -1)
         ]
+
+        # گرفتن تاریخ‌ها از request.GET
+        check_in = self.request.GET.get('check_in')
+        check_out = self.request.GET.get('check_out')
+        today_jalali = jdatetime.date.today()
+
+        if check_in:
+            try:
+                check_in = check_in.replace('-', '/')
+                context['check_in'] = jdatetime.datetime.strptime(check_in, '%Y/%m/%d').date()
+            except ValueError:
+                context['check_in'] = today_jalali
+        else:
+            context['check_in'] = today_jalali
+
+        if check_out:
+            try:
+                check_out = check_out.replace('-', '/')
+                context['check_out'] = jdatetime.datetime.strptime(check_out, '%Y/%m/%d').date()
+            except ValueError:
+                context['check_out'] = today_jalali + jdatetime.timedelta(days=1)
+        else:
+            context['check_out'] = today_jalali + jdatetime.timedelta(days=1)
+
+        nights = (context['check_out'] - context['check_in']).days
+        context['nights'] = max(nights, 1)
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -131,12 +158,10 @@ class RoomDetailView(DetailView):
             review.room = room
             review.user = request.user
             review.save()
-            # رندر HTML نظر جدید برای پاسخ AJAX
             review_html = render_to_string('hotels/review_item.html', {
                 'review': review,
                 'request': request
             })
-            # آماده‌سازی rating_breakdown برای AJAX
             breakdown = room.get_rating_breakdown()
             breakdown_list = [
                 {'rating': i, 'percentage': breakdown[str(i)]}

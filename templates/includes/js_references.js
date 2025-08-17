@@ -12,3 +12,4 @@
 <script src="{% static "js/owl.carousel.min.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
 <script src="{% static "admin/js/django_jalali.min.js" %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jalalidatepicker@0.6.0/dist/jalalidatepicker.min.js"></script>

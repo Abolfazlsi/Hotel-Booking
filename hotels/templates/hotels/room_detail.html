@@ -23,6 +23,7 @@
                     </div>
                 </div>
 
+
                 <!-- Room Information Section -->
                 <div class="col-lg-6">
                     <div class="room-info">
@@ -73,6 +74,12 @@
                                     </div>
                                 {% endfor %}
                             </div>
+                        </div>
+
+                        <div class="date-stay">
+                            <p>ورود: {% format_jalali_date check_in %}</p>
+                            <p>خروج: {% format_jalali_date check_out %}</p>
+                            <p>{{ nights }} شب اقامت</p>
                         </div>
                         <div class="pricing-section">
                             <div class="price-label">قیمت هر شب</div>
@@ -311,16 +318,6 @@
                         <div class="modal-body p-4">
                             <form id="bookingForm" class="booking-form" method="post">
                                 {% csrf_token %}
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="booking-label">تاریخ ورود:</label>
-                                        {{ booking_form.check_in }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="booking-label">تاریخ ورود:</label>
-                                        {{ booking_form.check_out }}
-                                    </div>
-                                </div>
                                 {% for i in "x"|ljust:room.capacity %}
                                     <div class="row g-3 mb-3">
                                         <div class="col-md-6">
@@ -360,14 +357,6 @@
             </div>
         </div>
         <script>
-
-            window.addEventListener("load", function () {
-                jalaliDatepicker.startWatch({
-                    minDate: "today",
-                });
-            });
-
-
             // Change main image when thumbnail is clicked
             function changeMainImage(thumbnail) {
                 const mainImage = document.getElementById('mainImage');
