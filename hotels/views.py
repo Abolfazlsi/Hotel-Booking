@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.views.generic import TemplateView, ListView, DetailView, DeleteView, View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
@@ -12,6 +12,12 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 import jdatetime
 from datetime import datetime
+from django.core.cache import cache
+
+
+def clear_cache(request):
+    cache.clear()
+    return HttpResponse("Clear")
 
 
 class HomePage(TemplateView):
@@ -126,27 +132,42 @@ class RoomDetailView(DetailView):
         check_in = self.request.GET.get('check_in')
         check_out = self.request.GET.get('check_out')
         today_jalali = jdatetime.date.today()
+        errors = []
 
+        # اعتبارسنجی تاریخ ورود
         if check_in:
             try:
                 check_in = check_in.replace('-', '/')
-                context['check_in'] = jdatetime.datetime.strptime(check_in, '%Y/%m/%d').date()
+                check_in_date = jdatetime.datetime.strptime(check_in, '%Y/%m/%d').date()
+                if check_in_date < today_jalali:
+                    errors.append("تاریخ ورود نمی‌تواند قبل از امروز باشد.")
+                    check_in_date = today_jalali
             except ValueError:
-                context['check_in'] = today_jalali
+                errors.append("فرمت تاریخ ورود نامعتبر است.")
+                check_in_date = today_jalali
         else:
-            context['check_in'] = today_jalali
+            check_in_date = today_jalali
 
+        # اعتبارسنجی تاریخ خروج
         if check_out:
             try:
                 check_out = check_out.replace('-', '/')
-                context['check_out'] = jdatetime.datetime.strptime(check_out, '%Y/%m/%d').date()
+                check_out_date = jdatetime.datetime.strptime(check_out, '%Y/%m/%d').date()
+                if check_out_date <= check_in_date:
+                    errors.append("تاریخ خروج باید بعد از تاریخ ورود باشد.")
+                    check_out_date = check_in_date + jdatetime.timedelta(days=1)
             except ValueError:
-                context['check_out'] = today_jalali + jdatetime.timedelta(days=1)
+                errors.append("فرمت تاریخ خروج نامعتبر است.")
+                check_out_date = check_in_date + jdatetime.timedelta(days=1)
         else:
-            context['check_out'] = today_jalali + jdatetime.timedelta(days=1)
+            check_out_date = check_in_date + jdatetime.timedelta(days=1)
 
-        nights = (context['check_out'] - context['check_in']).days
+        # محاسبه تعداد شب‌ها
+        nights = (check_out_date - check_in_date).days
+        context['check_in'] = check_in_date
+        context['check_out'] = check_out_date
         context['nights'] = max(nights, 1)
+        context['form_errors'] = errors  # ارسال خطاها به قالب
 
         return context
 

@@ -50,17 +50,19 @@
                                         {% csrf_token %}
                                         <div class="row mb-3">
                                             <div class="col-6">
-                                                {{ form.last_name }}
-                                            </div>
-                                            <div class="col-6">
                                                 {{ form.first_name }}
                                             </div>
+
+                                            <div class="col-6">
+                                                {{ form.last_name }}
+                                            </div>
+
                                         </div>
                                         <div class="mb-3">
                                             {{ form.email }}
                                         </div>
                                         <div class="mb-4">
-                                            {{ form.phone}}
+                                            {{ form.phone }}
                                         </div>
                                         <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
                                     </form>

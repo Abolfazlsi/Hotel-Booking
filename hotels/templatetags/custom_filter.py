@@ -3,7 +3,6 @@ import jdatetime
 
 register = template.Library()
 
-
 @register.filter
 def intcomma(value):
     try:

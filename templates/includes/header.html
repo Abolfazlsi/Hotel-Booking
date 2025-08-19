@@ -1,8 +1,8 @@
 <!-- Top Header -->
 {% load static %}
+
 {% if messages %}
     {% for message in messages %}
-        <script>console.log({{ message.tags }})</script>
         <div class="modal-container" data-message="{{ message }}" data-type="{{ message.tags }}">
             <div class="modal-item">
                 <span>{{ message }}</span>
@@ -11,6 +11,7 @@
         </div>
     {% endfor %}
 {% endif %}
+
 <!-- Loading Screen -->
 <div class="loader" id="loader">
     <div class="text-center">
@@ -18,6 +19,7 @@
         <h4 class="mt-4 fs-5 fw-semibold text-primary-custom">در حال بارگذاری...</h4>
     </div>
 </div>
+
 <div class="top-header" dir="rtl">
     <div class="container">
         <div class="row align-items-center">
@@ -25,7 +27,7 @@
                 <div class="phone-number">
                     <i class="fa fa-phone"></i>
                     <span>۰۲۱-۳۳۲۵۶۷۸</span>
-                    <span class="me-3">منتظر نظرات شما هستیم</span>
+                    <span class="me-3">منتظر نظرات شما</span>
                 </div>
             </div>
             <div class="col-md-6 text-start">
@@ -43,14 +45,17 @@
                 <a href="
 
 
-
-
-
                         {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
                     <div class="user-account me-3">
                         <i class="fa fa-user"></i>
                     </div>
                 </a>
+                <!-- From Uiverse.io by RiccardoRapelli -->
+                <!-- From Uiverse.io by alexruix -->
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
 
             </div>
             <div class="profile-content">
@@ -136,16 +141,6 @@
 </header>
 
 <script>
-
-    window.addEventListener("load", function () {
-        const loader = document.getElementById("loader");
-        setTimeout(() => {
-            loader.style.opacity = "0";
-            setTimeout(() => {
-                loader.style.display = "none";
-            }, 500);
-        }, 1000);
-    });
     const accountIcon = document.querySelector(".user-account");
     const profileContent = document.querySelector(".profile-content");
     let profileContentFlag = false;
@@ -213,3 +208,4 @@
         });
     });
 </script>
+
