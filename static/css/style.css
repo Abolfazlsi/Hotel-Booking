@@ -1978,6 +1978,11 @@ input:checked + .slider:before {
     font-size: 0.95rem;
 }
 
+.price-label.main-night {
+    padding-top: 1rem;
+    border-top: 1px solid #cbcbcb;
+}
+
 .amenities-section {
     margin-bottom: 30px;
 }
@@ -2061,18 +2066,17 @@ input:checked + .slider:before {
 }
 
 .price-amount {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 700;
-    color: #DAA520;
-    text-align: center;
-    margin-bottom: 5px;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
 }
 
-.price-currency {
-    font-size: 0.9rem;
-    color: #666;
-    text-align: center;
+.price-amount.anight {
+    color: #3b3636;
+    font-size: 1.5rem;
 }
+
 
 .reserve-btn__room-detail {
     background: linear-gradient(45deg, #DAA520, #B8860B);
@@ -4574,16 +4578,10 @@ input:checked + .slider:before {
     margin-bottom: 0.5rem;
 }
 
-.price-amount {
-    font-size: 2.25rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 0.25rem;
-}
-
 .price-currency {
     font-size: 0.875rem;
     color: #6b7280;
+    padding-bottom: 1rem;
 }
 
 .reserve-btn__room-detail {

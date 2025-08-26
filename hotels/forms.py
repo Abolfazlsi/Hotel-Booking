@@ -1,5 +1,7 @@
 from django import forms
-from hotels.models import Review, Booking
+from hotels.models import Review
+from reservations.models import Booking, Guest
+from django.forms import inlineformset_factory
 from django.core.validators import MinValueValidator, MaxValueValidator
 from jalali_date.widgets import AdminJalaliDateWidget
 from jalali_date.fields import JalaliDateField
@@ -78,3 +80,26 @@ class SearchForm(forms.Form):
             raise forms.ValidationError("تاریخ خروج باید بعد از تاریخ ورود باشد.")
 
         return cleaned_data
+
+
+class GuestForm(forms.ModelForm):
+    """فرم برای ثبت اطلاعات یک مهمان بر اساس مدل Guest"""
+
+    class Meta:
+        model = Guest
+        fields = ['full_name', 'national_id', 'phone_number', 'gender']
+        widgets = {
+            'full_name': forms.TextInput(attrs={'required': True, 'class': 'form-control__room-detail booking-input'}),
+            'national_id': forms.TextInput(
+                attrs={'maxlength': 10, 'required': True, 'class': 'form-control__room-detail booking-input'}),
+            'phone_number': forms.TextInput(
+                attrs={'maxlength': 11, 'required': True, 'class': 'form-control__room-detail booking-input'}),
+            'gender': forms.Select(attrs={'required': True, 'class': 'form-control__room-detail booking-input'}),
+        }
+        labels = {
+            'full_name': 'نام کامل',
+            'national_id': 'کد ملی',
+            'phone_number': 'شماره تلفن',
+            'gender': 'جنسیت',
+        }
+

@@ -6,12 +6,11 @@ from django.template.defaultfilters import truncatewords
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from hotels.models import Room, Review, Service
-from hotels.forms import ReviewForm, SearchForm
+from hotels.forms import ReviewForm, SearchForm, GuestForm
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 import jdatetime
-from datetime import datetime
 from django.core.cache import cache
 
 
@@ -62,13 +61,11 @@ class RoomsListView(ListView):
         sort = request.GET.get('sort', 'default')
         page = request.GET.get('page', 1)
 
-        # اعمال مرتب‌سازی
         if sort == 'lower-price':
             rooms = rooms.order_by('price')
         elif sort == 'higher-price':
             rooms = rooms.order_by('-price')
 
-        # صفحه‌بندی
         paginator = Paginator(rooms, self.paginate_by)
         try:
             room_list = paginator.page(page)
@@ -164,10 +161,16 @@ class RoomDetailView(DetailView):
 
         # محاسبه تعداد شب‌ها
         nights = (check_out_date - check_in_date).days
+        total_price = self.object.price * max(nights, 1)
         context['check_in'] = check_in_date
         context['check_out'] = check_out_date
         context['nights'] = max(nights, 1)
-        context['form_errors'] = errors  # ارسال خطاها به قالب
+        context['total_price'] = total_price
+        context['form_errors'] = errors
+
+        context['guest_forms'] = [
+            GuestForm(prefix=f'guest_{i}') for i in range(1, self.object.capacity + 1)
+        ]
 
         return context
 
@@ -202,7 +205,7 @@ class RoomDetailView(DetailView):
             }, status=400)
 
 
-class ReviewDeleteView(DeleteView):
+class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     model = Review
     http_method_names = ['delete']
 

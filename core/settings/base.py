@@ -19,15 +19,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Packages
     'django_cleanup.apps.CleanupConfig',
     'debug_toolbar',
     'imagekit',
     'django_jalali',
     'jalali_date',
 
-    # my apps
+    # Apps
     'accounts.apps.AccountsConfig',
-    'hotels.apps.HotelsConfig'
+    'hotels.apps.HotelsConfig',
+    'reservations.apps.ReservationsConfig',
 ]
 
 MIDDLEWARE = [
@@ -93,6 +96,12 @@ USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
+LOGIN_URL = "/accounts/singin-singup/"
+
+MERCHANT = "9bb72628-0d73-4134-bcef-f8946dcc3e5f"
+
+SANDBOX = True
+
 REDIS_URL = config('REDIS_URL', default='redis://localhost:6379/0')
 
 STATIC_URL = '/public/static/'
@@ -147,16 +156,15 @@ JALALI_SETTINGS = {
     },
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',  # Use the appropriate Redis server URL
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
-
-# Optional: This is to ensure Django sessions are stored in Redis
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'default'
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/1',  # Use the appropriate Redis server URL
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
+#
+#
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'

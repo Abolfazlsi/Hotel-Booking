@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hotels.models import RoomImage, Room, Service, Review, Booking
+from hotels.models import RoomImage, Room, Service, Review
 import jdatetime
 
 
@@ -58,9 +58,3 @@ class ReviewAdmin(admin.ModelAdmin):
 
     created_at_jalali.short_description = 'تاریخ ایجاد'
 
-
-@admin.register(Booking)
-class BookingAdmin(admin.ModelAdmin):
-    list_display = ["room", "user", "check_in", "check_out"]
-    list_filter = ["user", "room", "check_in", "check_out"]
-    search_fields = ["user", "room"]

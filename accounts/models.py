@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'phone'
 
     def __str__(self):
-        return f"{self.first_name or 'User'} ({self.phone})"
+        return f"{self.first_name or 'کاربر با شماره تلفن'} ({self.phone})"
 
     @property
     def is_staff(self):

@@ -110,7 +110,7 @@ class Review(models.Model):
         verbose_name_plural = "نظرات"
 
     def __str__(self):
-        return f"{self.room} - {self.user.first_name} {self.user.last_name}"
+        return f" {self.user.first_name} {self.user.last_name} --> {self.room}"
 
     def time_since_creation(self):
         time_delta = timezone.now() - self.created_at
@@ -138,13 +138,3 @@ class Review(models.Model):
         jalali_date = jdatetime.datetime.fromgregorian(datetime=self.created_at)
         return jalali_date.strftime('%Y/%m/%d %H:%M:%S')
 
-
-class Booking(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='bookings')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    check_in = jmodels.jDateField()
-    check_out = jmodels.jDateField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.first_name} - {self.room.title} ({self.check_in} - {self.check_out})"
