@@ -27,6 +27,7 @@ class BookingAdmin(admin.ModelAdmin):
         'people_count',
         'get_check_in_jalali',
         'get_check_out_jalali',
+        "nights_stay",
         'status',
         'get_total_price_formatted',
         'created_at_jalali',

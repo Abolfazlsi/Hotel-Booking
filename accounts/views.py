@@ -78,6 +78,11 @@ class OtpVerifyView(View):
                     login(request, user, backend="django.contrib.auth.backends.ModelBackend")
                     redis_client.delete(otp_key)
 
+                    del request.session["otp_token"]
+                    del request.session["otp_phone"]
+
+                    request.session.modified = True
+
                     messages.success(request, "ثبت نام با موفقیت انجام شد")
                     return redirect("hotels:home")
                 else:

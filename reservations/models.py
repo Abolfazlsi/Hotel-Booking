@@ -41,6 +41,7 @@ class Booking(models.Model):
         validators=[MinValueValidator(1)],
         verbose_name="قیمت کل"
     )
+    nights_stay = models.PositiveIntegerField(validators=[MinValueValidator(1)], verbose_name="تعداد شب اقامت")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ به‌روزرسانی")
 
@@ -135,7 +136,7 @@ class Transaction(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default='pending',
+        default='failed',
         verbose_name="وضعیت تراکنش"
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")

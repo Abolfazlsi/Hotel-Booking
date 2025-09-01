@@ -320,7 +320,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-4">
-                            <form id="bookingForm" class="booking-form" method="post">
+                            <form id="bookingForm" class="booking-form" method="post"
+                                  action="{% url 'reservations:send-request' room.slug %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="check_in" value="{{ check_in|date:'Y/m/d' }}">
                                 <input type="hidden" name="check_out" value="{{ check_out|date:'Y/m/d' }}">
@@ -361,7 +362,7 @@
                                     </div>
                                 {% endfor %}
                                 <div class="text-start">
-                                    <button type="submit" class="btn payment-btn">پرداخت</button>
+                                    <button class="btn payment-btn">پرداخت</button>
                                 </div>
                             </form>
                         </div>
@@ -717,44 +718,6 @@
         });
 
         // Booking form submission
-        document.getElementById('bookingForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const checkinDate = document.getElementById('checkinDate').value;
-            const checkoutDate = document.getElementById('checkoutDate').value;
-            const fullName = this.querySelector('input[placeholder="نام کامل"]').value;
-            const guestCount = this.querySelector('select').value;
-            const nationalId = this.querySelector('input[placeholder="کد ملی"]').value;
-            const phoneNumber = this.querySelector('input[type="tel"]').value;
-
-
-            const checkout = new Date(checkoutDate);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-
-            if (!/^\d{10}$/.test(nationalId)) {
-                alert('کد ملی باید ۱۰ رقم باشد.');
-                return;
-            }
-
-            if (!/^09\d{9}$/.test(phoneNumber)) {
-                alert('شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد.');
-                return;
-            }
-
-            const submitBtn = this.querySelector('.payment-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'در حال پردازش...';
-            submitBtn.disabled = true;
-
-            setTimeout(() => {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
-                modal.hide();
-                this.reset();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 2000);
-        });
 
 
         // Back to top button functionality
