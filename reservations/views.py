@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from hotels.forms import GuestForm
 from reservations.models import Booking, Guest, Transaction
 from django.conf import settings
-from django.views.generic import View
+from django.views.generic import View, DetailView, TemplateView
 from hotels.models import Room
 import jdatetime
 import json
@@ -121,7 +121,7 @@ class VerifyView(LoginRequiredMixin, View):
         reservation_data = request.session.get('reservation_data')
 
         if not all([payment_status, authority, session_authority, reservation_data]) or authority != session_authority:
-            return HttpResponse("خطا در پرداخت")
+            return redirect("reservations:payment-fail")
 
         #  محاسبه مجدد قیمت
         try:
@@ -131,10 +131,11 @@ class VerifyView(LoginRequiredMixin, View):
             nights = (check_out_jalali - check_in_jalali).days
             recalculated_price = nights * room.price
         except (ValueError, TypeError):
-            return redirect('reservations:payment_failed')
+            return redirect("reservations:payment-fail")
 
         if recalculated_price != reservation_data['total_price']:
-            return redirect('reservations:payment_failed')
+            return redirect("reservations:payment-fail")
+
 
         transaction_data = {
             'user': request.user,
@@ -177,35 +178,45 @@ class VerifyView(LoginRequiredMixin, View):
                     except Exception as e:
                         transaction_data['status'] = 'failed'
                         Transaction.objects.create(**transaction_data)
-                        return HttpResponse("خطا در پرداخت")
+                        return redirect("reservations:payment-fail")
 
                     self.cleanup_session(request)
-                    return HttpResponse("پرداخت موفق")
+                    return redirect("reservations:payment-success", pk=booking.id)
 
                 elif response_data.get('code') == 101:
                     self.cleanup_session(request)
-                    return HttpResponse("پرداخت موفق")
+                    return redirect("reservations:payment-success")
+
 
                 else:
                     transaction_data['status'] = 'failed'
                     Transaction.objects.create(**transaction_data)
                     self.cleanup_session(request)
-                    return HttpResponse("خطا در پرداخت")
+                    return redirect("reservations:payment-fail")
 
             except requests.RequestException:
                 transaction_data['status'] = 'failed'
                 Transaction.objects.create(**transaction_data)
                 self.cleanup_session(request)
-                return HttpResponse("خطا در پرداخت")
+                return redirect("reservations:payment-fail")
 
         else:
             transaction_data['status'] = 'failed'
             Transaction.objects.create(**transaction_data)
             self.cleanup_session(request)
-            return HttpResponse("خطا در پرداخت")
+            return redirect("reservations:payment-fail")
 
     def cleanup_session(self, request):
         """ پاکسازی سشن پس از اتمام فرآیند پرداخت."""
         request.session.pop('reservation_data', None)
         request.session.pop('authority', None)
         request.session.modified = True
+
+
+class PaymentSuccessView(LoginRequiredMixin, DetailView):
+    model = Booking
+    template_name = "reservations/payment_success.html"
+
+    def get_queryset(self):
+        return Booking.objects.filter(user=self.request.user)
+
