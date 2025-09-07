@@ -361,6 +361,7 @@
                                         </div>
                                     </div>
                                 {% endfor %}
+                                <div id="booking-errors" class="alert alert-danger" style="display: none;"></div>
                                 <div class="text-start">
                                     <button class="btn payment-btn">پرداخت</button>
                                 </div>
@@ -411,6 +412,74 @@
                     }
                 });
             });
+        });
+
+        document.getElementById('bookingForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // جلوگیری از ارسال عادی و رفرش صفحه
+
+            const form = this;
+            const submitBtn = form.querySelector('.payment-btn');
+            const errorDiv = document.getElementById('booking-errors');
+
+            // نمایش حالت لودینگ
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'در حال ارسال...';
+            submitBtn.disabled = true;
+            errorDiv.style.display = 'none';
+            errorDiv.innerHTML = '';
+
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+                .then(response => {
+                    // اگر پاسخ HTTP موفق بود (200) ولی حاوی خطای منطقی بود (400)
+                    if (!response.ok && response.status === 400) {
+                        return response.json().then(data => Promise.reject(data));
+                    }
+                    // اگر پاسخ یک خطای غیر-JSON بود (مثل خطای 409 یا 500)
+                    if (!response.ok) {
+                        return response.text().then(text => Promise.reject({general: text}));
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // اگر موفق بود، به درگاه پرداخت برو
+                        window.location.href = data.redirect_url;
+                    } else {
+                        // این حالت معمولا اتفاق نمی‌افتد چون خطاهای 400 را در بالا مدیریت کردیم
+                        // اما برای اطمینان اینجا هم مدیریت می‌کنیم
+                        handleErrors(data.errors);
+                    }
+                })
+                .catch(errorData => {
+                    // بازگرداندن دکمه به حالت اولیه
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+
+                    handleErrors(errorData.errors || {general: errorData.general || 'یک خطای ناشناخته رخ داد.'});
+                });
+
+            function handleErrors(errors) {
+                let errorHtml = '<ul>';
+                for (const key in errors) {
+                    // errors[key] می‌تواند رشته یا آبجکت باشد
+                    if (typeof errors[key] === 'string') {
+                        errorHtml += `<li>${errors[key]}</li>`;
+                    } else {
+                        // برای خطاهای فرم مهمانان که به صورت آبجکت هستند
+                        // در اینجا یک نمایش ساده ارائه می‌دهیم
+                        errorHtml += `<li>خطا در اطلاعات مهمانان. لطفا فیلدها را بررسی کنید.</li>`;
+                    }
+                }
+                errorHtml += '</ul>';
+                errorDiv.innerHTML = errorHtml;
+                errorDiv.style.display = 'block';
+            }
         });
 
         // AJAX form submission for adding review

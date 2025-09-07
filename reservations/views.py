@@ -10,7 +10,6 @@ import json
 import requests
 from django.urls import reverse
 from django.db import transaction
-from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 if settings.SANDBOX:
@@ -105,7 +104,14 @@ class SendRequestView(LoginRequiredMixin, View):
                 if response_data.get("data", {}).get('code') == 100:
                     authority = response_data['data']['authority']
                     request.session['authority'] = authority
-                    return redirect(f"{ZP_API_STARTPAY}{authority}")
+                    if response_data.get("data", {}).get('code') == 100:
+                        authority = response_data['data']['authority']
+                        request.session['authority'] = authority
+                        url = f"{ZP_API_STARTPAY}{authority}"
+
+                        # خط قبلی: return redirect(url)
+                        # ★★★ خط جدید و صحیح ★★★
+                        return JsonResponse({'success': True, 'redirect_url': url})
             error_message = response.json().get('errors', {}).get('message', 'خطا در ارتباط با درگاه پرداخت')
             return HttpResponse(error_message, status=400)
         except requests.RequestException as e:
@@ -135,7 +141,6 @@ class VerifyView(LoginRequiredMixin, View):
 
         if recalculated_price != reservation_data['total_price']:
             return redirect("reservations:payment-fail")
-
 
         transaction_data = {
             'user': request.user,
@@ -219,4 +224,3 @@ class PaymentSuccessView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return Booking.objects.filter(user=self.request.user)
-
