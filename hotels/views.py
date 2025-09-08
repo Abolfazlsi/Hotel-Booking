@@ -303,3 +303,11 @@ class ReviewEditView(LoginRequiredMixin, View):
                 'success': False,
                 'error': 'نظر مورد نظر یافت نشد.'
             }, status=404)
+
+
+class RoomSearchView(ListView):
+    model = Room
+    template_name = "hotels/rooms.html"
+
+    def get_queryset(self):
+        pass

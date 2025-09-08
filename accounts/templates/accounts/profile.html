@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filter %}
+{% load jalali_tags %}
 
 {% block main %}
     <div class="account-settings-container">
@@ -80,49 +82,27 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>ORDER</th>
-                                    <th>DATE</th>
-                                    <th>TOTAL PRODUCT</th>
-                                    <th>TOTAL PRICE</th>
-                                    <th>STATUS</th>
+                                    <th>اتاق</th>
+                                    <th>تاریخ رزرو</th>
+                                    <th>تاریخ ورود</th>
+                                    <th>تاریخ خروج</th>
+                                    <th>تعداد شب اقامت</th>
+                                    <th>مبلغ پرداخت شده</th>
+                                    <th>وضعیت</th>
                                 </tr>
                                 </thead>
                                 <tbody id="orderTableBody">
-                                <tr>
-                                    <td><a href="#" class="order-number">#2485</a></td>
-                                    <td class="order-date">02 April, 2021</td>
-                                    <td class="order-products">05</td>
-                                    <td class="order-price">$265.00</td>
-                                    <td><span class="status-badge status-pending">Pending</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="order-number">#8901</a></td>
-                                    <td class="order-date">29 May, 2021</td>
-                                    <td class="order-products">01</td>
-                                    <td class="order-price">$265.00</td>
-                                    <td><span class="status-badge status-completed">Completed</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="order-number">#8901</a></td>
-                                    <td class="order-date">29 May, 2021</td>
-                                    <td class="order-products">01</td>
-                                    <td class="order-price">$265.00</td>
-                                    <td><span class="status-badge status-completed">Completed</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="order-number">#8901</a></td>
-                                    <td class="order-date">29 May, 2021</td>
-                                    <td class="order-products">01</td>
-                                    <td class="order-price">$265.00</td>
-                                    <td><span class="status-badge status-completed">Completed</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="order-number">#8901</a></td>
-                                    <td class="order-date">29 May, 2021</td>
-                                    <td class="order-products">01</td>
-                                    <td class="order-price">$265.00</td>
-                                    <td><span class="status-badge status-completed">Completed</span></td>
-                                </tr>
+                                {% for book in booking %}
+                                    <tr>
+                                        <td><a href="#" class="order-number">{{ book.room }}</a></td>
+                                        <td class="order-date">{{ book.created_at|to_jalali:'%Y/%m/%d' }}</td>
+                                        <td class="order-date">{{ book.check_in|to_jalali:'%Y/%m/%d' }}</td>
+                                        <td class="order-date">{{ book.check_out|to_jalali:'%Y/%m/%d' }}</td>
+                                        <td><span>{{ book.nights_stay }}</span></td>
+                                        <td class="order-price">{{ book.total_price|intcomma }} تومان</td>
+                                        <td><span>{{ book.get_status_display }}</span></td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>

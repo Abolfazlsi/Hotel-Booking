@@ -1,17 +1,14 @@
-from django.views.generic import View, TemplateView
-from django.shortcuts import render, redirect, HttpResponse
-from django.urls import reverse
+from django.views.generic import View
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django_ratelimit.decorators import ratelimit
 from accounts.forms import SignInSignUpForm, OtpVerifyForm, UserProfileForm
 from accounts.models import User
-from hotels.models import Room
 import secrets
 import redis
-from django.conf import settings
 from decouple import config
 from accounts.send_otp import send_otp
 from django.contrib.auth import login, logout
+from reservations.models import Booking
 
 redis_client = redis.Redis.from_url(config('REDIS_URL', default='redis://localhost:6379/0'))
 
@@ -109,7 +106,8 @@ class UserProfileView(View):
     def get(self, request):
         user = request.user
         form = UserProfileForm(instance=user)
-        return render(request, "accounts/profile.html", {"form": form})
+        booking = Booking.objects.filter(user=user)
+        return render(request, "accounts/profile.html", {"form": form, "booking": booking})
 
     def post(self, request):
         user = request.user
@@ -118,4 +116,5 @@ class UserProfileView(View):
             form.save()
             messages.success(request, "اطلاعات حساب کاربری تغییر یافت.")
             return redirect("accounts:user_profile")
+
         return render(request, "accounts/profile.html", {"form": form})

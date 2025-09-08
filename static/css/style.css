@@ -1768,26 +1768,6 @@ input:checked + .slider:before {
     color: #999;
 }
 
-.filter-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.filter-checkbox input {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.filter-checkbox label {
-    font-size: 14px;
-    color: var(--text-color);
-    cursor: pointer;
-}
-
 .people-counter {
     display: flex;
     align-items: center;

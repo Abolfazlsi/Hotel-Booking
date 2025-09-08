@@ -109,13 +109,11 @@ class SendRequestView(LoginRequiredMixin, View):
                         request.session['authority'] = authority
                         url = f"{ZP_API_STARTPAY}{authority}"
 
-                        # خط قبلی: return redirect(url)
-                        # ★★★ خط جدید و صحیح ★★★
                         return JsonResponse({'success': True, 'redirect_url': url})
             error_message = response.json().get('errors', {}).get('message', 'خطا در ارتباط با درگاه پرداخت')
             return HttpResponse(error_message, status=400)
-        except requests.RequestException as e:
-            return HttpResponse(f'خطای شبکه: {e}', status=500)
+        except requests.RequestException:
+            return HttpResponse(f'خطای شبکه، لطفا از اتصال اینترنت خود اطمینان حاصل کنید', status=500)
 
 
 class VerifyView(LoginRequiredMixin, View):
