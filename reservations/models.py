@@ -4,6 +4,7 @@ from hotels.models import Room
 from django.core.validators import MinValueValidator, RegexValidator
 import jdatetime
 from datetime import date
+from django.db import transaction
 
 
 class Booking(models.Model):
@@ -84,7 +85,28 @@ class Booking(models.Model):
         if self.room and isinstance(self.check_in, date) and isinstance(self.check_out, date):
             nights = self.nights()
             self.total_price = self.room.price * nights
-        super().save(*args, **kwargs)
+
+        is_new = self._state.adding
+
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+
+            if self.status == 'confirmed':
+                room_to_update = Room.objects.select_for_update().get(pk=self.room.pk)
+                if room_to_update.existing:
+                    room_to_update.existing = False
+                    room_to_update.save(update_fields=['existing'])
+
+            elif self.status == 'canceled' and not is_new:
+                if not Booking.objects.filter(
+                        room=self.room,
+                        status='confirmed',
+                        check_out__gt=self.check_in
+                ).exclude(pk=self.pk).exists():
+                    room_to_update = Room.objects.select_for_update().get(pk=self.room.pk)
+                    if not room_to_update.existing:
+                        room_to_update.existing = True
+                        room_to_update.save(update_fields=['existing'])
 
 
 class Guest(models.Model):
