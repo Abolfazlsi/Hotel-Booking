@@ -264,42 +264,76 @@ ol {
 
 .modal-container {
     position: fixed;
-    top: 1rem;
+    top: 2rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 1.5rem;
-    padding: 1rem 2rem;
-    background: linear-gradient(135deg, #4CAF50, #81C784);
-    /* گرادیانت سبز */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
     z-index: 2000;
     opacity: 0;
-    transform: translateY(-20px) translateX(-50%);
-    animation: slideDownFade 0.5s ease-out forwards;
-    font-family: "Shabnam", sans-serif;
-    color: #fff;
+    transform: translateY(-30px) translateX(-50%) scale(0.9);
+    animation: glassSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     max-width: 90%;
-    width: 24rem;
-    transition: opacity 0.3s ease-out;
+    width: 28rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /*overflow: hidden;*/
+}
+
+.modal-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s ease-in-out infinite;
 }
 
 .modal-container.success {
-    background: linear-gradient(135deg, #4CAF50, #81C784);
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.modal-container.success::before {
+    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.6), transparent);
 }
 
 .modal-container.error {
-    background: linear-gradient(135deg, #F44336, #EF5350);
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.modal-container.error::before {
+    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.6), transparent);
 }
 
 .modal-container.warning {
-    background: linear-gradient(135deg, #FF9800, #FFB74D);
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.modal-container.warning::before {
+    background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.6), transparent);
 }
 
 .modal-container.info {
-    background: linear-gradient(135deg, #2196F3, #42A5F5);
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.modal-container.info::before {
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
 }
 
 .modal-item {
@@ -307,26 +341,197 @@ ol {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    padding: 1.25rem 1.5rem;
+    gap: 1rem;
 }
 
-.modal-item span {
-    font-size: 1rem;
-    font-weight: 500;
+.modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.modal-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke-width: 2.5;
+}
+
+.modal-container.success .modal-icon {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.modal-container.error .modal-icon {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.modal-container.warning .modal-icon {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.modal-container.info .modal-icon {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+.modal-content {
+    flex: 1;
     text-align: right;
+    direction: rtl;
+}
+
+.modal-message {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgba(31, 41, 55, 0.9);
+    line-height: 1.5;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .modal-close {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: rgba(31, 41, 55, 0.7);
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
 }
 
 .modal-close:hover {
-    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(31, 41, 55, 0.9);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal-close:active {
+    transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes glassSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) translateX(-50%) scale(0.9);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateY(-5px) translateX(-50%) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%) scale(1);
+    }
+}
+
+@keyframes glassSlideOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) translateX(-50%) scale(0.95);
+    }
+}
+
+@keyframes shimmer {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes iconPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.modal-container.show {
+    animation: glassSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.modal-container.hide {
+    animation: glassSlideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.modal-icon {
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .modal-container {
+        background: rgba(31, 41, 55, 0.2);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-message {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-message-error {
+        color: rgb(168 0 0 / 90%)
+    }
+
+    .modal-message-success {
+        color: rgb(0 102 35 / 90%)
+    }
+
+    .modal-message-warning {
+        color: rgb(166 104 0 / 90%)
+    }
+
+    .modal-message-info {
+        color: rgb(0 92 147 / 90%);
+    }
+
+    .modal-close {
+        color: rgba(249, 250, 251, 0.7);
+    }
+
+    .modal-close:hover {
+        color: rgba(249, 250, 251, 0.9);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    .modal-container {
+        width: calc(100% - 2rem);
+        margin: 0 1rem;
+    }
+
+    .modal-item {
+        padding: 1rem 1.25rem;
+    }
+
+    .modal-message {
+        font-size: 0.9rem;
+    }
 }
 
 @keyframes slideDownFade {

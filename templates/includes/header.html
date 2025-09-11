@@ -5,8 +5,18 @@
     {% for message in messages %}
         <div class="modal-container" data-message="{{ message }}" data-type="{{ message.tags }}">
             <div class="modal-item">
-                <span>{{ message }}</span>
-                <button class="modal-close">&times;</button>
+                <div class="modal-icon">
+                    <!-- Icons will be dynamically added via JavaScript -->
+                </div>
+                <div class="modal-content">
+                    <span class="modal-message-{{ message.tags }}">{{ message }}</span>
+                </div>
+                <button class="modal-close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
         </div>
     {% endfor %}
@@ -43,6 +53,9 @@
         <nav class="navbar navbar-expand-lg">
             <div class="d-flex align-items-center">
                 <a href="
+
+
+
 
 
                         {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
@@ -179,30 +192,94 @@
     {% endif %}
     document.addEventListener('DOMContentLoaded', function () {
         const modals = document.querySelectorAll('.modal-container');
+
+        // Icon definitions for different message types
+        const icons = {
+            success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                  </svg>`,
+            error: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>`,
+            warning: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>`,
+            info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <circle cx="12" cy="12" r="10"></circle>
+                 <line x1="12" y1="16" x2="12" y2="12"></line>
+                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
+               </svg>`
+        };
+
         modals.forEach(modal => {
-            // اعمال کلاس بر اساس نوع پیام (tags)
+            // Apply class based on message type
             const messageType = modal.getAttribute('data-type');
-            if (messageType) {
+            if (messageType && icons[messageType]) {
                 modal.classList.add(messageType);
+
+                // Add appropriate icon
+                const iconContainer = modal.querySelector('.modal-icon');
+                if (iconContainer) {
+                    iconContainer.innerHTML = icons[messageType];
+                }
+            } else {
+                // Default to info if no type specified
+                modal.classList.add('info');
+                const iconContainer = modal.querySelector('.modal-icon');
+                if (iconContainer) {
+                    iconContainer.innerHTML = icons.info;
+                }
             }
 
+            // Show modal with animation
 
-            // حذف مدال پس از 3 ثانیه
             setTimeout(() => {
-                modal.style.opacity = '0';
-                setTimeout(() => {
-                    modal.remove();
-                }, 300);
-            }, 5000);
+                modal.classList.add('show');
+            }, 100);
 
-            // بستن مدال با کلیک روی دکمه
+            // Auto-dismiss after 5 seconds
+            const dismissTimer = setTimeout(() => {
+                dismissModal(modal);
+            }, 5000);
+            // Manual close functionality
             const closeButton = modal.querySelector('.modal-close');
             if (closeButton) {
                 closeButton.addEventListener('click', () => {
-                    modal.style.opacity = '0';
-                    setTimeout(() => {
-                        modal.remove();
-                    }, 300);
+                    clearTimeout(dismissTimer);
+                    dismissModal(modal);
+                });
+            }
+
+            // Click outside to dismiss (optional)
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    clearTimeout(dismissTimer);
+                    dismissModal(modal);
+                }
+            });
+        });
+
+        function dismissModal(modal) {
+            modal.classList.remove('show');
+            modal.classList.add('hide');
+
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.remove();
+                }
+            }, 400);
+        }
+
+        // Add keyboard support (ESC to close)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const visibleModals = document.querySelectorAll('.modal-container.show');
+                visibleModals.forEach(modal => {
+                    dismissModal(modal);
                 });
             }
         });
