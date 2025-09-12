@@ -57,6 +57,16 @@ class SearchForm(forms.Form):
         label='تعداد نفرات',
         initial=2
     )
+    min_price = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={'id': 'min_price'}),
+        required=False,
+        label='حداقل قیمت'
+    )
+    max_price = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={'id': 'max_price'}),
+        required=False,
+        label='حداکثر قیمت'
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -102,4 +112,3 @@ class GuestForm(forms.ModelForm):
             'phone_number': 'شماره تلفن',
             'gender': 'جنسیت',
         }
-

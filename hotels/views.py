@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 import jdatetime
 from django.core.cache import cache
+from reservations.models import Booking
 
 
 def clear_cache(request):
@@ -53,19 +54,54 @@ class RoomsListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["services"] = Service.objects.all()
-        context["search_form"] = SearchForm()
+        context["search_form"] = SearchForm(self.request.GET or None)
         return context
 
+    def get_queryset(self):
+        queryset = Room.objects.all()
+
+        check_in_str = self.request.GET.get('check_in')
+        check_out_str = self.request.GET.get('check_out')
+        people_count = self.request.GET.get('people')
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+
+        if people_count and people_count.isdigit():
+            queryset = queryset.filter(capacity=int(people_count))
+
+        if min_price and min_price.isdigit():
+            queryset = queryset.filter(price__gte=int(min_price))
+        if max_price and max_price.isdigit():
+            queryset = queryset.filter(price__lte=int(max_price))
+
+        if check_in_str and check_out_str:
+            try:
+                check_in_j = jdatetime.date.fromisoformat(check_in_str.replace('/', '-'))
+                check_out_j = jdatetime.date.fromisoformat(check_out_str.replace('/', '-'))
+                check_in = check_in_j.togregorian()
+                check_out = check_out_j.togregorian()
+
+                overlapping_rooms = Booking.objects.filter(
+                    status='confirmed',
+                    check_in__lt=check_out,
+                    check_out__gt=check_in
+                ).values_list('room_id', flat=True).distinct()
+
+                queryset = queryset.exclude(id__in=overlapping_rooms)
+            except ValueError:
+                pass
+        return queryset
+
     def get(self, request, *args, **kwargs):
-        rooms = Room.objects.all()
+        rooms = self.get_queryset()
         sort = request.GET.get('sort', 'default')
-        page = request.GET.get('page', 1)
 
         if sort == 'lower-price':
             rooms = rooms.order_by('price')
         elif sort == 'higher-price':
             rooms = rooms.order_by('-price')
 
+        page = request.GET.get('page', 1)
         paginator = Paginator(rooms, self.paginate_by)
         try:
             room_list = paginator.page(page)

@@ -159,6 +159,8 @@
                                         <div class="price-value max-value">۱۰,۰۰۰,۰۰۰</div>
                                     </div>
                                 </div>
+                                <input type="hidden" name="min_price" id="min_price" value="500000">
+                                <input type="hidden" name="max_price" id="max_price" value="10000000">
                             </div>
                             <!-- Apply Filter Button -->
                             <button type="submit" class="apply-filter-btn">اعمال فیلتر</button>
@@ -185,7 +187,7 @@
             let currentPage = 1;
             let abortController = null;
 
-            // فعال‌سازی تقویم شمسی
+
             jalaliDatepicker.startWatch({
                 minDate: 'today',
             });
@@ -213,7 +215,11 @@
                 const params = new URLSearchParams({
                     sort: sort,
                     page: page,
-                    ...filters,
+                    check_in: filters.check_in || '',
+                    check_out: filters.check_out || '',
+                    people: filters.people || '',
+                    min_price: filters.min_price || '',
+                    max_price: filters.max_price || ''
                 }).toString();
 
                 window.history.pushState({sort, page, filters}, '', `?${params}`);
@@ -241,38 +247,38 @@
                         const checkOut = filters.check_out || '';
 
                         const roomCardsHtml = data.room_list.map(room => `
-                    <div class="room-card fade-in-delay">
-                        <div class="room-card-inner">
-                            <div class="room-image-container">
-                                <img src="${room.image_url}" alt="${room.alt_text}" class="room-image">
-                                <div class="room-badge ${room.existing}">
-                                    ${room.existing_text}
+                <div class="room-card fade-in-delay">
+                    <div class="room-card-inner">
+                        <div class="room-image-container">
+                            <img src="${room.image_url}" alt="${room.alt_text}" class="room-image">
+                            <div class="room-badge ${room.existing}">
+                                ${room.existing_text}
+                            </div>
+                        </div>
+                        <div class="room-content">
+                            <div class="room-header">
+                                <h3 class="room-title">${room.title}</h3>
+                                <div class="room-price-container">
+                                    <div class="room-price">${room.price.toLocaleString()}</div>
+                                    <span class="room-price-currency">تومان</span>
                                 </div>
                             </div>
-                            <div class="room-content">
-                                <div class="room-header">
-                                    <h3 class="room-title">${room.title}</h3>
-                                    <div class="room-price-container">
-                                        <div class="room-price">${room.price.toLocaleString()}</div>
-                                        <span class="room-price-currency">تومان</span>
-                                    </div>
-                                </div>
-                                <div class="room-amenities">
-                                    ${room.services.map(service => `<div class="amenity-badge">${service}</div>`).join('')}
-                                </div>
-                                <div class="room-description">
-                                    <h5>توضیحات:</h5>
-                                    <p>${truncateWords(room.description, 25)}</p>
-                                </div>
-                                <div class="room-footer">
-                                    <a href="${room.url}?check_in=${encodeURIComponent(checkIn)}&check_out=${encodeURIComponent(checkOut)}">
-                                        <button class="reserve-btn">رزرو</button>
-                                    </a>
-                                </div>
+                            <div class="room-amenities">
+                                ${room.services.map(service => `<div class="amenity-badge">${service}</div>`).join('')}
+                            </div>
+                            <div class="room-description">
+                                <h5>توضیحات:</h5>
+                                <p>${truncateWords(room.description, 25)}</p>
+                            </div>
+                            <div class="room-footer">
+                                <a href="${room.url}?check_in=${encodeURIComponent(checkIn)}&check_out=${encodeURIComponent(checkOut)}">
+                                    <button class="reserve-btn">رزرو</button>
+                                </a>
                             </div>
                         </div>
                     </div>
-                `).join('');
+                </div>
+            `).join('');
 
                         roomsContainer.insertAdjacentHTML('beforeend', roomCardsHtml);
 
@@ -326,16 +332,17 @@
             }
 
             function getFilters() {
-                const starRatings = Array.from(document.querySelectorAll('[name="star"]:checked')).map(cb => cb.value);
-                const amenities = Array.from(document.querySelectorAll('[name="amenity"]:checked')).map(cb => cb.value);
                 const checkIn = document.getElementById('check_in') ? document.getElementById('check_in').value : '';
                 const checkOut = document.getElementById('check_out') ? document.getElementById('check_out').value : '';
+                const people = peopleCountInput.value;
+                const minPrice = document.getElementById('min_price') ? document.getElementById('min_price').value : '';
+                const maxPrice = document.getElementById('max_price') ? document.getElementById('max_price').value : '';
                 return {
-                    people: peopleCountInput.value,
-                    min_price: minPriceInput.value,
-                    max_price: maxPriceInput.value,
                     check_in: checkIn,
-                    check_out: checkOut
+                    check_out: checkOut,
+                    people: people,
+                    min_price: minPrice,
+                    max_price: maxPrice
                 };
             }
 
@@ -396,11 +403,20 @@
                         progress.style.left = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
                         minValue.textContent = formatPrice(minVal);
                         maxValue.textContent = formatPrice(maxVal);
+
+
+                        if (document.getElementById('min_price')) {
+                            document.getElementById('min_price').value = minVal;
+                        }
+                        if (document.getElementById('max_price')) {
+                            document.getElementById('max_price').value = maxVal;
+                        }
                     }
                 });
             });
 
-            applyFilterBtn.addEventListener('click', () => {
+            applyFilterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 applyFilterBtn.disabled = true;
                 setTimeout(() => {
                     applyFilterBtn.disabled = false;
