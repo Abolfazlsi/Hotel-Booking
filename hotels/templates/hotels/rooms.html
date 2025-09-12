@@ -108,6 +108,10 @@
                 <div class="col-lg-4 order-lg-2 order-1">
                     <div class="filter-sidebar">
                         <h3 class="filter-title">فیلترها</h3>
+                        <div class="filter-results-count" id="resultsCount" style="display: none;">
+                            <i class="fa fa-check-circle"></i>
+                            <span id="resultsNumber">0</span> اتاق یافت شد
+                        </div>
                         <form method="get" action="{% url 'hotels:rooms_list' %}">
                             <!-- Date Filters -->
                             <div class="filter-group">
@@ -183,6 +187,8 @@
             const maxPriceInput = document.querySelector('.max-price');
             const applyFilterBtn = document.querySelector('.apply-filter-btn');
             const roomsLoader = document.getElementById('roomsLoader');
+            const resultsCount = document.getElementById('resultsCount');
+            const resultsNumber = document.getElementById('resultsNumber');
             let currentSort = 'default';
             let currentPage = 1;
             let abortController = null;
@@ -241,6 +247,11 @@
                     .then(data => {
                         roomsLoader.classList.remove('show');
                         roomsContainer.classList.remove('loading');
+
+                        if (data.total_rooms !== undefined) {
+                            resultsNumber.textContent = convertToPersianNumbers(data.total_rooms);
+                            resultsCount.style.display = 'block';
+                        }
 
                         // گرفتن تاریخ‌ها برای اضافه کردن به لینک رزرو
                         const checkIn = filters.check_in || '';

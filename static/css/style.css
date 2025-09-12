@@ -1944,6 +1944,20 @@ input:checked + .slider:before {
     transform: rotate(180deg);
 }
 
+.filter-results-count {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.filter-results-count i {
+    margin-left: 5px;
+}
+
 .filter-search {
     position: relative;
     margin-bottom: 20px;

@@ -135,6 +135,7 @@ class RoomsListView(ListView):
                 'next_page_number': room_list.next_page_number() if room_list.has_next() else None,
                 'current_page': room_list.number,
                 'total_pages': paginator.num_pages,
+                'total_rooms': paginator.count,
             })
         else:
             return render(request, self.template_name, {
