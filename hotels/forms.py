@@ -52,6 +52,16 @@ class SearchForm(forms.Form):
         ),
         label='تاریخ خروج'
     )
+    adults = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={'id': 'adultInput'}),
+        initial=1,
+        required=False
+    )
+    children = forms.IntegerField(
+        widget=forms.HiddenInput(attrs={'id': 'childInput'}),
+        initial=0,
+        required=False
+    )
     people_count = forms.IntegerField(
         widget=forms.HiddenInput(attrs={'id': 'people_count'}),
         label='تعداد نفرات',

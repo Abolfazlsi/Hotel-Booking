@@ -26,13 +26,13 @@
             <div class="col-md-6 col-lg-3">
                 <h5 class="fs-5 fw-bold text-primary-custom mb-4">لینک‌های مفید</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#home" class="footer-link">خانه</a></li>
-                    <li class="mb-2"><a href="#about" class="footer-link">درباره ما</a></li>
-                    <li class="mb-2"><a href="#services" class="footer-link">خدمات</a></li>
-                    <li class="mb-2"><a href="#rooms" class="footer-link">اتاق‌ها</a></li>
+                    <li class="mb-2"><a href="{% url "hotels:home" %}" class="footer-link">خانه</a></li>
+                    <li class="mb-2"><a href="{% url "hotels:home" %}#about" class="footer-link">درباره ما</a></li>
+                    <li class="mb-2"><a href="{% url "hotels:home" %}#services" class="footer-link">خدمات</a></li>
+                    <li class="mb-2"><a href="{% url "hotels:rooms_list" %}" class="footer-link">اتاق‌ها</a></li>
                     <li class="mb-2"><a href="#blog" class="footer-link">وبلاگ</a></li>
-                    <li class="mb-2"><a href="#testimonials" class="footer-link">نظرات</a></li>
-                    <li class="mb-2"><a href="#contact" class="footer-link">تماس</a></li>
+                    <li class="mb-2"><a href="{% url "hotels:home" %}#testimonials" class="footer-link">نظرات</a></li>
+                    <li class="mb-2"><a href="{% url 'pages:contact_us' %}" class="footer-link">تماس</a></li>
                 </ul>
             </div>
             <div class="col-md-6 col-lg-3">
@@ -50,7 +50,7 @@
                 <ul class="list-unstyled">
                     <li class="d-flex align-items-start mb-3">
                         <i class="fas fa-map-marker-alt text-primary-custom mt-1 me-2"></i>
-                        <span class="text-light footer-text-muted">تهران، خیابان ولیعصر، پلاک ۱۲۳</span>
+                        <span class="text-light footer-text-muted">تهران، خیابان --  </span>
                     </li>
                     <li class="d-flex align-items-center mb-3">
                         <i class="fas fa-phone text-primary-custom me-2"></i>
@@ -58,7 +58,7 @@
                     </li>
                     <li class="d-flex align-items-center mb-3">
                         <i class="fas fa-envelope text-primary-custom me-2"></i>
-                        <span class="text-light footer-text-muted">info@sonhotel.com</span>
+                        <span class="text-light footer-text-muted">example@gmail.com</span>
                     </li>
                     <li class="d-flex align-items-center">
                         <i class="fas fa-clock text-primary-custom me-2"></i>

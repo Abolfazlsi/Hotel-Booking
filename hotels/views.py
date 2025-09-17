@@ -41,7 +41,7 @@ class HomePage(TemplateView):
             for room in rooms
         ]
         context["rooms_list"] = rooms_list
-        context["search_form"] = SearchForm()
+        context["search_form"] = SearchForm(self.request.GET or None)
         return context
 
 
@@ -162,13 +162,13 @@ class RoomDetailView(DetailView):
             for i in range(5, 0, -1)
         ]
 
-        # گرفتن تاریخ‌ها از request.GET
+
         check_in = self.request.GET.get('check_in')
         check_out = self.request.GET.get('check_out')
         today_jalali = jdatetime.date.today()
         errors = []
 
-        # اعتبارسنجی تاریخ ورود
+
         if check_in:
             try:
                 check_in = check_in.replace('-', '/')
@@ -182,7 +182,7 @@ class RoomDetailView(DetailView):
         else:
             check_in_date = today_jalali
 
-        # اعتبارسنجی تاریخ خروج
+
         if check_out:
             try:
                 check_out = check_out.replace('-', '/')
@@ -196,7 +196,7 @@ class RoomDetailView(DetailView):
         else:
             check_out_date = check_in_date + jdatetime.timedelta(days=1)
 
-        # محاسبه تعداد شب‌ها
+
         nights = (check_out_date - check_in_date).days
         total_price = self.object.price * max(nights, 1)
         context['check_in'] = check_in_date

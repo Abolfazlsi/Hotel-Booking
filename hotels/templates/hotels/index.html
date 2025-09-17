@@ -40,7 +40,8 @@
                 <div class="col-lg-10">
                     <div class="booking-card bg-white p-4 p-md-5 shadow" data-aos="fade-up">
                         <h3 class="fs-4 fw-bold text-center mb-4 text-dark">رزرو اتاق</h3>
-                        <form class="row g-3">
+                        <form class="row g-3" action="{% url 'hotels:rooms_list' %}">
+                            <!-- تغییر: method و action اضافه شد -->
                             <div class="col-md-3 col-sm-6">
                                 <label class="form-label text-dark">تاریخ ورود</label>
                                 {{ search_form.check_in }}
@@ -92,6 +93,7 @@
                                     </div>
                                     <input type="hidden" name="adults" id="adultInput" value="1">
                                     <input type="hidden" name="children" id="childInput" value="0">
+                                    <input type="hidden" name="people" id="people_count" value="1">
                                 </div>
                             </div>
                             <div class="col-12">
@@ -551,13 +553,15 @@
             let adultCount = 1;
             let childCount = 0;
 
-            // به‌روزرسانی نمایش تعداد مهمان
+            // به‌روزرسانی نمایش تعداد مهمان و hidden inputها
             function updateGuestDisplay() {
                 guestCountDisplay.textContent = `${adultCount} بزرگسال, ${childCount} کودک`;
                 adultInput.value = adultCount;
                 childInput.value = childCount;
                 adultNumber.textContent = adultCount;
                 childNumber.textContent = childCount;
+                // تغییر: محاسبه و ست کردن مجموع در hidden people
+                document.getElementById('people').value = adultCount + childCount;
             }
 
             // باز و بسته کردن دراپ‌داون

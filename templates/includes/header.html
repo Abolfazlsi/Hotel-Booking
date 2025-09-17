@@ -58,17 +58,15 @@
 
 
 
+
+
+
+
                         {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
                     <div class="user-account me-3">
                         <i class="fa fa-user"></i>
                     </div>
                 </a>
-                <!-- From Uiverse.io by RiccardoRapelli -->
-                <!-- From Uiverse.io by alexruix -->
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                </label>
 
             </div>
             <div class="profile-content">
@@ -112,26 +110,27 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#services">
+                        <a class="nav-link" href="{% url "hotels:home" %}#about">
                             <i class="fa fa-book me-2"></i>
                             درباره ما
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#services">
+                        <a class="nav-link {% if request.resolver_match.url_name == "contact_us" %}active{% endif %}"
+                           href="{% url "pages:contact_us" %}">
                             <i class="fa fa-phone me-2"></i>
                             تماس با ما
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#services">
+                        <a class="nav-link" href="{% url "hotels:home" %}#services">
                             <i class="fa fa-star"></i>
                             خدمات
                         </a>
                     </li>
                     <li class="nav-item" style="margin-left: 1rem;">
-                        <a class="nav-link" href="index.html#reviews">
+                        <a class="nav-link" href="{% url "hotels:home" %}#testimonials">
                             <i class="fa fa-comments me-2"></i>
                             نظرات کاربران
                         </a>
@@ -193,27 +192,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         const modals = document.querySelectorAll('.modal-container');
 
-        // Icon definitions for different message types
-        const icons = {
-            success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20,6 9,17 4,12"></polyline>
-                  </svg>`,
-            error: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="15" y1="9" x2="9" y2="15"></line>
-                  <line x1="9" y1="9" x2="15" y2="15"></line>
-                </svg>`,
-            warning: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
-                    <line x1="12" y1="9" x2="12" y2="13"></line>
-                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                  </svg>`,
-            info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                 <circle cx="12" cy="12" r="10"></circle>
-                 <line x1="12" y1="16" x2="12" y2="12"></line>
-                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
-               </svg>`
-        };
 
         modals.forEach(modal => {
             // Apply class based on message type
