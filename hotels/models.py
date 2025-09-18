@@ -102,6 +102,7 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews", verbose_name="کاربر")
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], verbose_name="امتیاز")
     comment = models.TextField(verbose_name="متن نظر")
+    is_featured = models.BooleanField(default=False, verbose_name="نمایش در صفحه اصلی")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="زمان ایجاد شدن")
 
     class Meta:
@@ -111,6 +112,10 @@ class Review(models.Model):
 
     def __str__(self):
         return f" {self.user.first_name} {self.user.last_name} --> {self.room}"
+
+    @property
+    def get_rating_given_range(self):
+        return range(self.rating or 0)
 
     def time_since_creation(self):
         time_delta = timezone.now() - self.created_at
@@ -137,4 +142,3 @@ class Review(models.Model):
         # تبدیل تاریخ میلادی به شمسی
         jalali_date = jdatetime.datetime.fromgregorian(datetime=self.created_at)
         return jalali_date.strftime('%Y/%m/%d %H:%M:%S')
-

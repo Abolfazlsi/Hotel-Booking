@@ -447,85 +447,24 @@
             <div class="swiper testimonials-slider" data-aos="fade-up" data-aos-delay="100">
                 <div class="swiper-wrapper">
                     <!-- Testimonial 1 -->
-                    <div class="swiper-slide">
-                        <div class="testimonial-card p-4 p-md-5 h-100">
-                            <div class="testimonial-avatar">
-                                <i class="fas fa-user fs-4"></i>
+                    {% for review in featured_review %}
+                        <div class="swiper-slide">
+                            <div class="testimonial-card p-4 p-md-5 h-100">
+                                <div class="testimonial-avatar">
+                                    <i class="fas fa-user fs-4"></i>
+                                </div>
+                                <div class="text-warning text-center mb-4">
+                                    {% for rating in review.get_rating_given_range %}
+                                        <i class="fas fa-star"></i>
+                                    {% endfor %}
+                                </div>
+                                <p class="text-light text-center mb-4 footer-text-muted">
+                                    {{ review.comment }}
+                                </p>
+                                <h5 class="fs-5 fw-bold text-center mb-1">{{ review.user.first_name }} {{ review.user.last_name }}</h5>
                             </div>
-                            <div class="text-warning text-center mb-4">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="text-light text-center mb-4 footer-text-muted">
-                                "تجربه فوق‌العاده‌ای داشتم. خدمات عالی و امکانات بی‌نظیر. حتماً دوباره خواهم آمد."
-                            </p>
-                            <h5 class="fs-5 fw-bold text-center mb-1">احمد محمدی</h5>
-                            <p class="text-light text-center small footer-text-light">مهمان VIP</p>
                         </div>
-                    </div>
-                    <!-- Testimonial 2 -->
-                    <div class="swiper-slide">
-                        <div class="testimonial-card p-4 p-md-5 h-100">
-                            <div class="testimonial-avatar">
-                                <i class="fas fa-user fs-4"></i>
-                            </div>
-                            <div class="text-warning text-center mb-4">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="text-light text-center mb-4 footer-text-muted">
-                                "هتلی با کیفیت بالا و پرسنل مهربان. اتاق‌ها تمیز و مجهز بودند."
-                            </p>
-                            <h5 class="fs-5 fw-bold text-center mb-1">فاطمه احمدی</h5>
-                            <p class="text-light text-center small footer-text-light">مسافر کسب و کار</p>
-                        </div>
-                    </div>
-                    <!-- Testimonial 3 -->
-                    <div class="swiper-slide">
-                        <div class="testimonial-card p-4 p-md-5 h-100">
-                            <div class="testimonial-avatar">
-                                <i class="fas fa-user fs-4"></i>
-                            </div>
-                            <div class="text-warning text-center mb-4">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="text-light text-center mb-4 footer-text-muted">
-                                "بهترین هتلی که تا حالا در آن اقامت کرده‌ام. همه چیز فوق‌العاده بود."
-                            </p>
-                            <h5 class="fs-5 fw-bold text-center mb-1">علی رضایی</h5>
-                            <p class="text-light text-center small footer-text-light">مسافر خانوادگی</p>
-                        </div>
-                    </div>
-                    <!-- Testimonial 4 -->
-                    <div class="swiper-slide">
-                        <div class="testimonial-card p-4 p-md-5 h-100">
-                            <div class="testimonial-avatar">
-                                <i class="fas fa-user fs-4"></i>
-                            </div>
-                            <div class="text-warning text-center mb-4">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <p class="text-light text-center mb-4 footer-text-muted">
-                                "خدمات عالی و پرسنل حرفه‌ای. فقط قیمت‌ها کمی بالا بود اما ارزشش را داشت."
-                            </p>
-                            <h5 class="fs-5 fw-bold text-center mb-1">مریم حسینی</h5>
-                            <p class="text-light text-center small footer-text-light">مسافر تفریحی</p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <!-- Navigation and Pagination -->
                 <div class="swiper-button-next"></div>

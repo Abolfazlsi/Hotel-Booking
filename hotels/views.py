@@ -42,6 +42,7 @@ class HomePage(TemplateView):
         ]
         context["rooms_list"] = rooms_list
         context["search_form"] = SearchForm(self.request.GET or None)
+        context["featured_review"] = Review.objects.filter(is_featured=True)[:5]
         return context
 
 
@@ -162,12 +163,10 @@ class RoomDetailView(DetailView):
             for i in range(5, 0, -1)
         ]
 
-
         check_in = self.request.GET.get('check_in')
         check_out = self.request.GET.get('check_out')
         today_jalali = jdatetime.date.today()
         errors = []
-
 
         if check_in:
             try:
@@ -182,7 +181,6 @@ class RoomDetailView(DetailView):
         else:
             check_in_date = today_jalali
 
-
         if check_out:
             try:
                 check_out = check_out.replace('-', '/')
@@ -195,7 +193,6 @@ class RoomDetailView(DetailView):
                 check_out_date = check_in_date + jdatetime.timedelta(days=1)
         else:
             check_out_date = check_in_date + jdatetime.timedelta(days=1)
-
 
         nights = (check_out_date - check_in_date).days
         total_price = self.object.price * max(nights, 1)

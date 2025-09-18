@@ -46,9 +46,10 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ["room", "user", "rating", "created_at_jalali"]
+    list_display = ["room", "user", "rating", "is_featured", "created_at_jalali"]
     list_filter = ["rating", "room"]
     search_fields = ["user", "room"]
+    list_editable = ["is_featured"]
 
     def created_at_jalali(self, obj):
         if obj.created_at:
@@ -57,4 +58,3 @@ class ReviewAdmin(admin.ModelAdmin):
         return ''
 
     created_at_jalali.short_description = 'تاریخ ایجاد'
-
