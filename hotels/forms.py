@@ -89,13 +89,11 @@ class SearchForm(forms.Form):
         check_in = cleaned_data.get('check_in')
         check_out = cleaned_data.get('check_out')
 
-        # تبدیل تاریخ‌های با خط تیره به اسلش
         if isinstance(check_in, str):
             cleaned_data['check_in'] = check_in.replace('-', '/')
         if isinstance(check_out, str):
             cleaned_data['check_out'] = check_out.replace('-', '/')
 
-        # اعتبارسنجی: تاریخ خروج باید بعد از تاریخ ورود باشه
         if check_in and check_out and check_out <= check_in:
             raise forms.ValidationError("تاریخ خروج باید بعد از تاریخ ورود باشد.")
 
@@ -103,8 +101,6 @@ class SearchForm(forms.Form):
 
 
 class GuestForm(forms.ModelForm):
-    """فرم برای ثبت اطلاعات یک مهمان بر اساس مدل Guest"""
-
     class Meta:
         model = Guest
         fields = ['full_name', 'national_id', 'phone_number', 'gender']
