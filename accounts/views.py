@@ -9,6 +9,7 @@ from decouple import config
 from accounts.send_otp import send_otp
 from django.contrib.auth import login, logout
 from reservations.models import Booking
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 redis_client = redis.Redis.from_url(config('REDIS_URL', default='redis://localhost:6379/0'))
 
@@ -40,7 +41,7 @@ class SignInSignUpView(View):
 
             return redirect("accounts:verify_otp")
         else:
-            messages.error(request, "شمره تلفن نامعتبر است")
+            messages.error(request, "شماره تلفن نامعتبر است")
 
         return render(request, "accounts/singIn_singUp.html", {"form": form})
 
@@ -100,9 +101,10 @@ def log_out(request):
         logout(request)
         messages.error(request, "شما از حساب کاربری خود خارج شدید")
         return redirect("hotels:home")
+    return redirect("hotels:home")
 
 
-class UserProfileView(View):
+class UserProfileView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
         form = UserProfileForm(instance=user)
