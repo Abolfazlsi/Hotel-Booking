@@ -6,8 +6,6 @@ app_name = "hotels"
 urlpatterns = [
     # homepage
     path("", views.HomePage.as_view(), name="home"),
-    path("clear", views.clear_cache, name="clear"),
-
 
     # rooms
     path("rooms-list/", views.RoomsListView.as_view(), name="rooms_list"),

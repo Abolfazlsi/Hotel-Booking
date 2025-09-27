@@ -11,13 +11,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 import jdatetime
-from django.core.cache import cache
 from reservations.models import Booking
-
-
-def clear_cache(request):
-    cache.clear()
-    return HttpResponse("Clear")
 
 
 class HomePage(TemplateView):
@@ -337,11 +331,3 @@ class ReviewEditView(LoginRequiredMixin, View):
                 'success': False,
                 'error': 'نظر مورد نظر یافت نشد.'
             }, status=404)
-
-
-class RoomSearchView(ListView):
-    model = Room
-    template_name = "hotels/rooms.html"
-
-    def get_queryset(self):
-        pass
