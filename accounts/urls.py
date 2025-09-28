@@ -5,7 +5,7 @@ app_name = "accounts"
 
 urlpatterns = [
     # sign up
-    path("singin-singup/", views.SignInSignUpView.as_view(), name="signin-signup"),
+    path("signin-signup/", views.SignInSignUpView.as_view(), name="signin-signup"),
     path("otp-verify/", views.OtpVerifyView.as_view(), name="verify_otp"),
 
     # logout

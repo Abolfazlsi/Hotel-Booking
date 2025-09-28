@@ -97,7 +97,7 @@ USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
-LOGIN_URL = "/accounts/singin-singup/"
+LOGIN_URL = "/accounts/signin-signup/"
 
 MERCHANT = "9bb72628-0d73-4134-bcef-f8946dcc3e5f"
 
