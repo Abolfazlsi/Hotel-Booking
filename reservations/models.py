@@ -40,9 +40,10 @@ class Booking(models.Model):
     )
     total_price = models.PositiveIntegerField(
         validators=[MinValueValidator(1)],
-        verbose_name="قیمت کل"
+        verbose_name="قیمت کل",
+        null=True
     )
-    nights_stay = models.PositiveIntegerField(validators=[MinValueValidator(1)], verbose_name="تعداد شب اقامت")
+    nights_stay = models.PositiveIntegerField(validators=[MinValueValidator(1)], null=True, verbose_name="تعداد شب اقامت")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ به‌روزرسانی")
 
