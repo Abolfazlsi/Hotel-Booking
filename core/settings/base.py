@@ -7,7 +7,6 @@ from django.core.exceptions import ImproperlyConfigured
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -103,7 +102,7 @@ MERCHANT = "9bb72628-0d73-4134-bcef-f8946dcc3e5f"
 
 SANDBOX = True
 
-REDIS_URL = config('REDIS_URL', default='redis://localhost:6379/0')
+REDIS_URL = config('REDIS_URL', default='redis://redis:6379/0')
 
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
@@ -160,7 +159,7 @@ JALALI_SETTINGS = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": REDIS_URL,
     }
 }
 

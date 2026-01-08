@@ -1,0 +1,60 @@
+services:
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+    networks:
+      - main
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: abolfazl
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - main
+
+  app:
+    build: .
+    container_name: app
+    command: sh -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/code/
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    expose:
+      - "8000"
+    restart: always
+    networks:
+      - main
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - app
+    command: nginx -g 'daemon off;'
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./public:/code/public
+    restart: always
+    networks:
+      - main
+
+networks:
+  main:
+
+volumes:
+  postgres_data:
+

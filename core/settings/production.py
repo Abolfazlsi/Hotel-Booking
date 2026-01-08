@@ -1,9 +1,17 @@
 from .base import *
+import os
 
+DEBUG = False
 
-DEBUG = True
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
-ALLOWED_HOSTS = ["127.0.0.1"]
-
-# coding later
-
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "abolfazl",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "postgres",
+        "PORT": "5432",
+    }
+}

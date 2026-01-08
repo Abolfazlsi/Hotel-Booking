@@ -51,24 +51,16 @@
 <header class="main-header" dir="rtl">
     <div class="container">
         <nav class="navbar navbar-expand-lg">
-            <div class="d-flex align-items-center">
-                <a href="
 
-
-
-
-
-
-
-
-
-                        {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
-                    <div class="user-account me-3">
-                        <i class="fa fa-user"></i>
+            <a href="{% url "hotels:home" %}">
+                <div class="logo">
+                    <div class="logo-text">هتل</div>
+                    <div class="logo-icon">
+                        <i class="fa fa-building"></i>
                     </div>
-                </a>
+                </div>
+            </a>
 
-            </div>
             <div class="profile-content">
                 <ul class="profile-content__ul">
                     <div class="profile-content__li">
@@ -139,14 +131,16 @@
 
                 </ul>
             </div>
-            <a href="{% url "hotels:home" %}">
-                <div class="logo">
-                    <div class="logo-text">هتل</div>
-                    <div class="logo-icon">
-                        <i class="fa fa-building"></i>
+
+            <div class="d-flex align-items-center">
+                <a href="
+
+                        {% if not request.user.is_authenticated %}{% url "accounts:signin-signup" %}{% else %}#{% endif %}">
+                    <div class="user-account me-3">
+                        <i class="fa fa-user"></i>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
 
         </nav>
     </div>
