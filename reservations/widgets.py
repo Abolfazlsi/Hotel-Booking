@@ -9,7 +9,6 @@ class CustomJalaliDateWidget(AdminJalaliDateWidget):
         value = super().value_from_datadict(data, files, name)
         if value:
             try:
-                # فرض می‌کنیم ورودی به‌صورت شمسی (مثل 1404/05/12) است
                 jalali_date = jdatetime.date.fromisoformat(value.replace('/', '-'))
                 gregorian_date = jalali_date.togregorian()
                 return gregorian_date

@@ -3,11 +3,11 @@ import os
 from decouple import config
 from django.core.exceptions import ImproperlyConfigured
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
-# Application definition
+
 
 INSTALLED_APPS = [
     'django_daisy',
@@ -63,12 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -85,8 +80,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
+
 
 LANGUAGE_CODE = 'fa-ir'
 
@@ -102,7 +96,7 @@ MERCHANT = "9bb72628-0d73-4134-bcef-f8946dcc3e5f"
 
 SANDBOX = True
 
-REDIS_URL = config('REDIS_URL', default='redis://redis:6379/0')
+REDIS_URL = config('REDIS_URL', default='redis://127.0.0.1:6379/0')
 
 STATIC_URL = '/public/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
@@ -111,8 +105,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/public/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -138,7 +131,6 @@ JALALI_DATE_DEFAULTS = {
 }
 
 JALALI_SETTINGS = {
-    # JavaScript static files for the admin Jalali date widget
     "ADMIN_JS_STATIC_FILES": [
         "admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js",
         "admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js",
@@ -147,7 +139,6 @@ JALALI_SETTINGS = {
         "admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js",
         "admin/main.js",
     ],
-    # CSS static files for the admin Jalali date widget
     "ADMIN_CSS_STATIC_FILES": {
         "all": [
             "admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css",
