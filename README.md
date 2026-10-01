@@ -200,12 +200,9 @@ The admin panel allows management of:
 
 ## 🧠 Backend Highlights
 
-This project goes beyond basic CRUD and includes real-world backend concepts such as:
-
 - Custom authentication with OTP
 - Reservation conflict detection
-- Database transactions with `transaction.atomic()`
-- Row-level locking with `select_for_update()`
+- Database transactions
 - Redis-based temporary OTP storage
 - Redis-backed sessions and caching
 - Server-side payment verification
