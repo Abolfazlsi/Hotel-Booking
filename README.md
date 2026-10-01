@@ -90,7 +90,7 @@ Booking Confirmation
 Clone the repository:
 
 ```bash
-git clone https://github.com/Abolfazlsi/Hotel-Booking.git
+https://github.com/Abolfazlsi/Hotel-Booking.git
 cd Hotel-Booking
 ```
 
