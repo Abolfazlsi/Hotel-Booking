@@ -134,6 +134,14 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
+Create a `.env` file in the project root:
+
+```env
+DJANGO_ENV=production
+SECRET_KEY=your-secret-key
+REDIS_URL=redis://redis:6379/0
+```
+
 Install dependencies:
 
 ```bash
