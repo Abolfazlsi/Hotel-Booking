@@ -124,7 +124,7 @@ Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
-venv\Scriptsctivate
+venv\Scripts\activate
 ```
 
 **Linux / macOS**
