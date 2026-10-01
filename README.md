@@ -247,4 +247,4 @@ https://github.com/Abolfazlsi
 
 ---
 
-⭐ If you find this project useful, feel free to explore the source code.
+⭐ If you find this project useful, Please rate it.
