@@ -36,8 +36,6 @@ It is also configured with a production-oriented stack using **Docker, PostgreSQ
 **Backend**
 - Python
 - Django 5.2
-- Django ORM
-- Django Templates
 
 **Database & Infrastructure**
 - PostgreSQL
@@ -49,11 +47,7 @@ It is also configured with a production-oriented stack using **Docker, PostgreSQ
 
 **Other**
 - ZarinPal Payment Gateway
-- Pillow / ImageKit
 - Jalali Date
-- Bootstrap
-- JavaScript / jQuery
-- AJAX
 
 ---
 
