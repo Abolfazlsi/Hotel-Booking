@@ -42,15 +42,15 @@
                         <h3 class="fs-4 fw-bold text-center mb-4 text-dark">رزرو اتاق</h3>
                         <form class="row g-3" action="{% url 'hotels:rooms_list' %}">
                             <!-- تغییر: method و action اضافه شد -->
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-3 col-sm-6 col-12">
                                 <label class="form-label text-dark">تاریخ ورود</label>
                                 {{ search_form.check_in }}
                             </div>
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-3 col-sm-6 col-12">
                                 <label class="form-label text-dark">تاریخ خروج</label>
                                 {{ search_form.check_out }}
                             </div>
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-3 col-sm-6 col-12">
                                 <label class="form-label text-dark">مهمان</label>
                                 <div class="custom-dropdown">
                                     <div class="dropdown-toggle form-control rounded-3 py-3" id="guestDropdownToggle">
@@ -254,7 +254,7 @@
                 <div class="swiper-wrapper">
                     <!-- Room 1 -->
                     {% for room in rooms_list %}
-                        <div class="swiper-slide" style="width: 350px;">
+                        <div class="swiper-slide">
                             <div class="room-card bg-white shadow h-100">
                                 <div class="room-image index">
                                     <img src="{{ room.image_url }}" alt="{{ room.alt_text }}">
@@ -565,7 +565,7 @@
         // Initialize Swiper Sliders
         const roomsSwiper = new Swiper(".rooms-slider", {
             slidesPerView: 1,
-            spaceBetween: 20,
+            spaceBetween: 16,
             grabCursor: true,
             loop: true,
             autoplay: {
@@ -581,11 +581,21 @@
                 clickable: true,
             },
             breakpoints: {
-                640: {
-                    slidesPerView: 2,
+                480: {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
                 },
-                1024: {
+                576: {
+                    slidesPerView: 2,
+                    spaceBetween: 16,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                992: {
                     slidesPerView: 3,
+                    spaceBetween: 24,
                 },
             },
         });

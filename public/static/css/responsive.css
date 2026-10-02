@@ -1,0 +1,1571 @@
+/* =========================================================
+   RESPONSIVE STYLESHEET - Booking Hotel Project
+   این فایل بعد از style.css لود می‌شود و تمام تنظیمات
+   ریسپانسیو برای موبایل، تبلت و دسکتاپ را در بر می‌گیرد.
+   رویکرد: Mobile-First با override های امن
+   ========================================================= */
+
+/* ========================================
+   1. متغیرها و تنظیمات پایه
+   ======================================== */
+:root {
+    --mobile-gutter: 1rem;
+    --tablet-gutter: 1.5rem;
+    --desktop-gutter: 2rem;
+}
+
+/* بهبود container برای همه breakpoint ها */
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+    padding-left: var(--mobile-gutter);
+    padding-right: var(--mobile-gutter);
+}
+
+@media (min-width: 768px) {
+    .container,
+    .container-fluid,
+    .container-sm,
+    .container-md,
+    .container-lg,
+    .container-xl,
+    .container-xxl {
+        padding-left: var(--tablet-gutter);
+        padding-right: var(--tablet-gutter);
+    }
+}
+
+@media (min-width: 1200px) {
+    .container,
+    .container-fluid,
+    .container-sm,
+    .container-md,
+    .container-lg,
+    .container-xl,
+    .container-xxl {
+        padding-left: var(--desktop-gutter);
+        padding-right: var(--desktop-gutter);
+    }
+}
+
+/* بهبود h1 تا h6 با استفاده از clamp برای مقیاس‌پذیری */
+@media (max-width: 1199px) {
+    h1 { font-size: clamp(1.75rem, 5vw, 3rem) !important; }
+    h2 { font-size: clamp(1.5rem, 4vw, 2.25rem) !important; }
+    h3 { font-size: clamp(1.25rem, 3.5vw, 1.875rem) !important; }
+    h4 { font-size: clamp(1.125rem, 3vw, 1.5rem) !important; }
+    h5 { font-size: clamp(1rem, 2.5vw, 1.25rem) !important; }
+    h6 { font-size: clamp(0.875rem, 2vw, 1rem) !important; }
+}
+
+/* نمایش-مخفی کردن عناصر در breakpoints مختلف */
+.d-none-mobile { display: none !important; }
+
+@media (min-width: 992px) {
+    .d-none-mobile { display: initial !important; }
+    .d-only-mobile { display: none !important; }
+}
+
+.d-only-mobile { display: initial !important; }
+
+@media (min-width: 992px) {
+    .d-only-mobile { display: none !important; }
+}
+
+/* ترتیب عناصر در موبایل: لوگو → آیکون کاربر → همبرگر */
+@media (max-width: 991px) {
+    .navbar .order-mobile-end {
+        order: 2;
+        margin-right: auto;
+        margin-left: 0;
+    }
+    .navbar .navbar-toggler {
+        order: 3;
+    }
+}
+
+/* ========================================
+   2. Loading Screen
+   ======================================== */
+@media (max-width: 576px) {
+    .loader h4 {
+        font-size: 1rem !important;
+    }
+    .loader-spinner {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+/* ========================================
+   3. Top Header (نوار بالای صفحه)
+   ======================================== */
+@media (max-width: 767px) {
+    .top-header {
+        font-size: 12px !important;
+        padding: 8px 0 !important;
+    }
+
+    .top-header .row > div {
+        text-align: center !important;
+    }
+
+    .top-header .phone-number {
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .top-header .phone-number span:last-child {
+        display: none;
+    }
+
+    .top-header .text-start {
+        text-align: center !important;
+    }
+}
+
+/* ========================================
+   4. Main Header / Navbar
+   ======================================== */
+.main-header {
+    padding: 12px 0;
+}
+
+@media (max-width: 991px) {
+    .main-header .container {
+        max-width: 100%;
+    }
+
+    .main-header .navbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 0;
+    }
+
+    /* لوگو و دکمه‌ی همبرگری و آیکون کاربر در یک ردیف */
+    .main-header .navbar > .d-flex.align-items-center {
+        order: 2;
+        margin-right: auto;
+    }
+
+    /* دکمه همبرگری */
+    .navbar-toggler {
+        order: 3;
+        border: 1px solid var(--border-color) !important;
+        padding: 6px 10px !important;
+        border-radius: 8px !important;
+        background-color: transparent;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.15rem rgba(223, 169, 116, 0.25) !important;
+    }
+
+    .navbar-toggler-icon {
+        width: 1.2em !important;
+        height: 1.2em !important;
+    }
+
+    /* منوی کشویی در موبایل */
+    .main-header .collapse.navbar-collapse {
+        order: 4;
+        flex-basis: 100%;
+        margin-top: 10px;
+        padding: 10px 0;
+        border-top: 1px solid #eee;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .navbar-nav {
+        flex-direction: column !important;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .navbar-nav .nav-item {
+        width: 100%;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 12px 16px !important;
+        margin: 0 !important;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .navbar-nav .nav-link i {
+        width: 20px;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item:last-child {
+        margin-left: 0 !important;
+    }
+
+    /* لوگو کوچک‌تر در موبایل */
+    .logo-text {
+        font-size: 22px !important;
+    }
+
+    .logo-icon {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 18px !important;
+        border-radius: 10px !important;
+    }
+
+    /* آیکون کاربر در موبایل */
+    .user-account {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .signup-text p {
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-header {
+        padding: 8px 0 !important;
+    }
+
+    .logo-text {
+        font-size: 20px !important;
+    }
+
+    .logo-icon {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 16px !important;
+    }
+
+    /* پروفایل content کوچک‌تر */
+    .profile-content {
+        width: 9rem !important;
+        top: 3rem !important;
+    }
+}
+
+/* پاپ‌آپ پروفایل در موبایل - بهبود موقعیت */
+@media (max-width: 991px) {
+    .profile-content {
+        left: auto !important;
+        right: 0 !important;
+        top: 3.5rem !important;
+    }
+}
+
+/* ========================================
+   5. Hero Section (صفحه اصلی)
+   ======================================== */
+.hero-section {
+    min-height: 70vh;
+}
+
+@media (max-width: 1199px) {
+    .hero-title {
+        font-size: clamp(2rem, 6vw, 4rem) !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.5rem) !important;
+        margin-bottom: 1.5rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-section {
+        min-height: 60vh !important;
+        padding: 60px 0 40px !important;
+        background-attachment: scroll !important; /* جلوگیری از مشکلات iOS */
+    }
+
+    .hero-overlay {
+        background: rgba(0, 0, 0, 0.45) !important;
+    }
+
+    .hero-title {
+        font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem !important;
+        margin-bottom: 1.25rem !important;
+    }
+
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        padding: 10px 22px !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* عناصر شناور در موبایل پنهان می‌شوند */
+    .floating {
+        display: none !important;
+    }
+
+    .hero-scroll-indicator {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 55vh !important;
+    }
+
+    .hero-content .row > div {
+        padding: 0 8px;
+    }
+}
+
+/* ========================================
+   6. Booking Form (فرم رزرو)
+   ======================================== */
+@media (max-width: 991px) {
+    .booking-card {
+        padding: 1.25rem !important;
+    }
+
+    .booking-card h3 {
+        font-size: 1.25rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .booking-card {
+        padding: 1rem !important;
+        margin: 0 8px;
+    }
+
+    /* فیلدهای تاریخ و مهمان به صورت ستونی در موبایل خیلی کوچک */
+    #booking .row.g-3 > div {
+        margin-bottom: 0.75rem;
+    }
+
+    .custom-dropdown .dropdown-toggle {
+        padding: 12px 14px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .dropdown-menu {
+        min-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .guest-counter {
+        gap: 8px;
+    }
+
+    .guest-counter .btn {
+        width: 32px !important;
+        height: 32px !important;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* ========================================
+   7. About Section / Services / Counters
+   ======================================== */
+@media (max-width: 991px) {
+    .section-max-width {
+        max-width: 100% !important;
+        padding: 0 12px;
+    }
+
+    .display-5 {
+        font-size: clamp(1.5rem, 4vw, 2rem) !important;
+    }
+
+    .display-6 {
+        font-size: clamp(1.25rem, 3vw, 1.5rem) !important;
+    }
+}
+
+@media (max-width: 767px) {
+    /* کارت‌های خدمات */
+    .service-card,
+    .about-page-text,
+    .bg-white.p-4,
+    .bg-white.p-md-5 {
+        padding: 1.25rem !important;
+    }
+
+    .service-icon {
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 1.5rem !important;
+    }
+
+    .about-check-icon {
+        width: 28px !important;
+        height: 28px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .counter {
+        font-size: 1.75rem !important;
+    }
+}
+
+/* ========================================
+   8. Rooms Section / Swiper
+   ======================================== */
+@media (max-width: 991px) {
+    /* Swiper navigation arrows کوچک‌تر */
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 14px !important;
+    }
+
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none !important;
+    }
+
+    .swiper-slide {
+        width: 100% !important;
+    }
+
+    .room-card {
+        margin: 0 4px;
+    }
+
+    .room-card .p-4 {
+        padding: 1rem !important;
+    }
+
+    .room-card h4 {
+        font-size: 1.125rem !important;
+    }
+
+    .room-price-badge {
+        font-size: 0.85rem !important;
+        padding: 6px 12px !important;
+    }
+}
+
+/* ========================================
+   9. Blog Section
+   ======================================== */
+@media (max-width: 991px) {
+    .blog-filter-btn {
+        padding: 8px 16px !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .blog-image {
+        height: 200px !important;
+    }
+
+    .blog-image img {
+        height: 100% !important;
+        object-fit: cover;
+    }
+
+    .blog-date-badge,
+    .blog-category-badge {
+        font-size: 0.7rem !important;
+        padding: 4px 10px !important;
+    }
+
+    .blog-filter-btn {
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+/* ========================================
+   10. Testimonials
+   ======================================== */
+@media (max-width: 767px) {
+    .testimonial-card {
+        padding: 1.5rem !important;
+        margin: 0 4px;
+    }
+
+    .testimonial-avatar {
+        width: 60px !important;
+        height: 60px !important;
+    }
+}
+
+/* ========================================
+   11. Footer
+   ======================================== */
+@media (max-width: 991px) {
+    footer .col-md-6.col-lg-3 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    footer.bg-dark-custom {
+        padding-top: 2rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    footer .row.g-4 {
+        --bs-gutter-y: 1.5rem;
+    }
+
+    .footer-social-link {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 0.9rem !important;
+    }
+
+    footer h5 {
+        font-size: 1rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    /* scroll to top */
+    .scroll-top {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* ========================================
+   12. Search Model
+   ======================================== */
+.search-model-form input {
+    max-width: 90vw;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .search-model-form input {
+        font-size: 22px !important;
+        width: 90% !important;
+        max-width: 90vw !important;
+    }
+
+    .search-close-switch {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 22px !important;
+        top: 20px !important;
+    }
+}
+
+/* ========================================
+   13. Page Title Section (اتاق‌ها)
+   ======================================== */
+@media (max-width: 767px) {
+    .page-title-section {
+        padding: 50px 0 !important;
+    }
+
+    .page-title {
+        font-size: 1.75rem !important;
+    }
+
+    .page-subtitle {
+        font-size: 0.95rem !important;
+    }
+}
+
+/* ========================================
+   14. Rooms List Page (فیلتر + لیست اتاق‌ها)
+   ======================================== */
+@media (max-width: 991px) {
+    /* Sidebar بالا بیاید */
+    .rooms-list-section .row > .col-lg-4.order-lg-2.order-1 {
+        order: 1;
+        margin-bottom: 1.5rem;
+    }
+
+    .rooms-list-section .row > .col-lg-8.order-lg-1.order-2 {
+        order: 2;
+    }
+}
+
+@media (max-width: 767px) {
+    /* نوار مرتب‌سازی - اسکرول افقی */
+    .sort-filter-bar {
+        flex-direction: column !important;
+        gap: 10px;
+        align-items: stretch !important;
+        padding: 12px !important;
+    }
+
+    .sort-label {
+        font-size: 0.85rem !important;
+        text-align: center;
+    }
+
+    .sort-options {
+        display: flex !important;
+        overflow-x: auto;
+        gap: 8px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .sort-option {
+        white-space: nowrap;
+        padding: 8px 14px !important;
+        font-size: 0.85rem !important;
+        flex-shrink: 0;
+    }
+
+    /* کارت اتاق - چینش عمودی */
+    .room-card-inner {
+        flex-direction: column !important;
+    }
+
+    .room-image-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 200px !important;
+    }
+
+    .room-content {
+        padding: 1rem !important;
+    }
+
+    .room-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+
+    .room-amenities {
+        gap: 6px !important;
+    }
+
+    .amenity-badge {
+        font-size: 0.75rem !important;
+        padding: 4px 8px !important;
+    }
+
+    .room-description h5 {
+        font-size: 0.9rem !important;
+    }
+
+    .room-description p {
+        font-size: 0.85rem !important;
+    }
+
+    .reserve-btn {
+        width: 100% !important;
+        padding: 12px !important;
+    }
+
+    /* Pagination */
+    .room-pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .room-pagination a {
+        padding: 6px 10px !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Skeleton loader */
+    .skeleton-card-inner {
+        flex-direction: column !important;
+    }
+}
+
+/* Filter Sidebar */
+@media (max-width: 991px) {
+    .filter-sidebar {
+        padding: 16px !important;
+    }
+
+    .filter-title {
+        font-size: 1.125rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .filter-group {
+        margin-bottom: 1rem !important;
+    }
+
+    .filter-group-title {
+        font-size: 0.95rem !important;
+        padding: 8px 0 !important;
+    }
+
+    .people-counter {
+        justify-content: center;
+    }
+
+    .counter-btn {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    /* محدوده قیمت */
+    .price-range-input {
+        height: 24px !important;
+    }
+
+    .price-values {
+        font-size: 0.85rem !important;
+    }
+
+    .apply-filter-btn {
+        width: 100%;
+        padding: 12px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* ========================================
+   15. Room Detail Page
+   ======================================== */
+@media (max-width: 991px) {
+    .room-detail-container {
+        padding: 16px 0 !important;
+    }
+
+    .room-detail-container > .row.g-0 > .col-lg-6 {
+        width: 100%;
+    }
+
+    /* Gallery و info زیر هم چیده شوند */
+    .room-gallery {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .room-info {
+        padding: 1.25rem !important;
+    }
+
+    .room-title {
+        font-size: 1.5rem !important;
+    }
+
+    /* Grid امکانات */
+    .amenities-grid,
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .room-detail-container > .container-fluid {
+        padding: 0 12px !important;
+    }
+
+    .main-image {
+        height: 250px !important;
+        object-fit: cover;
+    }
+
+    .thumbnail-gallery {
+        gap: 8px !important;
+        overflow-x: auto;
+        flex-wrap: nowrap !important;
+    }
+
+    .thumbnail {
+        flex-shrink: 0;
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    .room-info {
+        padding: 1rem !important;
+    }
+
+    .room-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .room-description {
+        font-size: 0.9rem !important;
+        line-height: 1.6 !important;
+    }
+
+    /* کارت‌های اطلاعات سریع */
+    .quick-info-cards {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    .info-card {
+        padding: 10px !important;
+    }
+
+    .info-icon {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1rem !important;
+    }
+
+    .info-value {
+        font-size: 0.95rem !important;
+    }
+
+    .info-label {
+        font-size: 0.75rem !important;
+    }
+
+    /* قیمت‌گذاری */
+    .pricing-section {
+        padding: 1rem !important;
+    }
+
+    .price-amount {
+        font-size: 1.5rem !important;
+    }
+
+    .reserve-btn__room-detail {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 1rem !important;
+    }
+
+    /* Date stay */
+    .date-stay {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .date-stay p {
+        font-size: 0.85rem !important;
+        margin: 0 !important;
+    }
+
+    /* Tabs */
+    .info-tabs-modern .nav-tabs {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .info-tabs-modern .nav-link {
+        padding: 8px 12px !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Reviews */
+    .reviews-summary {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+
+    .rating-overview {
+        width: 100% !important;
+        text-align: center;
+    }
+
+    .rating-breakdown {
+        width: 100% !important;
+    }
+
+    .rating-bar {
+        font-size: 0.8rem !important;
+    }
+
+    .review-item {
+        padding: 12px !important;
+    }
+
+    .review-text {
+        font-size: 0.85rem !important;
+    }
+
+    /* Policies grid */
+    .policies-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .policy-item {
+        padding: 12px !important;
+    }
+
+    /* Modal forms */
+    .booking-form .row.g-3 > div {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .amenities-grid,
+    .features-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .room-rating {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 4px !important;
+    }
+}
+
+/* ========================================
+   16. Registration / Sign-in / OTP
+   ======================================== */
+@media (max-width: 991px) {
+    .registration-container {
+        margin: 16px 8px !important;
+        min-height: auto !important;
+    }
+
+    .registration-container > .row {
+        flex-direction: column;
+    }
+
+    /* در تبلت و موبایل، بخش تصویر بالای فرم می‌آید با ارتفاع کمتر */
+    .registration-container > .row > .col-lg-6:first-child {
+        order: 1;
+    }
+
+    .registration-container > .row > .col-lg-6:last-child {
+        order: 2;
+    }
+
+    .hotel-image-section {
+        min-height: 200px !important;
+        padding: 30px 20px !important;
+    }
+
+    .form-section {
+        padding: 24px 20px !important;
+    }
+
+    .form-title {
+        font-size: 1.5rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .registration-container {
+        margin: 8px !important;
+        border-radius: 12px !important;
+    }
+
+    .hotel-image-section {
+        min-height: 160px !important;
+        padding: 24px 16px !important;
+    }
+
+    .hotel-logo {
+        font-size: 2rem !important;
+        margin-bottom: 12px !important;
+    }
+
+    .hotel-title {
+        font-size: 1.5rem !important;
+    }
+
+    .hotel-subtitle {
+        font-size: 0.85rem !important;
+        line-height: 1.4 !important;
+    }
+
+    .form-section {
+        padding: 20px 16px !important;
+    }
+
+    .form-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 8px !important;
+    }
+
+    .form-subtitle {
+        font-size: 0.85rem !important;
+        margin-bottom: 20px !important;
+    }
+
+    .form-group {
+        margin-bottom: 12px !important;
+    }
+
+    .form-label {
+        font-size: 0.85rem !important;
+    }
+
+    .input-group-text {
+        padding: 10px 12px !important;
+    }
+
+    .btn-register {
+        padding: 12px 24px !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 1px !important;
+    }
+}
+
+/* ========================================
+   17. Account Settings / Profile
+   ======================================== */
+@media (max-width: 991px) {
+    .account-settings-container {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .account-settings-container .container {
+        max-width: 100%;
+    }
+
+    /* تبدیل تب‌ها به حالت اسکرول‌افقی */
+    .account-settings-container .d-flex.justify-content-between {
+        flex-direction: column !important;
+        gap: 12px;
+        align-items: stretch !important;
+    }
+
+    .account-settings-container .nav-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+        width: 100%;
+    }
+
+    .account-settings-container .nav-tabs .nav-item {
+        flex-shrink: 0;
+    }
+
+    .account-settings-container .nav-tabs .nav-link {
+        white-space: nowrap;
+        padding: 10px 16px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .account-settings-container .logout-btn {
+        align-self: stretch !important;
+        text-align: center !important;
+        padding: 10px 16px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .account-settings-container .card-body {
+        padding: 16px !important;
+    }
+
+    .account-settings-container .card-title {
+        font-size: 1.1rem !important;
+        margin-bottom: 12px !important;
+    }
+
+    .account-settings-container .row.mb-3 > .col-6 {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .account-settings-container .row.mb-3 > .col-6:first-child {
+        margin-bottom: 8px;
+    }
+
+    /* Order table */
+    .order-table {
+        overflow-x: auto;
+    }
+
+    .order-table table {
+        min-width: 700px;
+    }
+
+    .order-table th,
+    .order-table td {
+        padding: 10px 8px !important;
+        font-size: 0.85rem !important;
+        white-space: nowrap;
+    }
+}
+
+/* ========================================
+   18. Contact Us Page
+   ======================================== */
+@media (max-width: 991px) {
+    .contact-section {
+        padding: 30px 0 !important;
+    }
+
+    .section-title {
+        margin-bottom: 16px !important;
+    }
+
+    .section-main-title {
+        font-size: clamp(1.5rem, 4vw, 2rem) !important;
+    }
+
+    .section-description {
+        font-size: 0.9rem !important;
+    }
+
+    /* کارت‌های اطلاعات تماس */
+    .contact-info-card {
+        padding: 20px !important;
+        text-align: center !important;
+    }
+
+    .contact-icon {
+        margin: 0 auto 12px !important;
+    }
+
+    .contact-info-card h4 {
+        font-size: 1.1rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .contact-form {
+        padding: 16px !important;
+    }
+
+    .contact-form h3 {
+        font-size: 1.1rem !important;
+    }
+
+    /* فرم تماس - فیلدها تمام عرض */
+    .contact-form .row > div {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .contact-form .form-group {
+        margin-bottom: 12px !important;
+    }
+
+    .contact-form .form-label {
+        font-size: 0.85rem !important;
+    }
+
+    .contact-form .form-control {
+        font-size: 0.95rem !important;
+        padding: 10px 12px !important;
+    }
+
+    /* Working hours card */
+    .working-hours {
+        padding: 16px !important;
+    }
+
+    .working-hours h5 {
+        font-size: 1rem !important;
+    }
+
+    .btn-primary.btn-lg {
+        width: 100%;
+        padding: 12px 20px !important;
+        font-size: 0.95rem !important;
+    }
+}
+
+/* ========================================
+   19. Payment Success / Fail Pages
+   ======================================== */
+@media (max-width: 767px) {
+    .success-container,
+    .failure-container {
+        margin: 8px !important;
+        border-radius: 12px !important;
+    }
+
+    .success-header,
+    .failure-header {
+        padding: 24px 16px !important;
+    }
+
+    .success-icon,
+    .failure-icon {
+        font-size: 3rem !important;
+        margin-bottom: 12px !important;
+    }
+
+    .success-header h1,
+    .failure-header h1 {
+        font-size: 1.25rem !important;
+    }
+
+    .success-header p,
+    .failure-header p {
+        font-size: 0.9rem !important;
+    }
+
+    .reservation-details {
+        padding: 20px 12px !important;
+    }
+
+    .detail-card {
+        padding: 14px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .detail-label {
+        font-size: 0.85rem !important;
+    }
+
+    .detail-value {
+        font-size: 1rem !important;
+    }
+
+    .price-highlight {
+        font-size: 1.1rem !important;
+        padding: 14px !important;
+    }
+
+    .confirmation-number {
+        padding: 12px !important;
+    }
+
+    .confirmation-number strong {
+        font-size: 1rem !important;
+    }
+
+    .guest-item {
+        padding: 10px 12px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .guest-number {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .action-buttons {
+        padding: 16px !important;
+    }
+
+    .btn-custom {
+        padding: 10px 16px !important;
+        font-size: 0.85rem !important;
+        margin: 6px 0 !important;
+    }
+}
+
+/* ========================================
+   20. Modal Forms (Booking / Edit Review / Image Modal)
+   ======================================== */
+@media (max-width: 767px) {
+    .modal-dialog {
+        margin: 8px !important;
+    }
+
+    .modal-dialog.modal-lg {
+        max-width: calc(100vw - 16px) !important;
+    }
+
+    .modal-header {
+        padding: 12px 16px !important;
+    }
+
+    .modal-title {
+        font-size: 1rem !important;
+    }
+
+    .modal-body {
+        padding: 16px !important;
+    }
+
+    .modal-footer {
+        padding: 12px 16px !important;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .modal-footer .btn {
+        flex: 1;
+        font-size: 0.85rem !important;
+    }
+
+    .modal-image {
+        max-height: 60vh;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .booking-form .row.g-3 > div[class*="col-md"] {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .booking-label {
+        font-size: 0.85rem !important;
+    }
+}
+
+/* ========================================
+   21. Back to top button
+   ======================================== */
+@media (max-width: 767px) {
+    .back-to-top {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 0.9rem !important;
+        bottom: 70px !important;
+    }
+}
+
+/* ========================================
+   22. بهبود عمومی فاصله‌ها
+   ======================================== */
+@media (max-width: 767px) {
+    .py-5 {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .mb-5 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .p-4,
+    .p-md-5 {
+        padding: 1rem !important;
+    }
+}
+
+/* جلوگیری از overflow افقی */
+/*html, body {*/
+/*    overflow-x: hidden;*/
+/*}*/
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* بهبود کارت‌های گرید در صفحات مختلف */
+@media (max-width: 576px) {
+    .row.g-4 > [class*="col-12"],
+    .row.g-3 > [class*="col-12"] {
+        margin-bottom: 1rem;
+    }
+
+    /* دکمه‌های بزرگ تمام عرض */
+    .btn-lg {
+        padding: 10px 20px !important;
+        font-size: 0.95rem !important;
+    }
+}
+
+/* بهبود فضای داخلی container در صفحات کم عرض */
+@media (max-width: 480px) {
+    .container,
+    .container-fluid {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    /* کاهش padding های بزرگ */
+    .p-5 {
+        padding: 1rem !important;
+    }
+
+    .px-5,
+    .px-md-5 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .py-3 {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+}
+
+/* ========================================
+   23. بهبود scroll-snap و overflow
+   ======================================== */
+/* جلوگیری از scroll افقی ناخواسته */
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Helper: عرض کامل در موبایل، اتوماتیک در دسکتاپ */
+.w-100.w-md-auto {
+    width: 100% !important;
+}
+
+@media (min-width: 768px) {
+    .w-100.w-md-auto {
+        width: auto !important;
+    }
+}
+
+/* بهبود accordion در موبایل */
+@media (max-width: 767px) {
+    .filter-group .filter-content {
+        padding: 10px 0 !important;
+    }
+}
+
+/* بهبود Modal موقعیت‌یابی در موبایل */
+@media (max-width: 767px) {
+    .modal-dialog-centered {
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+}
+
+/* بهبود accessibility و touch targets */
+@media (max-width: 991px) {
+    .btn,
+    .nav-link,
+    .filter-group-title,
+    .sort-option,
+    .blog-filter-btn,
+    .footer-link,
+    .footer-social-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-social-link {
+        min-height: auto;
+    }
+}
+
+/* بهبود radii و transitions در موبایل برای touch-friendly بودن */
+@media (max-width: 767px) {
+    .btn,
+    .nav-link,
+    .sort-option {
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+}
+
+/* بهبود input ها در موبایل - جلوگیری از zoom در iOS */
+@media (max-width: 767px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="password"],
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
+}
+
+/* بهبود Swiper pagination */
+@media (max-width: 767px) {
+    .swiper-pagination-bullet {
+        width: 8px !important;
+        height: 8px !important;
+    }
+
+    .swiper-pagination-bullet-active {
+        width: 24px !important;
+        border-radius: 4px !important;
+    }
+}
+
+/* بهبود datepicker در موبایل */
+@media (max-width: 767px) {
+    .datepicker-plot-area {
+        font-size: 0.85rem !important;
+    }
+
+    .persian-datepicker {
+        width: 100% !important;
+    }
+}
+
+/* بهبود text truncation */
+@media (max-width: 767px) {
+    .room-description p,
+    .review-text,
+    .testimonial-card p {
+        -webkit-line-clamp: 4;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+/* بهبود label ها و form-group ها در موبایل */
+@media (max-width: 767px) {
+    .form-label {
+        font-size: 0.875rem !important;
+        margin-bottom: 6px !important;
+    }
+
+    .form-group {
+        margin-bottom: 12px !important;
+    }
+
+    .form-text,
+    .text-muted.small {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* بهبود alerts و notifications در موبایل */
+@media (max-width: 767px) {
+    .alert {
+        padding: 12px !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+/* بهبود breadcrumb */
+@media (max-width: 767px) {
+    .breadcrumb-text h2 {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* جلوگیری از focus وزائد در موبایل */
+@media (max-width: 991px) {
+    *:focus {
+        outline: none !important;
+    }
+
+    *:focus-visible {
+        outline: 2px solid var(--primary-color) !important;
+        outline-offset: 2px;
+    }
+}
+
+/* بهبود print */
+@media print {
+    .main-header,
+    footer,
+    .scroll-top,
+    .back-to-top,
+    .floating {
+        display: none !important;
+    }
+}

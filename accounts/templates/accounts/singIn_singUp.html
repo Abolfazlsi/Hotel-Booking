@@ -55,4 +55,18 @@
             </div>
         </div>
     </div>
+
+    <style>
+        /* در موبایل بسیار کوچک تصویر هتل کم ارتفاع می‌شود */
+        @media (max-width: 576px) {
+            .registration-container .row > .col-lg-6:first-child {
+                display: none;
+            }
+            .registration-container .row > .col-lg-6:last-child {
+                width: 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
 {% endblock %}

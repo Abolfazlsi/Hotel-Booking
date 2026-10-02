@@ -58,15 +58,15 @@
                         <h3 class="mb-4">پیام خود را برای ما بفرستید</h3>
                         <form id="contactForm" method="post">
                             {% csrf_token %}
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="row g-3">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label">نام و نام خانوادگی *</label>
                                         {{ form.full_name }}
                                         <div class="invalid-feedback">لطفاً نام و نام خانوادگی خود را وارد کنید</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label">شماره تماس *</label>
                                         {{ form.phone }}
@@ -75,15 +75,15 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="row g-3">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label">ایمیل *</label>
                                         {{ form.email }}
                                         <div class="invalid-feedback">لطفاً ایمیل معتبر وارد کنید</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label">موضوع</label>
                                         {{ form.subject }}
@@ -98,7 +98,7 @@
                             </div>
 
 
-                            <button type="submit" class="btn btn-primary btn-lg">
+                            <button type="submit" class="btn btn-primary btn-lg w-100 w-md-auto">
                                 <span class="btn-text">ارسال پیام</span>
                                 <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                             </button>

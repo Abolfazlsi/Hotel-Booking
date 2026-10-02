@@ -74,3 +74,41 @@
 <a href="#home" class="scroll-top" id="scrollTop">
     <i class="fas fa-arrow-up"></i>
 </a>
+
+<style>
+    /* بهبود footer در موبایل */
+    @media (max-width: 767px) {
+        footer.bg-dark-custom .row.g-4 > [class*="col-"] {
+            margin-bottom: 1.5rem;
+        }
+
+        footer.bg-dark-custom .row.g-4 > [class*="col-"]:last-child {
+            margin-bottom: 0;
+        }
+
+        footer.bg-dark-custom ul.list-unstyled li {
+            font-size: 0.85rem;
+        }
+
+        footer.bg-dark-custom .d-flex.align-items-start,
+        footer.bg-dark-custom .d-flex.align-items-center {
+            margin-bottom: 0.75rem !important;
+        }
+
+        /* متن رسانه‌های اجتماعی کوچک‌تر */
+        footer.bg-dark-custom .footer-text-muted {
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        /* آیکون‌های اجتماعی هنوز در یک ردیف */
+        footer.bg-dark-custom .d-flex.gap-2 {
+            gap: 0.5rem !important;
+        }
+
+        footer.bg-dark-custom h5 {
+            font-size: 0.95rem !important;
+        }
+    }
+</style>
