@@ -1192,147 +1192,753 @@ ol {
     box-shadow: 0 0 0 0.2rem rgba(201, 169, 110, 0.25);
 }
 
-.top-header {
-    background-color: var(--dark-color);
-    color: white;
-    padding: 10px 0;
-    font-size: 14px;
+/* ============================================================
+   HEADER — نوار بالایی + هدر اصلی + منوی ناوبری (بازطراحی کامل)
+   همه استایل‌های ریسپانسیو هدر هم در همین بخش هستند تا با
+   responsive.css تداخلی پیش نیاید.
+   ============================================================ */
+
+/* فاصله لنگرها از هدر چسبان */
+#about,
+#services,
+#testimonials,
+section[id] {
+    scroll-margin-top: 110px;
 }
 
-.phone-number {
+/* ---------------- نوار بالایی ---------------- */
+.top-header {
+    --tb-gold: #dfa974;
+    background: linear-gradient(90deg, #1c2a32 0%, #264653 55%, #2b3f4a 100%);
+    color: #eef4f7;
+    font-size: 0.8rem;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.top-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 30px;
+}
+
+.top-header__side {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.phone-number i {
-    color: var(--primary-color);
+.top-header__chip {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(223, 169, 116, 0.18);
+    color: var(--tb-gold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.66rem;
+    flex-shrink: 0;
 }
 
+.top-header__phone {
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.top-header__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.top-header__note {
+    color: rgba(238, 244, 247, 0.72);
+}
+
+.top-header__side--end {
+    color: rgba(238, 244, 247, 0.85);
+    font-weight: 500;
+}
+
+.top-header__side--end i {
+    color: var(--tb-gold);
+}
+
+/* ---------------- هدر اصلی ---------------- */
 .main-header {
-    background-color: white;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    padding: 15px 0;
+    --hd-gold: #dfa974;
+    --hd-gold-deep: #c08c53;
+    --hd-ink: #33454f;
+    --hd-muted: #7b8892;
+    --hd-line: #f0e7db;
+    --hd-soft: rgba(223, 169, 116, 0.12);
     position: sticky;
     top: 0;
     z-index: 1000;
+    background: rgba(255, 255, 255, 0.94);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--hd-line);
+    box-shadow: 0 1px 0 rgba(38, 70, 83, 0.03);
+    padding: 14px 0;
+    transition: padding 0.3s ease, box-shadow 0.3s ease;
 }
 
-.logo {
+.main-header.is-scrolled {
+    padding: 8px 0;
+    box-shadow: 0 12px 32px -12px rgba(38, 70, 83, 0.18);
+}
+
+.main-navbar {
+    padding: 0;
+}
+
+/* ---------------- لوگو ---------------- */
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none !important;
+}
+
+.brand__mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e9c396 0%, var(--hd-gold) 55%, var(--hd-gold-deep) 100%);
+    color: #fff;
+    font-size: 1.15rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px -6px rgba(223, 169, 116, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.brand:hover .brand__mark {
+    transform: rotate(-6deg) scale(1.06);
+    box-shadow: 0 12px 26px -6px rgba(223, 169, 116, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.brand__title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--hd-ink);
+}
+
+.brand__sub {
+    font-size: 0.66rem;
+    font-weight: 500;
+    color: var(--hd-muted);
+    letter-spacing: 2.5px;
+}
+
+/* ---------------- منوی ناوبری ---------------- */
+.main-nav__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav__item {
+    display: flex;
+}
+
+.main-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--hd-ink);
+    text-decoration: none !important;
+    transition: color 0.25s ease, background-color 0.25s ease;
+}
+
+.main-nav__link::after {
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--hd-gold), var(--hd-gold-deep));
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-nav__ico {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    background: var(--hd-soft);
+    color: var(--hd-gold-deep);
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.main-nav__link:hover {
+    color: var(--hd-gold-deep);
+    background: var(--hd-soft);
+}
+
+.main-nav__link:hover .main-nav__ico {
+    background: var(--hd-gold);
+    color: #fff;
+    transform: translateY(-1px) rotate(-4deg);
+}
+
+.main-nav__link.is-active {
+    color: var(--hd-gold-deep);
+    background: var(--hd-soft);
+}
+
+.main-nav__link.is-active .main-nav__ico {
+    background: linear-gradient(135deg, var(--hd-gold), var(--hd-gold-deep));
+    color: #fff;
+}
+
+.main-nav__link.is-active::after,
+.main-nav__link:hover::after {
+    width: 16px;
+}
+
+/* ---------------- اکشن‌ها (ورود / حساب کاربری) ---------------- */
+.header-actions {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.logo-icon {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 12px;
-    display: flex;
+/* دکمه ورود (کاربر مهمان) */
+.btn-auth {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #e5b87f 0%, var(--hd-gold) 50%, var(--hd-gold-deep) 100%);
+    color: #fff;
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px -6px rgba(223, 169, 116, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.btn-auth:hover,
+.btn-auth:focus {
+    color: #fff;
+    transform: translateY(-2px);
+    filter: saturate(1.08);
+    box-shadow: 0 12px 26px -6px rgba(223, 169, 116, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-auth__ico {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 0.72rem;
 }
 
-.logo-text {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--dark-color);
+/* دکمه حساب کاربری (کاربر واردشده) */
+.account-wrap {
+    position: relative;
 }
 
-.navbar-nav .nav-link {
-    font-weight: 500;
-    padding: 8px 20px;
-    color: var(--text-color);
-    transition: all 0.3s ease;
-    border-radius: 6px;
-    margin: 0 5px;
+.account-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 6px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1.5px solid rgba(223, 169, 116, 0.45);
+    text-decoration: none !important;
+    cursor: pointer;
+    box-shadow: 0 4px 14px -6px rgba(38, 70, 83, 0.15);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.navbar-nav .nav-link:hover {
-    color: var(--primary-color);
-    background-color: rgba(244, 162, 97, 0.1);
+.account-btn:hover,
+.account-wrap.open .account-btn {
+    border-color: var(--hd-gold);
+    box-shadow: 0 6px 18px -6px rgba(223, 169, 116, 0.45);
 }
 
-.navbar-nav .nav-link.active {
-    color: var(--primary-color);
-    background-color: rgba(244, 162, 97, 0.15);
+.account-btn__avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--hd-gold), var(--hd-gold-deep));
+    color: #fff;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.user-account {
+.account-btn__chev {
+    color: var(--hd-muted);
+    font-size: 0.7rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.account-wrap.open .account-btn__chev {
+    transform: rotate(180deg);
+    color: var(--hd-gold-deep);
+}
+
+/* منوی کشویی پروفایل */
+.profile-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    width: 264px;
+    background: #fff;
+    border: 1px solid var(--hd-line);
+    border-radius: 18px;
+    box-shadow: 0 24px 48px -12px rgba(38, 70, 83, 0.22);
+    padding: 8px;
+    z-index: 1100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.96);
+    transform-origin: top left;
+    transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.28s;
+}
+
+.account-wrap.open .profile-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.profile-menu::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 26px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-left: 1px solid var(--hd-line);
+    border-top: 1px solid var(--hd-line);
+    transform: rotate(45deg);
+    border-top-left-radius: 3px;
+}
+
+.profile-menu__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(223, 169, 116, 0.16), rgba(223, 169, 116, 0.05));
+    margin-bottom: 6px;
+}
+
+.profile-menu__avatar {
     width: 40px;
     height: 40px;
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
-    display: flex;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--hd-gold), var(--hd-gold-deep));
+    color: #fff;
+    font-size: 1rem;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-color);
-    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.profile-menu__meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+    min-width: 0;
+}
+
+.profile-menu__title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--hd-ink);
+}
+
+.profile-menu__sub {
+    font-size: 0.74rem;
+    color: var(--hd-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-menu__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--hd-ink);
+    text-decoration: none !important;
     cursor: pointer;
+    transition: background-color 0.22s ease, color 0.22s ease, transform 0.22s ease;
 }
 
-.user-out:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    width: 120px;
-    height: 45px;
-    border-radius: 1rem;
-    background-color: var(--primary-color);
+.profile-menu__ico {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--hd-soft);
+    color: var(--hd-gold-deep);
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.22s ease, color 0.22s ease;
 }
 
-
-.signup-text {
-    margin-top: 12px;
+.profile-menu__item:hover {
+    background: #faf3ea;
+    color: var(--hd-gold-deep);
+    transform: translateX(-2px);
 }
 
-.signup-text p {
+.profile-menu__item:hover .profile-menu__ico {
+    background: var(--hd-gold);
     color: #fff;
 }
 
-.profile-content {
-    background-color: #ffff;
-    border-radius: 1rem;
-    width: 10rem;
-    position: absolute;
-    top: 4rem;
-    left: 0;
-    text-align: right;
-    box-shadow: 0 0 30px rgba(39, 35, 67, 0.12);
-    overflow: hidden;
-    max-height: 0;
-    transition: all 0.3s ease-out;
+.profile-menu__item.is-disabled {
+    opacity: 0.62;
+    cursor: default;
 }
 
-.profile-content.user-login {
-    padding: 1rem;
-    max-height: 200px;
-
+.profile-menu__item.is-disabled:hover {
+    background: transparent;
+    color: var(--hd-ink);
+    transform: none;
 }
 
-.profile-content__ul {
-    list-style: none;
+.profile-menu__item.is-disabled:hover .profile-menu__ico {
+    background: var(--hd-soft);
+    color: var(--hd-gold-deep);
 }
 
-.profile-content__li {
-    margin-top: 7px;
-    height: 2.5rem;
-    padding: 0.6rem;
-    border-radius: 10px;
-    transition: all 0.3s ease-out;
-    cursor: pointer;
+.profile-menu__badge {
+    margin-inline-start: auto;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--hd-gold-deep);
+    background: var(--hd-soft);
+    border: 1px dashed rgba(223, 169, 116, 0.5);
+    padding: 2px 8px;
+    border-radius: 99px;
+    white-space: nowrap;
 }
 
-.profile-content__li:hover {
-    background-color: var(--primary-color);
+.profile-menu__sep {
+    height: 1px;
+    margin: 6px 10px;
+    background: linear-gradient(90deg, transparent, var(--hd-line), transparent);
 }
 
-.profile-content__li.logout:hover {
-    background-color: #ff5353;
+.profile-menu__item.is-logout {
+    color: #c0564f;
 }
+
+.profile-menu__item.is-logout .profile-menu__ico {
+    background: rgba(223, 86, 79, 0.1);
+    color: #c0564f;
+}
+
+.profile-menu__item.is-logout:hover {
+    background: #fdf0ef;
+    color: #a8403a;
+}
+
+.profile-menu__item.is-logout:hover .profile-menu__ico {
+    background: #e2574e;
+    color: #fff;
+}
+
+/* ---------------- دکمه همبرگری ---------------- */
+.nav-toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(223, 169, 116, 0.55);
+    background: #fff;
+    padding: 0;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 4px 14px -6px rgba(223, 169, 116, 0.4);
+    transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-toggle:hover {
+    border-color: var(--hd-gold);
+    background: #fffdf9;
+}
+
+.nav-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(223, 169, 116, 0.25);
+}
+
+.nav-toggle:focus-visible {
+    outline: 2px solid var(--hd-gold);
+    outline-offset: 3px;
+}
+
+.nav-toggle__bar {
+    width: 20px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--hd-ink);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease, background-color 0.25s ease;
+}
+
+.nav-toggle[aria-expanded="true"] {
+    border-color: var(--hd-gold);
+    background: linear-gradient(135deg, var(--hd-gold), var(--hd-gold-deep));
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar {
+    background: #fff;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0.3);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ---------------- دسترس‌پذیری ---------------- */
+.main-header a:focus-visible {
+    outline: 2px solid var(--hd-gold);
+    outline-offset: 3px;
+    border-radius: 12px;
+}
+
+/* ============================================================
+   HEADER — ریسپانسیو (تبلت و موبایل)
+   ============================================================ */
+
+@media (max-width: 991.98px) {
+
+    .main-header {
+        padding: 10px 0;
+    }
+
+    /* ردیف اول: لوگو (راست) ... اکشن‌ها (چپ) */
+    .main-navbar .header-actions {
+        order: 2;
+        margin-inline-start: auto;
+    }
+
+    /* پنل منو زیر ردیف اول */
+    .main-navbar .main-nav {
+        order: 3;
+        flex-basis: 100%;
+    }
+
+    .main-nav.show,
+    .main-nav.collapsing {
+        margin-top: 12px;
+        background: #fff;
+        border: 1px solid var(--hd-line);
+        border-radius: 18px;
+        padding: 10px;
+        box-shadow: 0 26px 48px -18px rgba(38, 70, 83, 0.28);
+    }
+
+    .main-nav.show {
+        max-height: 65vh;
+        overflow-y: auto;
+    }
+
+    .main-nav.show::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .main-nav.show::-webkit-scrollbar-thumb {
+        background: rgba(223, 169, 116, 0.45);
+        border-radius: 99px;
+    }
+
+    .main-nav .main-nav__list {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+
+    .main-nav__link {
+        display: flex;
+        width: 100%;
+        padding: 9px 12px;
+        border-radius: 14px;
+        font-size: 0.95rem;
+    }
+
+    .main-nav__link::after {
+        display: none;
+    }
+
+    .main-nav__ico {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        font-size: 0.9rem;
+    }
+
+    .main-nav__link.is-active {
+        background: linear-gradient(135deg, rgba(223, 169, 116, 0.16), rgba(223, 169, 116, 0.06));
+        box-shadow: inset 3px 0 0 var(--hd-gold);
+    }
+}
+
+@media (max-width: 575.98px) {
+
+    .main-header {
+        padding: 8px 0;
+    }
+
+    .brand__mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+
+    .brand__title {
+        font-size: 1.2rem;
+    }
+
+    .brand__sub {
+        font-size: 0.58rem;
+        letter-spacing: 2px;
+    }
+
+    /* دکمه ورود فقط-آیکون در موبایل */
+    .btn-auth {
+        padding: 0;
+        width: 42px;
+        height: 42px;
+        justify-content: center;
+        border-radius: 14px;
+    }
+
+    .btn-auth__label {
+        display: none;
+    }
+
+    .btn-auth__ico {
+        width: auto;
+        height: auto;
+        background: transparent;
+        font-size: 1rem;
+    }
+
+    .account-btn {
+        padding: 4px;
+    }
+
+    .account-btn__avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .account-btn__chev {
+        display: none;
+    }
+
+    .profile-menu {
+        width: min(280px, calc(100vw - 32px));
+    }
+
+    .nav-toggle {
+        width: 42px;
+        height: 42px;
+    }
+
+    .top-header {
+        font-size: 0.74rem;
+        padding: 6px 0;
+    }
+
+    .top-header__inner {
+        justify-content: center;
+    }
+}
+
+/* احترام به تنظیمات کاهش انیمیشن کاربر */
+@media (prefers-reduced-motion: reduce) {
+    .main-header,
+    .brand__mark,
+    .main-nav__link,
+    .main-nav__ico,
+    .main-nav__link::after,
+    .btn-auth,
+    .account-btn,
+    .account-btn__chev,
+    .profile-menu,
+    .nav-toggle,
+    .nav-toggle__bar {
+        transition: none !important;
+    }
+}
+
+
 
 /* From Uiverse.io by alexruix */
 /* The switch - the box around the slider */
@@ -6325,5 +6931,765 @@ input:checked + .slider:before {
 
     .skeleton-content {
         flex: 0 0 100%;
+    }
+}
+
+/* ===================================================================
+   صفحات احراز هویت (ورود/ثبت‌نام و تأیید کد پیامکی)
+   هماهنگ با هویت بصری سایت: فونت Shabnam + رنگ برند #dfa974
+   =================================================================== */
+
+.auth-shell {
+    --au-primary: #dfa974;
+    --au-primary-dark: #c98f57;
+    --au-primary-deep: #a4713a;
+    --au-dark: #264653;
+    --au-ink: #2b2620;
+    --au-muted: #8a8078;
+    --au-line: #efe7dc;
+    --au-bg: #faf7f2;
+    --au-card: #ffffff;
+    --au-ring: rgba(223, 169, 116, 0.22);
+    --au-danger: #c0392b;
+    --au-danger-soft: #e07a5f;
+    --au-radius: 22px;
+}
+
+/* ------------------------- پوسته صفحه ------------------------- */
+
+.auth-shell {
+    position: relative;
+    overflow: hidden;
+    min-height: 74vh;
+    display: grid;
+    place-items: center;
+    padding: clamp(2rem, 5vh, 3.5rem) 1rem 2.5rem;
+    font-family: "Shabnam", Tahoma, sans-serif;
+    background:
+        radial-gradient(1200px 500px at 85% -10%, rgba(223, 169, 116, 0.14), transparent 60%),
+        radial-gradient(900px 450px at 10% 110%, rgba(38, 70, 83, 0.10), transparent 60%),
+        var(--au-bg);
+}
+
+/* تزئینات پس‌زمینه */
+.auth-decor {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.auth-decor--one {
+    width: 420px;
+    height: 420px;
+    top: -150px;
+    left: -130px;
+    background: radial-gradient(circle at 35% 35%, rgba(223, 169, 116, 0.28), rgba(223, 169, 116, 0) 70%);
+    animation: au-float 7s ease-in-out infinite alternate;
+}
+
+.auth-decor--two {
+    width: 380px;
+    height: 380px;
+    bottom: -140px;
+    right: -110px;
+    background: radial-gradient(circle at 60% 60%, rgba(38, 70, 83, 0.20), rgba(38, 70, 83, 0) 70%);
+    animation: au-float 9s ease-in-out infinite alternate-reverse;
+}
+
+.auth-decor--three {
+    width: 170px;
+    height: 170px;
+    top: 22%;
+    left: 10%;
+    border: 1.5px dashed rgba(223, 169, 116, 0.40);
+    animation: au-spin-slow 40s linear infinite;
+}
+
+/* ------------------------- کارت اصلی ------------------------- */
+
+.auth-card {
+    position: relative;
+    z-index: 1;
+    width: min(1040px, 100%);
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    background: var(--au-card);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: var(--au-radius);
+    overflow: hidden;
+    box-shadow:
+        0 30px 70px -20px rgba(38, 70, 83, 0.28),
+        0 8px 24px -12px rgba(223, 169, 116, 0.25);
+    animation: au-rise 0.7s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+}
+
+/* ------------------------- ستون فرم ------------------------- */
+
+.auth-form-side {
+    padding: clamp(2rem, 4.5vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+    background: linear-gradient(135deg, rgba(223, 169, 116, 0.16), rgba(223, 169, 116, 0.07));
+    border: 1px solid rgba(223, 169, 116, 0.38);
+    color: var(--au-primary-deep);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    margin-bottom: 1.1rem;
+}
+
+.auth-title {
+    font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+    font-weight: 800;
+    color: var(--au-dark);
+    letter-spacing: -0.5px;
+    margin: 0 0 0.7rem;
+}
+
+.auth-lead {
+    color: var(--au-muted);
+    font-size: 0.92rem;
+    line-height: 2;
+    margin: 0 0 1.8rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-field {
+    margin-bottom: 1.2rem;
+}
+
+.auth-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #5f574d;
+    margin-bottom: 0.55rem;
+}
+
+.auth-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #b3a892;
+    font-size: 0.78rem;
+    margin-top: 0.45rem;
+}
+
+/* ورودی‌ها */
+.auth-input-wrap {
+    position: relative;
+}
+
+.auth-input-icon {
+    position: absolute;
+    top: 50%;
+    right: 17px;
+    transform: translateY(-50%);
+    color: #c9b99f;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+.auth-input-wrap .form-control {
+    width: 100%;
+    height: 54px;
+    border-radius: 14px;
+    border: 1.5px solid var(--au-line);
+    background: #fcfaf7;
+    padding: 0 48px 0 16px;
+    font-size: 0.98rem;
+    font-family: inherit;
+    color: var(--au-ink);
+    unicode-bidi: plaintext;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.auth-input-wrap .form-control::placeholder {
+    color: #b9ac99;
+}
+
+.auth-input-wrap .form-control:focus {
+    outline: 0;
+    border-color: var(--au-primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px var(--au-ring);
+}
+
+.auth-input-wrap:focus-within .auth-input-icon {
+    color: var(--au-primary-dark);
+}
+
+/* خطاهای فرم (رندرشده توسط جنگو) */
+.auth-shell .errorlist {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.auth-shell .errorlist li {
+    color: var(--au-danger);
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.auth-shell .errorlist li::before {
+    content: "\f071";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.72rem;
+}
+
+/* ------------------------- دکمه اصلی ------------------------- */
+
+.auth-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+    padding: 0.95rem 1.5rem;
+    border: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--au-primary), var(--au-primary-dark));
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 10px 24px -8px rgba(223, 169, 116, 0.55);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+    box-shadow: 0 14px 30px -8px rgba(223, 169, 116, 0.62);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-btn:disabled {
+    opacity: 0.78;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-btn:focus-visible {
+    outline: 2px dashed var(--au-primary-deep);
+    outline-offset: 3px;
+}
+
+.auth-btn-arrow {
+    transition: transform 0.25s ease;
+}
+
+.auth-btn:hover .auth-btn-arrow {
+    transform: translateX(-4px);
+}
+
+.auth-btn-spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    animation: au-spin 0.7s linear infinite;
+}
+
+.auth-btn.is-loading .auth-btn-spinner {
+    display: inline-block;
+}
+
+/* پانویس کارت */
+.auth-footnote {
+    margin-top: 1.4rem;
+    padding-top: 1.1rem;
+    border-top: 1px dashed var(--au-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--au-muted);
+    font-size: 0.78rem;
+}
+
+.auth-footnote i {
+    color: var(--au-primary);
+}
+
+/* ------------------------- ستون برند ------------------------- */
+
+.auth-brand {
+    position: relative;
+    overflow: hidden;
+    min-height: 620px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.auth-brand-bg {
+    position: absolute;
+    inset: 0;
+    background: url("../img/hero/hero-2.jpg") center / cover no-repeat;
+    animation: au-zoom 16s ease-in-out infinite alternate;
+}
+
+.auth-brand-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,
+            rgba(21, 30, 36, 0.90) 0%,
+            rgba(21, 30, 36, 0.42) 48%,
+            rgba(223, 169, 116, 0.22) 100%);
+}
+
+.auth-brand-content {
+    position: relative;
+    z-index: 2;
+    padding: 2.5rem;
+    color: #fff;
+}
+
+.auth-brand-logo {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--au-primary);
+    font-size: 1.35rem;
+    margin-bottom: 1.1rem;
+}
+
+.auth-brand-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    margin: 0 0 0.4rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.auth-brand-sub {
+    font-size: 0.95rem;
+    line-height: 1.95;
+    opacity: 0.88;
+    margin: 0 0 1.4rem;
+}
+
+.auth-brand-features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.auth-brand-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.94);
+}
+
+.auth-brand-features i {
+    color: var(--au-primary);
+    font-size: 0.95rem;
+}
+
+.auth-brand-badge {
+    position: absolute;
+    z-index: 2;
+    top: 22px;
+    left: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    padding: 0.7rem 1.1rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    animation: au-float 5s ease-in-out infinite alternate;
+}
+
+.auth-brand-badge strong {
+    font-size: 1.15rem;
+    color: #ffd9a0;
+}
+
+.auth-brand-badge span {
+    font-size: 0.7rem;
+    opacity: 0.85;
+}
+
+/* ------------------------- بخش OTP ------------------------- */
+
+.otp-zone {
+    position: relative;
+    margin-bottom: 1.3rem;
+}
+
+.otp-boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+}
+
+.otp-box {
+    width: 58px;
+    height: 68px;
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--au-ink);
+    border: 1.5px solid var(--au-line);
+    border-radius: 16px;
+    background: #fcfaf7;
+    caret-color: var(--au-primary-dark);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease,
+        background 0.18s ease, transform 0.18s ease;
+}
+
+.otp-box::placeholder {
+    color: #ddd2c0;
+}
+
+.otp-box:focus {
+    outline: 0;
+    border-color: var(--au-primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px var(--au-ring);
+    transform: translateY(-2px);
+}
+
+.otp-box.is-filled {
+    border-color: #e4cba4;
+    background: #fff;
+}
+
+/* ورودی واقعی جنگو — نامرئی ولی در DOM */
+.otp-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.otp-hidden .form-control {
+    border: 0;
+    padding: 0;
+    height: 1px;
+}
+
+.otp-phone-number {
+    font-weight: 800;
+    color: var(--au-dark);
+    letter-spacing: 1px;
+}
+
+.otp-zone .errorlist li {
+    justify-content: center;
+}
+
+.otp-zone.has-error .otp-box {
+    border-color: var(--au-danger-soft);
+    background: #fff7f5;
+}
+
+.otp-inline-error {
+    display: block;
+    text-align: center;
+    color: var(--au-danger);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 0.65rem 0 0;
+}
+
+.otp-zone.is-shaking .otp-boxes {
+    animation: au-shake 0.5s ease;
+}
+
+/* تایمر و لینک‌های کمکی */
+.otp-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    font-size: 0.82rem;
+}
+
+.otp-meta-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.otp-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 12px;
+    background: #fbf6ee;
+    border: 1px dashed #e8d9c2;
+    color: #8a6b3f;
+    font-size: 0.8rem;
+}
+
+.otp-timer b {
+    font-weight: 800;
+    color: var(--au-primary-deep);
+    min-width: 3.2em;
+    text-align: center;
+}
+
+.otp-resend,
+.otp-edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+.otp-resend {
+    color: var(--au-primary-deep);
+}
+
+.otp-edit {
+    color: var(--au-muted);
+}
+
+.otp-resend:hover,
+.otp-edit:hover {
+    color: var(--au-primary);
+}
+
+.otp-resend[hidden],
+.otp-timer[hidden],
+.otp-inline-error[hidden] {
+    display: none !important;
+}
+
+/* لینک بازگشت */
+.auth-back-home {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1.4rem;
+    color: #7a6f61;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-back-home:hover {
+    color: var(--au-primary-deep);
+    transform: translateX(-3px);
+}
+
+/* ------------------------- انیمیشن‌ها ------------------------- */
+
+@keyframes au-rise {
+    from {
+        opacity: 0;
+        transform: translateY(26px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes au-zoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.09);
+    }
+}
+
+@keyframes au-float {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes au-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes au-spin-slow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes au-shake {
+
+    10%,
+    90% {
+        transform: translateX(-1px);
+    }
+
+    20%,
+    80% {
+        transform: translateX(2px);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translateX(-4px);
+    }
+
+    40%,
+    60% {
+        transform: translateX(4px);
+    }
+}
+
+/* ------------------------- واکنش‌گرایی ------------------------- */
+
+@media (max-width: 991.98px) {
+    .auth-card {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-brand {
+        order: -1;
+        min-height: 220px;
+        align-items: center;
+    }
+
+    .auth-brand-features,
+    .auth-brand-badge {
+        display: none;
+    }
+
+    .auth-brand-content {
+        padding: 1.8rem 1.5rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .auth-brand-title {
+        font-size: 1.5rem;
+    }
+
+    .auth-brand-sub {
+        margin-bottom: 0;
+        font-size: 0.85rem;
+    }
+
+    .auth-brand-logo {
+        margin-bottom: 0.7rem;
+        width: 46px;
+        height: 46px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .auth-shell {
+        padding: 1.25rem 0.85rem 1.75rem;
+    }
+
+    .auth-card {
+        border-radius: 18px;
+    }
+
+    .auth-form-side {
+        padding: 1.6rem 1.25rem;
+    }
+
+    .auth-title {
+        font-size: 1.35rem;
+    }
+
+    .otp-boxes {
+        gap: 8px;
+    }
+
+    .otp-box {
+        width: 50px;
+        height: 60px;
+        font-size: 1.45rem;
+        border-radius: 14px;
+    }
+
+    .auth-btn {
+        font-size: 0.95rem;
+    }
+
+    .otp-meta {
+        justify-content: center;
+    }
+}
+
+/* کاهش حرکت برای کاربران حساس */
+@media (prefers-reduced-motion: reduce) {
+
+    .auth-card,
+    .auth-brand-bg,
+    .auth-decor,
+    .auth-brand-badge {
+        animation: none !important;
     }
 }

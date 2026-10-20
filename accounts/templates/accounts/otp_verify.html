@@ -2,60 +2,295 @@
 {% load static %}
 
 {% block main %}
-    <div class="registration-container">
-        <div class="row g-0 h-100">
-            <!-- Hotel Image Section -->
-            <div class="col-lg-6">
-                <div class="hotel-image-section h-100">
-                    <div class="hotel-content">
-                        <div class="hotel-logo">
-                            <i class="fa fa-hotel"></i>
-                        </div>
-                        <h1 class="hotel-title">هتــل</h1>
-                        <p class="hotel-subtitle">رزرواسیون اتاق ‌ها<br>و اماکن اقامتی کشور</p>
+<!-- استایل این صفحه در فایل style.css (بخش صفحات احراز هویت) قرار دارد -->
+
+<section class="auth-shell" aria-label="تأیید کد پیامک‌شده">
+    <div class="auth-decor auth-decor--one" aria-hidden="true"></div>
+    <div class="auth-decor auth-decor--two" aria-hidden="true"></div>
+    <div class="auth-decor auth-decor--three" aria-hidden="true"></div>
+
+    <div class="auth-card">
+        <!-- ستون فرم -->
+        <div class="auth-form-side">
+            <span class="auth-eyebrow">
+                <i class="fa-solid fa-key" aria-hidden="true"></i>
+                مرحله دوم: تأیید هویت
+            </span>
+
+            <h2 class="auth-title">کد تأیید را وارد کنید</h2>
+            <p class="auth-lead" id="otpLead">کد ۴ رقمی به شماره موبایل شما ارسال شد.</p>
+
+            <form id="otpForm" method="post" class="auth-form" novalidate>
+                {% csrf_token %}
+
+                <div class="otp-zone" id="otpZone">
+                    <div class="otp-boxes" id="otpBoxes" dir="ltr" role="group" aria-label="کد تأیید ۴ رقمی">
+                        <input class="otp-box" type="text" inputmode="numeric" maxlength="1"
+                               autocomplete="one-time-code" aria-label="رقم اول">
+                        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="رقم دوم">
+                        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="رقم سوم">
+                        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="رقم چهارم">
                     </div>
+
+                    <!-- ورودی واقعی فرم جنگو (نامرئی) — مقدارش با جاوااسکریپت همگام می‌شود -->
+                    <div class="otp-hidden" aria-hidden="true">
+                        {{ form.code }}
+                    </div>
+
+                    {{ form.code.errors }}
+                    <p class="otp-inline-error" id="otpInlineError" hidden></p>
+                </div>
+
+                <button type="submit" class="auth-btn" id="otpSubmit">
+                    <span class="auth-btn-spinner" aria-hidden="true"></span>
+                    <span class="auth-btn-text">تأیید و ورود</span>
+                    <i class="fa-solid fa-arrow-left auth-btn-arrow" aria-hidden="true"></i>
+                </button>
+            </form>
+
+            <div class="otp-meta">
+                <div class="otp-meta-actions">
+                    <div class="otp-timer" id="otpTimerBox">
+                        <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                        <span>ارسال مجدد کد تا <b id="otpTimer">۲:۰۰</b></span>
+                    </div>
+                    <a class="otp-resend" id="otpResend" href="{% url 'accounts:signin-signup' %}" hidden>
+                        <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+                        درخواست کد جدید
+                    </a>
+                    <a class="otp-edit" href="{% url 'accounts:signin-signup' %}">
+                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                        ویرایش شماره موبایل
+                    </a>
                 </div>
             </div>
 
-            <!-- Registration Form Section -->
-            <div class="col-lg-6">
-                <div class="form-section h-100 d-flex flex-column justify-content-center">
-                    <h2 class="form-title">تایید کد</h2>
-                    <p class="form-subtitle">لطفاً این فرم را برای عضویت در پورتال اطلاعات تکمیل کنید.</p>
-
-                    <form id="registrationForm" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label class="form-label">کد تایید</label>
-                            <div class="input-group">
-                                {{ form.code }}
-                                <span class="input-group-text">
-                                    <i class="fa fa-key"></i>
-                                </span>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-register">
-                            عضویت
-                        </button>
-
-                    </form>
-                </div>
+            <div class="auth-footnote">
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                کد تأیید را با هیچ‌کس به اشتراک نگذارید
             </div>
         </div>
+
+        <!-- ستون تصویر و برند -->
+        <aside class="auth-brand">
+            <div class="auth-brand-bg" aria-hidden="true"></div>
+            <div class="auth-brand-overlay" aria-hidden="true"></div>
+
+            <div class="auth-brand-badge" aria-hidden="true">
+                <strong>+۱۰۰۰</strong>
+                <span>رزرو موفق</span>
+            </div>
+
+            <div class="auth-brand-content">
+                <div class="auth-brand-logo">
+                    <i class="fa-solid fa-hotel" aria-hidden="true"></i>
+                </div>
+                <h3 class="auth-brand-title">هتـــل</h3>
+                <p class="auth-brand-sub">رزرواسیون اتاق‌ها<br>و اماکن اقامتی کشور</p>
+
+                <ul class="auth-brand-features">
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> رزرو آنی و تضمینی اتاق‌ها</li>
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> پرداخت امن از طریق زرین‌پال</li>
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> پشتیبانی ۲۴ ساعته، ۷ روز هفته</li>
+                </ul>
+            </div>
+        </aside>
     </div>
 
-    <style>
-        /* در موبایل بسیار کوچک تصویر هتل کم ارتفاع می‌شود */
-        @media (max-width: 576px) {
-            .registration-container .row > .col-lg-6:first-child {
-                display: none;
-            }
-            .registration-container .row > .col-lg-6:last-child {
-                width: 100%;
-                flex: 0 0 100%;
-                max-width: 100%;
+    <a class="auth-back-home" href="{% url 'hotels:home' %}">
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        بازگشت به صفحه اصلی
+    </a>
+</section>
+
+<script>
+    (function () {
+        'use strict';
+
+        var form = document.getElementById('otpForm');
+        if (!form) return;
+
+        var boxes = Array.prototype.slice.call(document.querySelectorAll('.otp-box'));
+        var real = document.getElementById('id_code');
+        var zone = document.getElementById('otpZone');
+        var btn = document.getElementById('otpSubmit');
+        var btnText = btn ? btn.querySelector('.auth-btn-text') : null;
+        var inlineError = document.getElementById('otpInlineError');
+        var lead = document.getElementById('otpLead');
+        var FA = '۰۱۲۳۴۵۶۷۸۹';
+
+        function toEnDigits(str) {
+            return String(str)
+                .replace(/[۰-۹]/g, function (d) { return String(FA.indexOf(d)); })
+                .replace(/[٠-٩]/g, function (d) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)); });
+        }
+
+        function toFaDigits(str) {
+            return String(str).replace(/\d/g, function (d) { return FA[+d]; });
+        }
+
+        /* نمایش شماره موبایل به‌صورت ماسک‌شده در متن راهنما */
+        if (lead) {
+            var sessionPhone = '{{ request.session.otp_phone|default:"" }}';
+            if (sessionPhone && sessionPhone.length >= 8) {
+                var masked = sessionPhone.slice(0, 4) + ' ••• ' + sessionPhone.slice(-4);
+                lead.innerHTML = 'کد ۴ رقمی به شماره <bdi dir="ltr" class="otp-phone-number">'
+                    + toFaDigits(masked) + '</bdi> ارسال شد.';
             }
         }
-    </style>
+
+        /* ورودی واقعی جنگو: نامرئی است و نباید با Tab فوکوس بگیرد */
+        if (real) {
+            real.setAttribute('tabindex', '-1');
+            real.setAttribute('autocomplete', 'off');
+        }
+
+        function syncReal() {
+            if (!real) return;
+            real.value = boxes.map(function (b) { return b.value; }).join('');
+            boxes.forEach(function (b) { b.classList.toggle('is-filled', b.value !== ''); });
+        }
+
+        function focusFirstEmpty() {
+            var target = boxes.filter(function (b) { return b.value === ''; })[0];
+            if (!target && boxes.length) { target = boxes[boxes.length - 1]; }
+            if (target) { target.focus(); }
+        }
+
+        function showError(message) {
+            if (inlineError && message) {
+                inlineError.textContent = message;
+                inlineError.hidden = false;
+            }
+            if (zone) { zone.classList.add('has-error'); }
+        }
+
+        function hideErrors() {
+            if (inlineError) { inlineError.hidden = true; }
+            if (zone) { zone.classList.remove('has-error'); }
+        }
+
+        /* پخش کردن رشته ورودی (چسباندن/پر کردن خودکار) از خانه‌ی مشخص به بعد */
+        function distribute(value, startIndex) {
+            var start = startIndex || 0;
+            for (var i = 0; i < value.length && start + i < boxes.length; i++) {
+                boxes[start + i].value = value[i];
+            }
+            var last = Math.min(start + value.length, boxes.length) - 1;
+            if (last >= 0 && boxes[last]) { boxes[last].focus(); }
+        }
+
+        boxes.forEach(function (box, idx) {
+            box.addEventListener('input', function () {
+                var v = toEnDigits(box.value).replace(/\D/g, '');
+
+                if (!v) {
+                    box.value = '';
+                    syncReal();
+                    hideErrors();
+                    return;
+                }
+
+                if (v.length === 1) {
+                    box.value = v;
+                    if (idx < boxes.length - 1) { boxes[idx + 1].focus(); }
+                } else {
+                    /* مقدار چندرقمی (مثل پر کردن خودکار پیامک) */
+                    box.value = '';
+                    distribute(v, idx);
+                }
+
+                syncReal();
+                hideErrors();
+            });
+
+            box.addEventListener('keydown', function (e) {
+                if (e.key === 'Backspace' && !box.value && idx > 0) {
+                    e.preventDefault();
+                    boxes[idx - 1].value = '';
+                    syncReal();
+                    boxes[idx - 1].focus();
+                } else if (e.key === 'ArrowLeft' && idx < boxes.length - 1) {
+                    e.preventDefault();
+                    boxes[idx + 1].focus();
+                } else if (e.key === 'ArrowRight' && idx > 0) {
+                    e.preventDefault();
+                    boxes[idx - 1].focus();
+                }
+            });
+
+            box.addEventListener('paste', function (e) {
+                e.preventDefault();
+                var pasted = toEnDigits(e.clipboardData.getData('text'))
+                    .replace(/\D/g, '')
+                    .slice(0, boxes.length);
+                if (!pasted) return;
+
+                boxes.forEach(function (b) { b.value = ''; });
+                distribute(pasted, 0);
+                syncReal();
+                hideErrors();
+            });
+
+            box.addEventListener('focus', function () { box.select(); });
+        });
+
+        /* اعتبارسنجی سمت کاربر قبل از ارسال فرم */
+        form.addEventListener('submit', function (e) {
+            syncReal();
+            var value = real ? real.value : '';
+
+            if (value.length !== boxes.length) {
+                e.preventDefault();
+                showError('لطفاً کد ' + toFaDigits(String(boxes.length)) + ' رقمی را کامل وارد کنید.');
+                if (zone) {
+                    zone.classList.remove('is-shaking');
+                    void zone.offsetWidth;
+                    zone.classList.add('is-shaking');
+                }
+                focusFirstEmpty();
+                return;
+            }
+
+            if (!btn || btn.disabled) return;
+            btn.classList.add('is-loading');
+            btn.disabled = true;
+            if (btnText) { btnText.textContent = 'در حال بررسی کد...'; }
+        });
+
+        /* اگر خطای سمت سرور (مثل کد نامعتبر) وجود دارد */
+        if (zone && zone.querySelector('.errorlist')) {
+            zone.classList.add('has-error');
+            focusFirstEmpty();
+        } else {
+            focusFirstEmpty();
+        }
+
+        /* تایمر ۱۲۰ ثانیه‌ای ارسال مجدد کد */
+        var timerEl = document.getElementById('otpTimer');
+        var timerBox = document.getElementById('otpTimerBox');
+        var resendLink = document.getElementById('otpResend');
+        var remain = 120;
+
+        function renderTimer() {
+            if (!timerEl) return;
+            var m = Math.floor(remain / 60);
+            var s = remain % 60;
+            timerEl.textContent = toFaDigits(m + ':' + (s < 10 ? '0' : '') + s);
+        }
+
+        renderTimer();
+
+        var interval = setInterval(function () {
+            remain--;
+            if (remain <= 0) {
+                clearInterval(interval);
+                if (timerBox) { timerBox.hidden = true; }
+                if (resendLink) { resendLink.hidden = false; }
+                return;
+            }
+            renderTimer();
+        }, 1000);
+    })();
+</script>
 {% endblock %}

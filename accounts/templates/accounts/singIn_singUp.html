@@ -2,71 +2,134 @@
 {% load static %}
 
 {% block main %}
-    <div class="registration-container">
-        <div class="row g-0 h-100">
-            <!-- Hotel Image Section -->
-            <div class="col-lg-6">
-                <div class="hotel-image-section h-100">
-                    <div class="hotel-content">
-                        <div class="hotel-logo">
-                            <i class="fa fa-hotel"></i>
-                        </div>
-                        <h1 class="hotel-title">هتــل</h1>
-                        <p class="hotel-subtitle">رزرواسیون اتاق ها<br>و اماکن اقامتی کشور</p>
+<!-- استایل این صفحه در فایل style.css (بخش صفحات احراز هویت) قرار دارد -->
+
+<section class="auth-shell" aria-label="ورود و ثبت‌نام">
+    <div class="auth-decor auth-decor--one" aria-hidden="true"></div>
+    <div class="auth-decor auth-decor--two" aria-hidden="true"></div>
+    <div class="auth-decor auth-decor--three" aria-hidden="true"></div>
+
+    <div class="auth-card">
+        <!-- ستون فرم -->
+        <div class="auth-form-side">
+            <span class="auth-eyebrow">
+                <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+                تجربه اقامت لوکس، فقط چند کلیک فاصله دارید
+            </span>
+
+            <h2 class="auth-title">ورود / ثبت‌نام</h2>
+            <p class="auth-lead">
+                شماره موبایل خود را وارد کنید تا کد تأیید ۴ رقمی برایتان ارسال شود.
+                اگر حساب کاربری نداشته باشید، به‌صورت خودکار ساخته می‌شود.
+            </p>
+
+            <form id="authForm" method="post" class="auth-form">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <div class="auth-field">
+                    <label class="auth-label" for="id_phone">شماره موبایل</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-solid fa-mobile-screen-button auth-input-icon" aria-hidden="true"></i>
+                        {{ form.phone }}
                     </div>
+                    {{ form.phone.errors }}
+                    <span class="auth-hint">مثال: <bdi dir="ltr">۰۹۱۲ ۳۴۵ ۶۷۸۹</bdi></span>
                 </div>
-            </div>
 
-            <!-- Registration Form Section -->
-            <div class="col-lg-6">
-                <div class="form-section h-100 d-flex flex-column justify-content-center">
-                    <h2 class="form-title">ثبت نام / ورود</h2>
-                    <p class="form-subtitle">لطفاً این فرم را برای عضویت در پورتال اطلاعات تکمیل کنید.</p>
-
-                    <form id="registrationForm" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label class="form-label">شماره موبایل</label>
-                            <div class="input-group">
-
-                                {{ form.phone }}
-                                <span class="input-group-text">
-                                    <i class="fa fa-phone"></i>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">آدرس ایمیل</label>
-                            <div class="input-group">
-                                {{ form.email }}
-                                <span class="input-group-text">
-                                    <i class="fa fa-envelope"></i>
-                                </span>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-register">
-                            ارسال کد
-                        </button>
-
-                    </form>
+                <div class="auth-field">
+                    <label class="auth-label" for="id_email">آدرس ایمیل</label>
+                    <div class="auth-input-wrap">
+                        <i class="fa-solid fa-envelope auth-input-icon" aria-hidden="true"></i>
+                        {{ form.email }}
+                    </div>
+                    {{ form.email.errors }}
+                    <span class="auth-hint">تأییدیه رزروها به این ایمیل ارسال می‌شود</span>
                 </div>
+
+                <button type="submit" class="auth-btn" id="authSubmit">
+                    <span class="auth-btn-spinner" aria-hidden="true"></span>
+                    <span class="auth-btn-text">دریافت کد تأیید</span>
+                    <i class="fa-solid fa-arrow-left auth-btn-arrow" aria-hidden="true"></i>
+                </button>
+            </form>
+
+            <div class="auth-footnote">
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                اطلاعات شما محرمانه است و در هیچ‌جا به اشتراک گذاشته نمی‌شود
             </div>
         </div>
+
+        <!-- ستون تصویر و برند -->
+        <aside class="auth-brand">
+            <div class="auth-brand-bg" aria-hidden="true"></div>
+            <div class="auth-brand-overlay" aria-hidden="true"></div>
+
+            <div class="auth-brand-badge" aria-hidden="true">
+                <strong>+۱۰۰۰</strong>
+                <span>رزرو موفق</span>
+            </div>
+
+            <div class="auth-brand-content">
+                <div class="auth-brand-logo">
+                    <i class="fa-solid fa-hotel" aria-hidden="true"></i>
+                </div>
+                <h3 class="auth-brand-title">هتـــل</h3>
+                <p class="auth-brand-sub">رزرواسیون اتاق‌ها<br>و اماکن اقامتی کشور</p>
+
+                <ul class="auth-brand-features">
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> رزرو آنی و تضمینی اتاق‌ها</li>
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> پرداخت امن از طریق زرین‌پال</li>
+                    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> پشتیبانی ۲۴ ساعته، ۷ روز هفته</li>
+                </ul>
+            </div>
+        </aside>
     </div>
 
-    <style>
-        /* در موبایل بسیار کوچک تصویر هتل کم ارتفاع می‌شود */
-        @media (max-width: 576px) {
-            .registration-container .row > .col-lg-6:first-child {
-                display: none;
-            }
-            .registration-container .row > .col-lg-6:last-child {
-                width: 100%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
+    <a class="auth-back-home" href="{% url 'hotels:home' %}">
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        بازگشت به صفحه اصلی
+    </a>
+</section>
+
+<script>
+    (function () {
+        'use strict';
+
+        var form = document.getElementById('authForm');
+        if (!form) return;
+
+        var phone = document.getElementById('id_phone');
+        var email = document.getElementById('id_email');
+        var btn = document.getElementById('authSubmit');
+        var btnText = btn ? btn.querySelector('.auth-btn-text') : null;
+
+        /* بهبود تجربه تایپ شماره موبایل: کیبورد عددی + تبدیل ارقام فارسی به انگلیسی */
+        if (phone) {
+            phone.setAttribute('inputmode', 'numeric');
+            phone.setAttribute('autocomplete', 'tel');
+
+            phone.addEventListener('input', function () {
+                var value = phone.value
+                    .replace(/[۰-۹]/g, function (d) { return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); })
+                    .replace(/[٠-٩]/g, function (d) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)); })
+                    .replace(/\D/g, '');
+
+                if (value !== phone.value) { phone.value = value; }
+            });
+
+            phone.focus();
         }
-    </style>
+
+        if (email) { email.setAttribute('autocomplete', 'email'); }
+
+        /* حالت بارگذاری دکمه بعد از اعتبارسنجی موفق مرورگر */
+        form.addEventListener('submit', function () {
+            if (!btn || btn.disabled) return;
+            btn.classList.add('is-loading');
+            btn.disabled = true;
+            if (btnText) { btnText.textContent = 'در حال ارسال کد...'; }
+        });
+    })();
+</script>
 {% endblock %}

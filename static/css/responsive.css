@@ -76,17 +76,7 @@
     .d-only-mobile { display: none !important; }
 }
 
-/* ترتیب عناصر در موبایل: لوگو → آیکون کاربر → همبرگر */
-@media (max-width: 991px) {
-    .navbar .order-mobile-end {
-        order: 2;
-        margin-right: auto;
-        margin-left: 0;
-    }
-    .navbar .navbar-toggler {
-        order: 3;
-    }
-}
+/* استایل‌های چیدمان هدر به بخش HEADER در انتهای style.css منتقل شد. */
 
 /* ========================================
    2. Loading Screen
@@ -103,166 +93,15 @@
 
 /* ========================================
    3. Top Header (نوار بالای صفحه)
+   استایل‌های اصلی نوار بالایی در style.css (بخش HEADER) قرار دارد.
    ======================================== */
-@media (max-width: 767px) {
-    .top-header {
-        font-size: 12px !important;
-        padding: 8px 0 !important;
-    }
-
-    .top-header .row > div {
-        text-align: center !important;
-    }
-
-    .top-header .phone-number {
-        justify-content: center;
-        gap: 4px;
-    }
-
-    .top-header .phone-number span:last-child {
-        display: none;
-    }
-
-    .top-header .text-start {
-        text-align: center !important;
-    }
-}
 
 /* ========================================
    4. Main Header / Navbar
+   تمام استایل‌های هدر (دسکتاپ + موبایل + منوی پروفایل) به
+   بخش HEADER در انتهای style.css منتقل شد تا از تعارض با
+   استایل‌های جدید جلوگیری شود.
    ======================================== */
-.main-header {
-    padding: 12px 0;
-}
-
-@media (max-width: 991px) {
-    .main-header .container {
-        max-width: 100%;
-    }
-
-    .main-header .navbar {
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 0;
-    }
-
-    /* لوگو و دکمه‌ی همبرگری و آیکون کاربر در یک ردیف */
-    .main-header .navbar > .d-flex.align-items-center {
-        order: 2;
-        margin-right: auto;
-    }
-
-    /* دکمه همبرگری */
-    .navbar-toggler {
-        order: 3;
-        border: 1px solid var(--border-color) !important;
-        padding: 6px 10px !important;
-        border-radius: 8px !important;
-        background-color: transparent;
-    }
-
-    .navbar-toggler:focus {
-        box-shadow: 0 0 0 0.15rem rgba(223, 169, 116, 0.25) !important;
-    }
-
-    .navbar-toggler-icon {
-        width: 1.2em !important;
-        height: 1.2em !important;
-    }
-
-    /* منوی کشویی در موبایل */
-    .main-header .collapse.navbar-collapse {
-        order: 4;
-        flex-basis: 100%;
-        margin-top: 10px;
-        padding: 10px 0;
-        border-top: 1px solid #eee;
-        max-height: 70vh;
-        overflow-y: auto;
-    }
-
-    .navbar-nav {
-        flex-direction: column !important;
-        gap: 4px;
-        width: 100%;
-    }
-
-    .navbar-nav .nav-item {
-        width: 100%;
-    }
-
-    .navbar-nav .nav-link {
-        padding: 12px 16px !important;
-        margin: 0 !important;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .navbar-nav .nav-link i {
-        width: 20px;
-        text-align: center;
-    }
-
-    .navbar-nav .nav-item:last-child {
-        margin-left: 0 !important;
-    }
-
-    /* لوگو کوچک‌تر در موبایل */
-    .logo-text {
-        font-size: 22px !important;
-    }
-
-    .logo-icon {
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 18px !important;
-        border-radius: 10px !important;
-    }
-
-    /* آیکون کاربر در موبایل */
-    .user-account {
-        width: 36px !important;
-        height: 36px !important;
-    }
-
-    .signup-text p {
-        font-size: 11px !important;
-    }
-}
-
-@media (max-width: 576px) {
-    .main-header {
-        padding: 8px 0 !important;
-    }
-
-    .logo-text {
-        font-size: 20px !important;
-    }
-
-    .logo-icon {
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 16px !important;
-    }
-
-    /* پروفایل content کوچک‌تر */
-    .profile-content {
-        width: 9rem !important;
-        top: 3rem !important;
-    }
-}
-
-/* پاپ‌آپ پروفایل در موبایل - بهبود موقعیت */
-@media (max-width: 991px) {
-    .profile-content {
-        left: auto !important;
-        right: 0 !important;
-        top: 3.5rem !important;
-    }
-}
 
 /* ========================================
    5. Hero Section (صفحه اصلی)
